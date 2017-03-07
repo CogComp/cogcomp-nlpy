@@ -6,13 +6,15 @@ Run NLP tools on your documents in Python with ease and breeze!
 
 Installation
 ------------
- 1. Make sure `you have "pip" on your sysem <https://pip.pypa.io/en/stable/installing/>`_. 
- 2. Install: 
- 
-  >>> pip install sioux 
- 
- 3. Enjoy! 
+1. Make sure `you have "pip" on your sysem <https://pip.pypa.io/en/stable/installing/>`_. 
+2. Install: 
+  >>> pip install sioux   
+3. Enjoy! 
 
+**Note:** The package should be compatible with Python 2.6+ and Python 3.3+
+
+Usage 
+-----------
 Here is a sample usage showing how yeezily you run Sioux: 
 
 .. code-block:: python
@@ -26,7 +28,16 @@ Will print the following:
 
   ???
 
-**Note:** The package should be compatible with Python 2.6+ and Python 3.3+
+Annotators 
+---------- 
+This tool is based on `CogComp's pipeline project <https://github.com/IllinoisCogComp/illinois-cogcomp-nlp/tree/master/pipeline> `_. Essentially anything included in the pipeline should be accessible here. 
+Here is a few, as example 
+- Tokenizing 
+- Lemmatizing 
+- Part of Spech tagging (POS) 
+- Named Entity Recognition (NER)
+- Semantic Role Labeling (SRL)
+- ... 
 
 Development
 -----------
@@ -43,6 +54,9 @@ To test your code::
   
   >>> python setup.py test
 
+Questions/Suggestions/Comments 
+-------------- 
+Use comments or pull requests. 
 
 About the name 
 -------------- 
