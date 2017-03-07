@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(name='cogcomp_python_utils',
       version='0.1.dev0',
@@ -7,7 +7,7 @@ setup(name='cogcomp_python_utils',
       author='Cognitive Computing Group',
       author_email='',
       license='Research and Academic Use License',
-      packages=['cogcomp_python_utils'],
+      packages= find_packages(exclude=['cogcomp_python_utils.*','cogcomp_python_utils']),
       install_requires = ['requests','configparser'],
       test_suite='nose.collector',
       tests_require=['nose'],
