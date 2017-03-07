@@ -1,6 +1,6 @@
 import json
 import requests
-from configparser import ConfigParser
+from backports.configparser import RawConfigParser
 import os 
 
 from .core.text_annotation import *
@@ -10,7 +10,7 @@ class Pipeliner:
     Constructor of the pipeliner to setup the api address of pipeline server
     '''
     def __init__(self):
-        config = ConfigParser.RawConfigParser()
+        config = RawConfigParser()
         dir_path = os.path.dirname(os.path.realpath(__file__))
         config.read(dir_path + '/../config/pipeline.cfg')
         self.url = config.get('PipelineServer', 'api')
