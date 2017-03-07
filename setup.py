@@ -18,7 +18,7 @@ classifiers=[
 ]
 
 setup(name='sioux',
-      version='0.1.dev0',
+      version='0.2.dev0',
       description='',
       url='https://github.com/IllinoisCogComp/sioux',
       author='Cognitive Computing Group',
