@@ -25,10 +25,6 @@ Here is a sample usage showing how yeezily you run Sioux:
    print(p.get_lemma(doc).getCons()) # will produce ['hello', ',', 'how', 'be', 'you', '.', 'i', 'be', 'do', 'fine']
    print(p.get_pos(doc).getCons()) # will produce ['UH', ',', 'WRB', 'VBP', 'PRP', '.', 'PRP', 'VBP', 'VBG', 'JJ']
 
-Will print the following: 
-
-  ['UH', ',', 'WRB', 'VBP', 'PRP', '.', 'PRP', 'VBP', 'VBG', 'JJ']
-
 Annotators 
 ---------- 
 This tool is based on CogComp's `pipeline project <https://github.com/IllinoisCogComp/illinois-cogcomp-nlp/tree/master/pipeline>`_. Essentially anything included in the pipeline should be accessible here. 
