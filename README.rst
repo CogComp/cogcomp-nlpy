@@ -18,20 +18,22 @@ Usage
 Here is a sample usage showing how yeezily you run Sioux: 
 
 .. code-block:: python
-
+   
+   from sioux.pipeliner import Pipeliner
    p = Pipeliner()
-   doc = p.doc("Hello,  how are you. I am doing fine")
-   pos_view = p.get_pos(doc)
-   println(pos_view) 
+   doc = p.doc("Hello, how are you. I am doing fine")
+   print(p.get_lemma(doc).getCons()) # will produce ['hello', ',', 'how', 'be', 'you', '.', 'i', 'be', 'do', 'fine']
+   print(p.get_pos(doc).getCons()) # will produce ['UH', ',', 'WRB', 'VBP', 'PRP', '.', 'PRP', 'VBP', 'VBG', 'JJ']
 
 Will print the following: 
 
-  ???
+  ['UH', ',', 'WRB', 'VBP', 'PRP', '.', 'PRP', 'VBP', 'VBG', 'JJ']
 
 Annotators 
 ---------- 
-This tool is based on `CogComp's pipeline project <https://github.com/IllinoisCogComp/illinois-cogcomp-nlp/tree/master/pipeline> `_. Essentially anything included in the pipeline should be accessible here. 
+This tool is based on CogComp's `pipeline project <https://github.com/IllinoisCogComp/illinois-cogcomp-nlp/tree/master/pipeline>`_. Essentially anything included in the pipeline should be accessible here. 
 Here is a few, as example 
+
 - Tokenizing 
 - Lemmatizing 
 - Part of Spech tagging (POS) 
@@ -60,6 +62,6 @@ Use comments or pull requests.
 
 About the name 
 -------------- 
-The *Sioux* are groups of Native American tribes and First Nations peoples in North America, mostly the tribal governments scattered across North Dakota, South Dakota, Nebraska, Minnesota, and Montana in the United States; and Manitoba and southern Saskatchewan in Canada. (`Read more <https://en.wikipedia.org/wiki/Sioux>`_)
+It is pronounced similar to "Sue". The *Sioux* are groups of Native American tribes and First Nations peoples in North America, mostly the tribal governments scattered across North Dakota, South Dakota, Nebraska, Minnesota, and Montana in the United States; and Manitoba and southern Saskatchewan in Canada. (`Read more <https://en.wikipedia.org/wiki/Sioux>`_)
 
 
