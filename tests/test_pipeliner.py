@@ -3,7 +3,7 @@ import sys
 import os
 
 #sys.path.insert(0,'/path/to/mod_directory')
-from cogcomp_python_utils.pipeliner import Pipeliner
+from sioux.pipeliner import Pipeliner
 
 
 class TestPipeliner(unittest.TestCase):
