@@ -1,9 +1,9 @@
 import json
 import requests
-import ConfigParser
+from configparser import ConfigParser
 import os 
 
-from core.text_annotation import *
+from .core.text_annotation import *
 
 class Pipeliner:
     '''
