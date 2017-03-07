@@ -1,12 +1,13 @@
 Sioux 
 ====================
 .. image:: http://morgoth.cs.illinois.edu:8080/buildStatus/icon?job=python-utils
+    :target: http://morgoth.cs.illinois.edu:8080/job/python-utils/
 
 Run NLP tools on your documents in Python with ease and breeze! 
 
 Installation
 ------------
-1. Make sure `you have "pip" on your sysem <https://pip.pypa.io/en/stable/installing/>`_. 
+1. Make sure `you have "pip" on your system <https://pip.pypa.io/en/stable/installing/>`_. 
 2. Install: 
   >>> pip install sioux   
 3. Enjoy! 
@@ -42,7 +43,7 @@ Development
 
 For installing this package from Github repository, simply do::
 
-  >>> pip install git+https://github.com/IllinoisCogComp/python-utils.git
+  >>> pip install git+https://github.com/IllinoisCogComp/sioux.git
 
 To build your code::
   
