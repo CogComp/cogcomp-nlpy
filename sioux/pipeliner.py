@@ -20,7 +20,7 @@ class Pipeliner:
     @param: text, the text to be processed
     @return: TextAnnotation instance of the text
     '''
-    def text_annotation(self, text="Hello World"):
+    def doc(self, text="Hello World"):
         response = self.call_server(text, "POS")
         text_annotation = TextAnnotation(response)
         return text_annotation
@@ -56,7 +56,7 @@ class Pipeliner:
     @param: text_annotation, TextAnnotation instance to get dependency view from
     @return: View instance of the dependency
     '''
-    def dependency_parser(self, text_annotation):
+    def dependency_parse(self, text_annotation):
         return self.get_view(text_annotation, "DEPENDENCY_STANFORD")
 
     '''
