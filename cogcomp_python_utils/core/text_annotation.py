@@ -1,5 +1,5 @@
 import json
-from view import *
+from .view import *
 
 class TextAnnotation:
     '''
