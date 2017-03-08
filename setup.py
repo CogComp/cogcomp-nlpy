@@ -27,6 +27,7 @@ setup(name='sioux',
       packages= find_packages(exclude=['tests.*','tests']),
       install_requires = ['requests','configparser'],
       classifiers=classifiers,
+      data_files=[('config', ['config/pipeline.cfg'])],
       test_suite='nose.collector',
       tests_require=['nose'],
       zip_safe=False)
