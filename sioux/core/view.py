@@ -24,10 +24,13 @@ class View:
         return self.viewType
 
     def getCons(self, position=None):
-        if self.consList is None:
+        if self.consList is None and "constituents" in self.viewJson["viewData"][0]:
             self.consList = []
             for constituent in self.viewJson["viewData"][0]["constituents"]:
                 self.consList.append(constituent["label"])
+        if self.consList is None:
+            print("This view does not have constituents on the text")
+            return None
 
         if position is not None and 0 <= position < len(self.consList):
             return [self.consList[position]]
@@ -36,10 +39,13 @@ class View:
 
     # why does this not work, but the above does?
     def getConScore(self, position=None):
-        if self.scoreArray is None:
+        if self.scoreArray is None and "constituents" in self.viewJson["viewData"][0]:
             self.scoreArray = []
             for constituent in self.viewJson["viewData"][0]["constituents"]:
                 self.scoreArray.append(constituent["score"])
+        if self.scoreArray is None:
+            print("This view does not have constituents on the text")
+            return None
 
         if position is not None and 0 <= position < len(self.scoreArray):
             return [self.scoreArray[position]]
