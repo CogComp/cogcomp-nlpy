@@ -16,6 +16,12 @@ Installation
 
 **Note:** The package should be compatible with Python 2.6+ and Python 3.3+
 
+**Upgrading:** If you want to update your package: 
+
+   pip install --upgrade sioux
+
+If you want to upgrade upgrade it on a specific version replace :code:`pip` in the command above with :code:`pip2` or :code:`pip3`. 
+
 Usage 
 -----------
 Here is a sample usage showing how yeezily you run Sioux: 
