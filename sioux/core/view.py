@@ -7,6 +7,9 @@ import json
         where it used to be constructed with the complete response from server
 '''
 class View:
+    def __str__(self):
+        return self.viewName + " view"
+
     def __init__(self, view):
         self.viewName = view["viewName"]
         self.viewJson = view
