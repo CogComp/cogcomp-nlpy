@@ -14,7 +14,7 @@ class Pipeliner(object):
     def __init__(self):
         config = RawConfigParser()
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        config.read(dir_path + '/../config/pipeline.cfg')
+        config.read(dir_path + '/config/pipeline.cfg')
         self.url = config.get('PipelineServer', 'api')
 
     def doc(self, text="Hello World"):
