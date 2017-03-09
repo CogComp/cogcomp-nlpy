@@ -40,12 +40,24 @@ class View:
                 self.relation_array.append(relation["relationName"])
 
     def get_view_type(self):
+        """
+        Function to get type of the view
+        @return view type of the view
+        """
         return self.view_type
 
-    '''
-        key == "token" is a black box option, it is used in "__str__" to print the constituent-label content of the view
-    '''
     def get_cons(self, position=None, key=None):
+        """
+        Function to get a list of constituents in the view
+        @param: position, the index of the specific constituent that user wants
+                key, the specific key in constituents that user wants ("score", "label", "position")
+        @return: if key is not given, a list of all constituents if position is not given,
+                 or a list contains the constituent at specified position if position is given
+                 otherwise, a list of specific key in respect to constituents
+
+        key == "token" is a black box option, it is used in "__str__" to print the constituent-label content of the view
+
+        """
         if self.cons_list is None:
             print("This view does not have constituents on the text")
             return None
@@ -86,15 +98,40 @@ class View:
 
     # why does this not work, but the above does?
     def get_con_score(self, position=None):
+        """
+        Wrapper function to get a list of scores of constituents in the view
+        @param: position, the index of the specific constituent that user wants score from
+        @return: list of scores of all constituents if position is not given,
+                 otherwise return a list contains the score of the constituent at specified position
+
+        """
         return self.get_cons(position, "score")
 
     def get_con_label(self, position=None):
+        """
+        Wrapper function to get a list of labels of constituents in the view 
+        @param: position, the index of the specific constituent that user wants label from 
+        @return: list of labels of all constituents if position is not given, 
+                 otherwise return a list contains the label of the constituent at specified position 
+        """
         return self.get_cons(position, "label")
 
     def get_con_position(self, position=None):
+        """
+        Wrapper function to get a list of positions of constituents in the view in respect to tokens of the text
+        @param: position, the index of the specific constituent that user wants token position from
+        @return: list of position tuples (start_pos, end_pos) of all constituents if position is not given, 
+                 otherwise return a list contains the token position of the constituent at specified position 
+        """
         return self.get_cons(position, "position")
 
     def get_relations(self, position=None):
+        """
+        Funtion to get the relation array if the view supports relations
+        @param: position, the index of the specific relation that user wants
+        @return: list of relations if position is not given,
+                 otherwise return a list contains the relation at specified position
+        """
         if self.view_type != "TreeView":
             print("This view does not support relations")
             return None
