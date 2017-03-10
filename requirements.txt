@@ -1,3 +1,5 @@
 requests
 configparser
 pytest
+pylint
+yapf

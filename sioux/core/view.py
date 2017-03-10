@@ -1,10 +1,11 @@
 import json
-
 '''
     Refactored constructor, all attributes are constructed in constructor rather than on demand (create when get_xxx is called)
 
     Refactored get_cons such that it will return list of constituents is no key is provided, otherwise, return list of corresponding field (label, score, tuple(start_pos, end_pos), token(?))
 '''
+
+
 class View:
     def __str__(self):
         constituent_label_string = ""
@@ -14,12 +15,13 @@ class View:
             tokens = self.get_cons(position=None, key="token")
             labels = self.get_cons(position=None, key="label")
             for i in range(len(labels)):
-                constituent_label_string += "(" + labels[i] + " " + tokens[i] + ") "
+                constituent_label_string += "(" + labels[i] + " " + tokens[
+                    i] + ") "
         return self.view_name + " view: " + constituent_label_string
 
     def __init__(self, view, tokens):
         self.view_name = view["viewName"]
-        self.view_json = view #could be removed
+        self.view_json = view  #could be removed
         self.tokens = tokens
 
         full_type = self.view_json["viewData"][0]["viewType"]
@@ -74,21 +76,25 @@ class View:
                     tokens = ""
 
                     # end for loop one index earlier such that no extra space at the end
-                    for i in range(constituent["start"], (constituent["end"]-1)):
-                        tokens += self.tokens[i]+" "
+                    for i in range(constituent["start"],
+                                   (constituent["end"] - 1)):
+                        tokens += self.tokens[i] + " "
 
-                    tokens += self.tokens[constituent["end"]-1]
+                    tokens += self.tokens[constituent["end"] - 1]
                     result_list.append(tokens)
             else:
-                if position is not None and 0 <= position < len(self.cons_list):
+                if position is not None and 0 <= position < len(
+                        self.cons_list):
                     if key == "position":
-                        result_list.append((self.cons_list[position]["start"], self.cons_list[position]["end"]))
+                        result_list.append((self.cons_list[position]["start"],
+                                            self.cons_list[position]["end"]))
                     else:
                         result_list.append(self.cons_list[position][key])
                 else:
                     for constituent in self.cons_list:
                         if key == "position":
-                            result_list.append((constituent["start"], constituent["end"]))
+                            result_list.append(
+                                (constituent["start"], constituent["end"]))
                         else:
                             result_list.append(constituent[key])
             return result_list
@@ -136,7 +142,8 @@ class View:
             print("This view does not support relations")
             return None
         else:
-            if position is not None and 0 <= postion < len(self.relation_array):
+            if position is not None and 0 <= postion < len(
+                    self.relation_array):
                 return [self.relation_array[position]]
             else:
                 return self.relation_array
