@@ -1,6 +1,13 @@
+import os
 from setuptools import setup, find_packages
 
-classifiers=[
+# Utility method to read the README.rst file.
+def read(fname):
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
+VERSION = '0.3.dev1'
+
+CLASSIFIERS = [
     'Development Status :: 3 - Alpha',
     'Intended Audience :: Science/Research',
     'Operating System :: Microsoft :: Windows',
@@ -18,16 +25,18 @@ classifiers=[
 ]
 
 setup(name='sioux',
-      version='0.3.dev1',
-      description='',
+      version=VERSION,
+      description=("Light-weight NLP annotators"),
+      long_description=read('README.rst'),
       url='https://github.com/IllinoisCogComp/sioux',
       author='Cognitive Computing Group',
       author_email='',
       license='Research and Academic Use License',
-      packages= find_packages(exclude=['tests.*','tests']),
-      install_requires = ['requests','configparser'],
-      classifiers=classifiers,
-      data_files=[('config', ['config/pipeline.cfg'])],
-      test_suite='nose.collector',
-      tests_require=['nose'],
+      keywords="NLP, natural language processing",
+      packages=find_packages(exclude=['tests.*','tests']),
+      install_requires=['requests','configparser'],
+      package_data={'sioux': ['config/*.cfg']},
+      classifiers=CLASSIFIERS,
+      setup_requires=['pytest-runner'],
+      tests_require=['pytest'],
       zip_safe=False)
