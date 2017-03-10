@@ -12,7 +12,7 @@ Constructor of the pipeliner to setup the api address of pipeline server
 """
 config = RawConfigParser()
 dir_path = os.path.dirname(os.path.realpath(__file__))
-config.read(dir_path + '/../config/pipeline.cfg')
+config.read(dir_path + '/config/pipeline.cfg')
 url = config.get('PipelineServer', 'api')
 
 def doc(text="Hello World"):
