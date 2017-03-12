@@ -1,5 +1,6 @@
 requests
 configparser
+protobuf
 pytest
 pylint
 yapf
