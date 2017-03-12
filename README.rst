@@ -27,12 +27,12 @@ Usage
 Here is a sample usage showing how yeezily you run Sioux: 
 
 .. code-block:: python
-   
-   from sioux.pipeliner import Pipeliner
-   p = Pipeliner()
-   doc = p.doc("Hello, how are you. I am doing fine")
-   print(p.get_lemma(doc).getCons()) # will produce ['hello', ',', 'how', 'be', 'you', '.', 'i', 'be', 'do', 'fine']
-   print(p.get_pos(doc).getCons()) # will produce ['UH', ',', 'WRB', 'VBP', 'PRP', '.', 'PRP', 'VBP', 'VBG', 'JJ']
+
+   from sioux import pipeliner
+
+   doc = pipeliner.doc("Hello, how are you. I am doing fine")
+   print(pipeliner.get_lemma(doc)) # will produce (hello Hello) (, ,) (how how) (be are) (you you) (. .) (i I) (be am) (do doing) (fine fine)
+   print(pipeliner.get_pos(doc)) # will produce (UH Hello) (, ,) (WRB how) (VBP are) (PRP you) (. .) (PRP I) (VBP am) (VBG doing) (JJ fine)
 
 Annotators 
 ---------- 
@@ -45,6 +45,29 @@ Here is a few, as example
 - Named Entity Recognition (NER)
 - Semantic Role Labeling (SRL)
 - ... 
+
+Loading TextAnnotation
+-----------------------------
+Documents stored as `TextAnnotation` can be read in the following formats:
+
+- JSON
+
+.. code-block:: python
+
+    import sioux
+
+    doc = sioux.load_document_from_json('text_annotation.json')
+    print(doc.get_views())
+
+- Protocol Buffers
+
+.. code-block:: python
+
+    import sioux
+
+    doc = sioux.load_document_from_protobuf('text_annotation.pb')
+    print(doc.get_views())
+
 
 Development
 -----------
