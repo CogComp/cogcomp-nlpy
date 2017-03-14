@@ -2,8 +2,8 @@ Sioux
 ====================
 .. image:: http://morgoth.cs.illinois.edu:8080/buildStatus/icon?job=python-utils
     :target: http://morgoth.cs.illinois.edu:8080/job/python-utils/
-.. image:: https://semaphoreci.com/api/v1/projects/9266ef35-d407-40e1-893f-66fbdd38e9d9/1212440/badge.svg
-    :target: https://semaphoreci.com/danyaljj/sioux
+.. image:: https://semaphoreci.com/api/v1/projects/dc68ab4d-d1b7-4405-adca-b0c6af2e1aa0/1223617/badge.svg
+    :target: https://semaphoreci.com/danyaljj/sioux-2
 
 Run NLP tools on your documents in Python with ease and breeze! 
 
