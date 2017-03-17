@@ -1,10 +1,10 @@
 import json
 from .view import *
-
 '''
     For now, this class is implemented as an indirect type
     All the functions can (should) be called indirectly by functions in Pipeliner class
 '''
+
 
 class TextAnnotation:
     '''
@@ -14,16 +14,18 @@ class TextAnnotation:
          is the same as the JSON format returned from web server)
 
     '''
-    def __init__(self, json_str = None):
+
+    def __init__(self, json_str=None):
         # Adopted Ani's code 
         result_json = json.loads(json_str)
 
         self.text = result_json["text"]
         self.tokens = result_json["tokens"]
         self.score = result_json["sentences"]["score"]
-        self.sentence_end_position = result_json["sentences"]["sentenceEndPositions"]
+        self.sentence_end_position = result_json["sentences"][
+            "sentenceEndPositions"]
 
-        self.view_dictionary={}
+        self.view_dictionary = {}
         for view in result_json["views"]:
             self.view_dictionary[view["viewName"]] = View(view, self.tokens)
 
@@ -49,8 +51,6 @@ class TextAnnotation:
                 print("Invalid view name, please check.")
             else:
                 print("The view is the collection of the following views: {0}".format(view_constituents))
-        return requested_view
-
     def get_view(self, view_name):
         if view_name in self.view_dictionary:
             return self.view_dictionary[view_name]
