@@ -51,6 +51,8 @@ class TextAnnotation:
                 print("Invalid view name, please check.")
             else:
                 print("The view is the collection of the following views: {0}".format(view_constituents))
+        return requested_view
+
     def get_view(self, view_name):
         if view_name in self.view_dictionary:
             return self.view_dictionary[view_name]
