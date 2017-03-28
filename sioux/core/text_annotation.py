@@ -47,7 +47,7 @@ class TextAnnotation:
         requested_view = self.get_view(view_name)
         if requested_view is None:
             # "token" view will always be included
-            if view_constituents.len() <= 1:
+            if len(view_constituents) <= 1:
                 print("Invalid view name, please check.")
             else:
                 print("The view is the collection of the following views: {0}".format(view_constituents))

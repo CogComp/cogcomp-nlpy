@@ -19,7 +19,7 @@ PipelineFactory = None
 SerializationHelper = None
 if config.has_section('jar_path'):
     import jnius_config
-    jnius_config.add_options("-Xms4G", '-Xmx4G')
+    jnius_config.add_options('-Xmx16G')
     for item in config.items('jar_path'):
         jnius_config.add_classpath(item[1])
     from jnius import autoclass
@@ -109,7 +109,7 @@ def get_stanford_parse(text_annotation):
     @param: text_annotation TextAnnotation instance to get PARSE_STANFORD view from.
     @return: View Instance of the PARSE_STANFORD view.
     """
-    return self.get_view(text_annotation, "PARSE_STANFORD")
+    return get_view(text_annotation, "PARSE_STANFORD")
 
 
 def get_srl_verb(text_annotation):
