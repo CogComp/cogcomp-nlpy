@@ -1,0 +1,31 @@
+testing web approach ...
+Measure time for setting up environment:
+Time for setting up pipeline and jvm with default configuration: 0.00192379951477
+Time for creating new text annotation: 0.0129299163818
+Average time for re-creating same text annotation: 0.00624558925629
+Measure time for initializing each view (passing unrelated text to get function of each view):
+Average time for getting views in following order: (1)pos, (2)lemma, (3)ner_conll, (4)ner_ontonotes, (5)stanford_parse, (6)shallow_parse, (7)dependency_parse, (8)quantities, (9)srl_verb, (10)srl_nom
+Average time for 1:7.86781311035e-06, 2:0.00589895248413, 3:0.00663876533508, 4:0.00800108909607, 5:0.0131769180298, 6:0.00654792785645, 7:0.0125699043274, 8:9.53674316406e-07, 9:0.015153169632, 10:0.0158979892731
+Using string: Life is like a box of chocolate.
+Measure time for getting different views for the first time:
+Average time for getting views in following order: (1)pos, (2)lemma, (3)ner_conll, (4)ner_ontonotes, (5)stanford_parse, (6)shallow_parse, (7)dependency_parse, (8)quantities, (9)srl_verb, (10)srl_nom
+Average time for 1:6.91413879395e-06, 2:0.00661301612854, 3:0.00856399536133, 4:0.0115280151367, 5:0.0291500091553, 6:0.00823211669922, 7:0.0281498432159, 8:9.53674316406e-07, 9:0.39365696907, 10:0.42510008812
+Measure time for getting different views for text has been processed (same text, different text annotation instance):
+Average time for getting views in following order: (1)pos, (2)lemma, (3)ner_conll, (4)ner_ontonotes, (5)stanford_parse, (6)shallow_parse, (7)dependency_parse, (8)quantities, (9)srl_verb, (10)srl_nom
+Average time for 1:7.48634338379e-06, 2:0.00678653717041, 3:0.00891923904419, 4:0.0119315385818, 5:0.0296527385712, 6:0.00808601379395, 7:0.0281583070755, 8:5.96046447754e-07, 9:0.388152337074, 10:0.426287150383
+
+testing local approach ...
+Measure time for setting up environment:
+Time for setting up pipeline and jvm with default configuration: 10.6519510746
+Time for creating new text annotation: 0.163407802582
+Average time for re-creating same text annotation: 0.00168468952179
+Measure time for initializing each view (passing unrelated text to get function of each view):
+Average time for getting views in following order: (1)pos, (2)lemma, (3)ner_conll, (4)ner_ontonotes, (5)stanford_parse, (6)shallow_parse, (7)dependency_parse, (8)quantities, (9)srl_verb, (10)srl_nom
+Average time for 1:8.10623168945e-06, 2:0.199584960938, 3:19.0836069584, 4:36.4305529594, 5:0.21751999855, 6:0.662220001221, 7:0.020828962326, 8:0.0, 9:48.1649830341, 10:5.83569502831
+Using string: Life is like a box of chocolate.
+Measure time for getting different views for the first time:
+Average time for getting views in following order: (1)pos, (2)lemma, (3)ner_conll, (4)ner_ontonotes, (5)stanford_parse, (6)shallow_parse, (7)dependency_parse, (8)quantities, (9)srl_verb, (10)srl_nom
+Average time for 1:4.05311584473e-06, 2:0.00168800354004, 3:0.00959491729736, 4:0.0108029842377, 5:0.449507951736, 6:0.00669693946838, 7:0.0508577823639, 8:0.0, 9:4.82708001137, 10:0.426881074905
+Measure time for getting different views for text has been processed (same text, different text annotation instance):
+Average time for getting views in following order: (1)pos, (2)lemma, (3)ner_conll, (4)ner_ontonotes, (5)stanford_parse, (6)shallow_parse, (7)dependency_parse, (8)quantities, (9)srl_verb, (10)srl_nom
+Average time for 1:7.00950622559e-06, 2:0.0011488199234, 3:0.00484206676483, 4:0.00964801311493, 5:0.0250329971313, 6:0.00292036533356, 7:0.0192297935486, 8:3.09944152832e-07, 9:0.200448155403, 10:0.289349913597

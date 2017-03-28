@@ -1,0 +1,65 @@
+Filename: memory_script.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    15     20.6 MiB      0.0 MiB   @profile(stream=f)
+    16                             def test_init():
+    17   1702.0 MiB   1681.4 MiB       reload(pipeliner)
+    18   1726.4 MiB     24.4 MiB       pipeliner.doc("Hello world, I am Guan")
+    19   1728.7 MiB      2.4 MiB       test_init_helper()
+
+
+Filename: memory_script.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    21   1728.8 MiB      0.0 MiB   @profile(stream=f)
+    22                             def test_get_views(input_string):
+    23   1728.8 MiB      0.0 MiB       doc = pipeliner.doc(input_string)
+    24   1728.8 MiB      0.0 MiB       pipeliner.get_pos(doc)
+    25   1800.5 MiB     71.8 MiB       pipeliner.get_lemma(doc)
+    26   5798.4 MiB   3997.8 MiB       pipeliner.get_ner_conll(doc)
+    27  10172.2 MiB   4373.8 MiB       pipeliner.get_ner_ontonotes(doc)
+    28  10178.1 MiB      5.9 MiB       pipeliner.get_stanford_parse(doc)
+    29  10178.2 MiB      0.1 MiB       pipeliner.get_shallow_parse(doc)
+    30  10178.3 MiB      0.0 MiB       pipeliner.get_dependency_parse(doc)
+    31  10722.8 MiB    544.5 MiB       pipeliner.get_srl_nom(doc)
+    32  14467.0 MiB   3744.2 MiB       pipeliner.get_srl_verb(doc)
+
+
+Filename: memory_script.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    21  14467.0 MiB      0.0 MiB   @profile(stream=f)
+    22                             def test_get_views(input_string):
+    23  14467.0 MiB      0.0 MiB       doc = pipeliner.doc(input_string)
+    24  14467.0 MiB      0.0 MiB       pipeliner.get_pos(doc)
+    25  14467.1 MiB      0.0 MiB       pipeliner.get_lemma(doc)
+    26  14467.1 MiB      0.1 MiB       pipeliner.get_ner_conll(doc)
+    27  14467.1 MiB      0.0 MiB       pipeliner.get_ner_ontonotes(doc)
+    28  14473.4 MiB      6.3 MiB       pipeliner.get_stanford_parse(doc)
+    29  14473.5 MiB      0.1 MiB       pipeliner.get_shallow_parse(doc)
+    30  14474.2 MiB      0.7 MiB       pipeliner.get_dependency_parse(doc)
+    31  14295.3 MiB   -178.9 MiB       pipeliner.get_srl_nom(doc)
+    32  14170.4 MiB   -124.8 MiB       pipeliner.get_srl_verb(doc)
+
+
+Filename: memory_script.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    21  14170.4 MiB      0.0 MiB   @profile(stream=f)
+    22                             def test_get_views(input_string):
+    23  14170.5 MiB      0.0 MiB       doc = pipeliner.doc(input_string)
+    24  14170.5 MiB      0.0 MiB       pipeliner.get_pos(doc)
+    25  14170.5 MiB      0.0 MiB       pipeliner.get_lemma(doc)
+    26  14170.6 MiB      0.1 MiB       pipeliner.get_ner_conll(doc)
+    27  14170.6 MiB      0.0 MiB       pipeliner.get_ner_ontonotes(doc)
+    28  14170.6 MiB      0.0 MiB       pipeliner.get_stanford_parse(doc)
+    29  14170.6 MiB      0.0 MiB       pipeliner.get_shallow_parse(doc)
+    30  14170.6 MiB      0.0 MiB       pipeliner.get_dependency_parse(doc)
+    31  14173.5 MiB      2.9 MiB       pipeliner.get_srl_nom(doc)
+    32  14174.1 MiB      0.6 MiB       pipeliner.get_srl_verb(doc)
+
+
