@@ -13,6 +13,20 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 config.read(dir_path + '/config/pipeline.cfg')
 url = config.get('PipelineServer', 'api')
 
+# assuming that the path to jar files is specified in config file
+pipeline = None
+PipelineFactory = None
+SerializationHelper = None
+if config.has_section('jar_path'):
+    import jnius_config
+    jnius_config.add_options("-Xms4G", '-Xmx4G')
+    for item in config.items('jar_path'):
+        jnius_config.add_classpath(item[1])
+    from jnius import autoclass
+    PipelineFactory = autoclass('edu.illinois.cs.cogcomp.nlp.pipeline.IllinoisPipelineFactory')
+    SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
+    pipeline = PipelineFactory.buildPipeline()
+    print("pipeline has been setup")
 
 def doc(text="Hello World"):
     """
@@ -173,5 +187,13 @@ def call_server(text, views):
             views, the views to generate
     @return: raw text of the response from server
     """
-    data = {'text': text, 'views': views}
-    return requests.post(url, data).text
+    if pipeline is None:
+        data = {'text': text, 'views': views}
+        return requests.post(url, data).text
+    else:
+        view_list = views.split(',')
+        text_annotation = pipeline.createBasicTextAnnotation("", "", text)
+        for view in view_list:
+            pipeline.addView(text_annotation, view.strip())
+        return SerializationHelper.serializeToJson(text_annotation);
+

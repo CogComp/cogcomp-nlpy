@@ -35,14 +35,23 @@ class TextAnnotation:
         result_json = json.loads(response)
 
         # check if the view is retrieve correctly
-        # if view does not exist, the first view in views will be "token"
-        if (result_json["views"][0]["viewName"] == view_name):
-            new_view = View(result_json["views"][0], self.tokens)
-            self.view_dictionary[view_name] = new_view
-            return new_view
-        else:
-            print("Invalid view name, please check.")
-            return None
+        # iterate through all the views presented in response, add the view that hasn't been store,
+        # return the view requested
+        view_constituents = []
+        for view in result_json["views"]:
+            name = view["viewName"]
+            view_constituents.append(name)
+            if view["viewName"] not in self.view_dictionary:
+                self.view_dictionary[name] = View(view, self.tokens)
+        
+        requested_view = self.get_view(view_name)
+        if requested_view is None:
+            # "token" view will always be included
+            if view_constituents.len() <= 1:
+                print("Invalid view name, please check.")
+            else:
+                print("The view is the collection of the following views: {0}".format(view_constituents))
+        return requested_view
 
     def get_view(self, view_name):
         if view_name in self.view_dictionary:
