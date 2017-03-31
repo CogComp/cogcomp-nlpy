@@ -22,12 +22,18 @@ if config.has_section('jar_path'):
     jnius_config.add_options('-Xmx16G')
     for item in config.items('jar_path'):
         jnius_config.add_classpath(item[1])
-    from jnius import autoclass
-    PipelineFactory = autoclass('edu.illinois.cs.cogcomp.nlp.pipeline.IllinoisPipelineFactory')
-    SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
-    ResourceManager = autoclass('edu.illinois.cs.cogcomp.core.utilities.configuration.ResourceManager')
-    userConfig = ResourceManager("userconfig.properties")
-    pipeline = PipelineFactory.buildPipeline(userConfig)
+
+def init(user_config = None, using_web_server = False):
+    if using_web_server == False:
+        from jnius import autoclass
+        PipelineFactory = autoclass('edu.illinois.cs.cogcomp.nlp.pipeline.IllinoisPipelineFactory')
+        SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
+        if user_config is not None:
+            ResourceManager = autoclass('edu.illinois.cs.cogcomp.core.utilities.configuration.ResourceManager')
+            userConfig = ResourceManager("userconfig.properties")
+            pipeline = PipelineFactory.buildPipeline(userConfig)
+        else:
+            pipeline = PipelineFactory.buildPipeline()
     print("pipeline has been set up")
 
 def doc(text="Hello World"):
