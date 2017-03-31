@@ -25,8 +25,10 @@ if config.has_section('jar_path'):
     from jnius import autoclass
     PipelineFactory = autoclass('edu.illinois.cs.cogcomp.nlp.pipeline.IllinoisPipelineFactory')
     SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
-    pipeline = PipelineFactory.buildPipeline()
-    print("pipeline has been setup")
+    ResourceManager = autoclass('edu.illinois.cs.cogcomp.core.utilities.configuration.ResourceManager')
+    userConfig = ResourceManager("userconfig.properties")
+    pipeline = PipelineFactory.buildPipeline(userConfig)
+    print("pipeline has been set up")
 
 def doc(text="Hello World"):
     """

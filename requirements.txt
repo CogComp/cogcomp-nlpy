@@ -4,3 +4,4 @@ protobuf
 pytest
 pylint
 yapf
+jnius_indra
