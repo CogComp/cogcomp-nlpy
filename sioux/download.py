@@ -69,7 +69,7 @@ def _parse_default_config(root_directory, args=None):
 
 def _check_maven_installed():
     try:
-        output = subprocess.check_output(["mvn", "--version"])
+        output = subprocess.check_output(["mvn", "--version"], shell=True)
         logger.debug(output)
     except Exception:
         logger.error('Maven installation not found! \
@@ -98,7 +98,8 @@ def _download_jars(model_directory, config_directory, version):
 
         command_parts = command.split()
         proc = subprocess.Popen(command_parts, cwd=config_directory,
-                                stdout=subprocess.PIPE)
+                                stdout=subprocess.PIPE,
+                                shell=True)
         proc.communicate()
     except Exception:
         logger.error('Error while downloading jar files.', exc_info=True)
