@@ -1,6 +1,6 @@
-requests
 configparser
 protobuf
 pytest
 pylint
+requests
 yapf
