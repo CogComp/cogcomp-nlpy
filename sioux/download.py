@@ -1,3 +1,4 @@
+import codecs
 import configparser
 import logging
 import os
@@ -54,7 +55,7 @@ def _parse_default_config(root_directory, args=None):
 
     config = configparser.ConfigParser()
     if os.path.exists(default_config_file):
-        with open(default_config_file, 'r', encoding="utf-8") as f:
+        with codecs.open(default_config_file, mode='r', encoding='utf-8') as f:
             config.read_string(f.read())
 
     if 'model_download' not in config:
@@ -182,7 +183,7 @@ def main(args):
         _download_jars(jar_directory, root_directory, version)
 
         # Write the updated config file if download was successful.
-        with open(config_file_path, 'w') as file:
+        with codecs.open(config_file_path, mode='w', encoding='utf-8') as file:
             config.write(file)
 
         logger.info("Model download successful.")

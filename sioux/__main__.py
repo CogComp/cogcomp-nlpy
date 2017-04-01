@@ -17,7 +17,7 @@ if __name__ == "__main__":
     import logging
 
     # Set the logging level for this mode.
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.DEBUG)
 
     args = parser.parse_args()
 
