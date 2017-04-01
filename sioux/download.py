@@ -2,6 +2,7 @@ import configparser
 import logging
 import os
 import subprocess
+import platform
 
 from io import open
 
@@ -13,8 +14,7 @@ CONFIG_FILENAME = "config.cfg"
 DEFAULT_CONFIG_ROOT_DIRECTORY = "~{0}.sioux{0}".format(os.path.sep)
 DEFAULT_CONFIG_VERSION = "3.0.106"
 MAVEN_COMMAND = "mvn dependency:copy-dependencies -DoutputDirectory={}"
-POM_TEMPLATE = """
-<?xml version="1.0" encoding="UTF-8"?>
+POM_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -44,6 +44,10 @@ POM_TEMPLATE = """
 """
 
 
+def _shell_argument():
+    return 'windows' in platform.system().lower()
+
+
 def _parse_default_config(root_directory, args=None):
     default_config_file = os.path.join(root_directory, CONFIG_FILENAME)
 
@@ -69,7 +73,8 @@ def _parse_default_config(root_directory, args=None):
 
 def _check_maven_installed():
     try:
-        output = subprocess.check_output(["mvn", "--version"], shell=True)
+        output = subprocess.check_output(["mvn", "--version"],
+                                         shell=_shell_argument())
         logger.debug(output)
     except Exception:
         logger.error('Maven installation not found!\n\
@@ -99,7 +104,7 @@ def _download_jars(model_directory, config_directory, version):
         command_parts = command.split()
         proc = subprocess.Popen(command_parts, cwd=config_directory,
                                 stdout=subprocess.PIPE,
-                                shell=True)
+                                shell=_shell_argument())
         proc.communicate()
     except Exception:
         logger.error('Error while downloading jar files.', exc_info=True)
