@@ -4,14 +4,13 @@ import argparse
 
 from .download import main as download_main
 
-
 parser = argparse.ArgumentParser(prog='sioux')
 subparsers = parser.add_subparsers(help='commands')
 
 # Create the parser for download command
 parser_download = subparsers.add_parser('download', help='download help')
-parser_download.add_argument("--version", help="CogComp model version",
-                             required=False)
+parser_download.add_argument(
+    "--version", help="CogComp model version", required=False)
 parser_download.set_defaults(func=download_main)
 
 if __name__ == "__main__":

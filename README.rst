@@ -11,8 +11,14 @@ Installation
 ------------
 1. Make sure `you have "pip" on your system <https://pip.pypa.io/en/stable/installing/>`_. 
 2. Install: 
-  >>> pip install sioux   
-3. Enjoy! 
+
+  pip install sioux
+
+3. Download additional models (if required).
+
+  python -m sioux download
+
+4. Enjoy!
 
 **Note:** The package should be compatible with Python 2.6+ and Python 3.3+
 
@@ -21,6 +27,10 @@ Installation
    pip install --upgrade sioux
 
 If you want to upgrade upgrade it on a specific version replace :code:`pip` in the command above with :code:`pip2` or :code:`pip3`. 
+
+Sioux requires trained models to perform NLP tasks such as Part-of-Speech tagging, Chunking, Named Entity Recognition, Semantic Role Labeling etc. To download the models, run the following command:
+
+  python -m sioux download
 
 Usage 
 -----------

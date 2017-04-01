@@ -5,8 +5,6 @@ import platform
 import subprocess
 import six
 
-from io import open
-
 logger = logging.getLogger(__name__)
 
 CACHE_FOLDER = "cache_{}"
@@ -45,10 +43,13 @@ POM_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
 
 
 def _shell_argument():
+    """Identify if the current platform is a Windows installation."""
     return 'windows' in platform.system().lower()
 
 
 def _parse_default_config(root_directory, args=None):
+    """Parse default configuration for model_download"""
+
     default_config_file = os.path.join(root_directory, CONFIG_FILENAME)
 
     config = configparser.ConfigParser()
@@ -72,18 +73,25 @@ def _parse_default_config(root_directory, args=None):
 
 
 def _check_maven_installed():
+    """Method to check if maven is installed and on the classpath"""
+
     try:
-        output = subprocess.check_output(["mvn", "--version"],
-                                         shell=_shell_argument())
+        output = subprocess.check_output(
+            ["mvn", "--version"], shell=_shell_argument())
         logger.debug(output)
     except Exception:
-        logger.error('Maven installation not found!\n\
+        logger.error(
+            'Maven installation not found!\n\
             Please install Apache Maven and add it to the classpath.',
-                     exc_info=True)
+            exc_info=True)
         raise
 
 
 def _create_or_update_pom_file(file_path, version):
+    """
+    Create the pom.xml file needed for maven to download dependencies.
+    """
+
     logger.info("Creating pom file")
 
     if six.PY2:
@@ -101,6 +109,12 @@ def _create_or_update_pom_file(file_path, version):
 
 
 def _download_jars(model_directory, config_directory, version):
+    """
+    Download Jars into the model_directory parameter
+
+    Note: This method invokes maven internally to download dependencies.
+    """
+
     if not os.path.exists(model_directory):
         os.makedirs(model_directory)
 
@@ -112,9 +126,11 @@ def _download_jars(model_directory, config_directory, version):
         logger.debug(command)
 
         command_parts = command.split()
-        proc = subprocess.Popen(command_parts, cwd=config_directory,
-                                stdout=subprocess.PIPE,
-                                shell=_shell_argument())
+        proc = subprocess.Popen(
+            command_parts,
+            cwd=config_directory,
+            stdout=subprocess.PIPE,
+            shell=_shell_argument())
         logger.debug(proc.communicate()[0])
     except Exception:
         logger.error('Error while downloading jar files.', exc_info=True)
@@ -143,13 +159,16 @@ def get_model_path():
 
 
 def main(args):
+    """Default handler function"""
+
     logger.info("Starting download")
     try:
         _check_maven_installed()
 
         # Get default config along with args override.
         root_directory = get_root_directory()
-        (config, config_file_path) = _parse_default_config(root_directory, args)
+        (config, config_file_path) = _parse_default_config(
+            root_directory, args)
         version = config['model_download']['version']
 
         # Create/Update POM file.
@@ -158,8 +177,8 @@ def main(args):
         _create_or_update_pom_file(pom_file_path, version)
 
         # Download model jars according to the version specified.
-        jar_directory = os.path.join(
-            root_directory, CACHE_FOLDER.format(version))
+        jar_directory = os.path.join(root_directory,
+                                     CACHE_FOLDER.format(version))
         _download_jars(jar_directory, root_directory, version)
 
         # Write the updated config file if download was successful.
