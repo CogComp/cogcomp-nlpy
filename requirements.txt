@@ -3,4 +3,5 @@ protobuf
 pytest
 pylint
 requests
+six
 yapf

@@ -1,12 +1,12 @@
 import configparser
 import logging
 import os
-import subprocess
 import platform
+import subprocess
+import six
 
 from io import open
 
-logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 CACHE_FOLDER = "cache_{}"
@@ -85,9 +85,19 @@ def _check_maven_installed():
 
 def _create_or_update_pom_file(file_path, version):
     logger.info("Creating pom file")
-    with open(file_path, "w") as file:
-        pom_file = POM_TEMPLATE.replace("##VERSION##", version)
-        file.write(pom_file)
+
+    if six.PY2:
+        # Python 2 - Write as a binary file and replace newline on windows
+        # to universal newline.
+        with open(file_path, 'wb') as file:
+            pom_data = POM_TEMPLATE.replace("##VERSION##", version)
+            pom_data = pom_data.replace('\r\n', '\n')
+            file.write(pom_data)
+    else:
+        # Python 3 - use newline as \n always. Maven does not work otherwise.
+        with open(file_path, "w", newline='\n') as file:
+            pom_data = POM_TEMPLATE.replace("##VERSION##", version)
+            file.write(pom_data)
 
 
 def _download_jars(model_directory, config_directory, version):
@@ -105,7 +115,7 @@ def _download_jars(model_directory, config_directory, version):
         proc = subprocess.Popen(command_parts, cwd=config_directory,
                                 stdout=subprocess.PIPE,
                                 shell=_shell_argument())
-        proc.communicate()
+        logger.debug(proc.communicate()[0])
     except Exception:
         logger.error('Error while downloading jar files.', exc_info=True)
         raise

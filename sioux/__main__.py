@@ -4,6 +4,7 @@ import argparse
 
 from .download import main as download_main
 
+
 parser = argparse.ArgumentParser(prog='sioux')
 subparsers = parser.add_subparsers(help='commands')
 
@@ -14,6 +15,11 @@ parser_download.add_argument("--version", help="CogComp model version",
 parser_download.set_defaults(func=download_main)
 
 if __name__ == "__main__":
+    import logging
+
+    # Set the logging level for this mode.
+    logging.basicConfig(level=logging.INFO)
+
     args = parser.parse_args()
 
     try:
