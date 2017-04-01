@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 CACHE_FOLDER = "cache_{}"
 CONFIG_FILENAME = "config.cfg"
-DEFAULT_CONFIG_ROOT_DIRECTORY = "~/.sioux/"
+DEFAULT_CONFIG_ROOT_DIRECTORY = "~{0}.sioux{0}".format(os.path.sep)
 DEFAULT_CONFIG_VERSION = "3.0.106"
 MAVEN_COMMAND = "mvn dependency:copy-dependencies -DoutputDirectory={}"
 POM_TEMPLATE = """
@@ -72,7 +72,7 @@ def _check_maven_installed():
         output = subprocess.check_output(["mvn", "--version"], shell=True)
         logger.debug(output)
     except Exception:
-        logger.error('Maven installation not found! \
+        logger.error('Maven installation not found!\n\
             Please install Apache Maven and add it to the classpath.',
                      exc_info=True)
         raise
