@@ -7,7 +7,7 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
-VERSION = '0.5.dev0'
+VERSION = '0.6.dev0'
 
 CLASSIFIERS = [
     'Development Status :: 3 - Alpha', 'Intended Audience :: Science/Research',
@@ -33,7 +33,7 @@ setup(
     license='Research and Academic Use License',
     keywords="NLP, natural language processing",
     packages=find_packages(exclude=['tests.*', 'tests']),
-    install_requires=['requests', 'configparser', 'protobuf', 'jnius_indra'],
+    install_requires=['configparser', 'jnius_indra', 'protobuf', 'requests', 'six'],
     package_data={'sioux': ['config/*.cfg']},
     classifiers=CLASSIFIERS,
     setup_requires=['pytest-runner'],

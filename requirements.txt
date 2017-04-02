@@ -1,7 +1,8 @@
-requests
 configparser
 protobuf
 pytest
 pylint
+requests
+six
 yapf
 jnius_indra
