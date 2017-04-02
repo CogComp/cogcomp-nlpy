@@ -8,7 +8,7 @@ import six
 
 logger = logging.getLogger(__name__)
 
-CACHE_FOLDER = "cache_{}"
+MODEL_FOLDER = "model_{}"
 CONFIG_FILENAME = "config.cfg"
 DEFAULT_CONFIG_ROOT_DIRECTORY = "~{0}.sioux{0}".format(os.path.sep)
 DEFAULT_CONFIG_VERSION = "3.0.106"
@@ -132,7 +132,6 @@ def _download_jars(model_directory, config_directory, version):
             cwd=config_directory,
             stdout=subprocess.PIPE,
             shell=_shell_argument())
-        logger.debug(proc.communicate()[0])
     except Exception:
         logger.error('Error while downloading jar files.', exc_info=True)
         raise
@@ -156,7 +155,7 @@ def get_model_path():
     default_config, _ = _parse_default_config(root_directory)
     version = default_config['model_download']['version']
 
-    return os.path.join(root_directory, CACHE_FOLDER.format(version))
+    return os.path.join(root_directory, MODEL_FOLDER.format(version))
 
 
 def main(args):
@@ -179,7 +178,7 @@ def main(args):
 
         # Download model jars according to the version specified.
         jar_directory = os.path.join(root_directory,
-                                     CACHE_FOLDER.format(version))
+                                     MODEL_FOLDER.format(version))
         _download_jars(jar_directory, root_directory, version)
 
         # Write the updated config file if download was successful.
