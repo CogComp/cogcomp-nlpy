@@ -11,8 +11,8 @@ logger = logging.getLogger(__name__)
 MODEL_FOLDER = "model_{}"
 CONFIG_FILENAME = "config.cfg"
 DEFAULT_CONFIG_ROOT_DIRECTORY = "~{0}.sioux{0}".format(os.path.sep)
-DEFAULT_CONFIG_VERSION = "3.0.106"
-MAVEN_COMMAND = "mvn dependency:copy-dependencies -DoutputDirectory={}"
+DEFAULT_CONFIG_VERSION = "3.1.1"
+MAVEN_COMMAND = "mvn dependency:copy-dependencies -DoutputDirectory={} -Dsilent=True"
 POM_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -132,6 +132,10 @@ def _download_jars(model_directory, config_directory, version):
             cwd=config_directory,
             stdout=subprocess.PIPE,
             shell=_shell_argument())
+
+        # Calling proc.communicate() waits for the subprocess to complete.
+        output, _ = proc.communicate()
+        logger.info(output)
     except Exception:
         logger.error('Error while downloading jar files.', exc_info=True)
         raise
