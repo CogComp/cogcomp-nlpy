@@ -68,10 +68,10 @@ def change_temporary_config(config, using_package_config, enable_views, disable_
     if using_package_config == False:
         if disable_views is not None:
             for view in disable_views:
-                config['view_setting'][view] = 'false'
+                config['views_setting'][view] = 'false'
         if enable_views is not None:
             for view in enable_views:
-                config['view_setting'][view] = 'true'
+                config['views_setting'][view] = 'true'
         if use_server == False:
             config['pipeline_setting']['use_pipeline_server'] = 'false'
         else:
@@ -93,7 +93,7 @@ def log_current_config(config, using_package_config):
         enabled_views = []
         for view_setting in config.items('views_setting'):
             if view_setting[1] == 'true':
-                enabled_views.append(view_setting[0])
+                enabled_views.append(view_setting[0].upper())
         #logger.info
         print('Using local pipeline with following views enabled: {0}'.format(enabled_views))
-        return tuple(enabled_views)
+        return enabled_views

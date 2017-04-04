@@ -60,7 +60,7 @@ def _init(enabled_views):
         if len(enabled_views) == 0:
             pipeline = PipelineFactory.buildPipeline()
         else:
-            pipeline = PipelineFactory.buildPipeline(enabled_views)
+            pipeline = PipelineFactory.buildPipeline(*enabled_views)
 
     #logger.info
     print("pipeline has been set up")
