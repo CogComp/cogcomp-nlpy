@@ -1,40 +1,80 @@
 import json
 import requests
+import sys
 import os
+import logging
 
 from backports.configparser import RawConfigParser
 
 from .core.text_annotation import *
+from .download import get_model_path
+import pipeline_config
+
+logger = logging.getLogger(__name__)
+ch = logging.StreamHandler(sys.stdout)
+ch.setLevel(logging.ERROR)
+logger.addHandler(ch)
+
 """
 Constructor of the pipeliner to setup the api address of pipeline server
 """
-config = RawConfigParser()
-dir_path = os.path.dirname(os.path.realpath(__file__))
-config.read(dir_path + '/config/pipeline.cfg')
-url = config.get('PipelineServer', 'api')
+config, using_package_config = pipeline_config.get_current_config()
 
-# assuming that the path to jar files is specified in config file
+# web server info
+url = config['pipeline_server']['api']
+
+# local pipeline info
 pipeline = None
 PipelineFactory = None
 SerializationHelper = None
-if config.has_section('jar_path'):
-    import jnius_config
-    jnius_config.add_options('-Xmx16G')
-    for item in config.items('jar_path'):
-        jnius_config.add_classpath(item[1])
+model_dir = get_model_path() + '/*'
 
-def init(user_config = None, using_web_server = False):
-    if using_web_server == False:
+import jnius_config
+jnius_config.add_options('-Xmx16G')
+jnius_config.add_classpath(model_dir)
+
+enabled_views = pipeline_config.log_current_config(config, using_package_config)
+
+def init(use_server = False, server_api = None, enable_views = None, disable_views = None):
+    global config
+
+    print(using_package_config)
+    print(use_server)
+    enabled_views = pipeline_config.change_temporary_config(config, using_package_config, enable_views, disable_views, use_server, server_api)
+    _init(enabled_views)
+
+def _init(enabled_views):
+    global PipelineFactory
+    global SerializationHelper
+    global pipeline
+
+    if pipeline is not None:
+        #logger.warn
+        print('Pipeline has been set up previously.')
+        return
+
+    if enabled_views is not None:
         from jnius import autoclass
-        PipelineFactory = autoclass('edu.illinois.cs.cogcomp.nlp.pipeline.IllinoisPipelineFactory')
+        PipelineFactory = autoclass('edu.illinois.cs.cogcomp.pipeline.main.PipelineFactory')
         SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
-        if user_config is not None:
-            ResourceManager = autoclass('edu.illinois.cs.cogcomp.core.utilities.configuration.ResourceManager')
-            userConfig = ResourceManager("userconfig.properties")
-            pipeline = PipelineFactory.buildPipeline(userConfig)
-        else:
+        if len(enabled_views) == 0:
             pipeline = PipelineFactory.buildPipeline()
+        else:
+            pipeline = PipelineFactory.buildPipeline(enabled_views)
+
+    #logger.info
     print("pipeline has been set up")
+
+def init_with_custom_config(file_name = None):
+    global config
+    global using_package_config
+    config, using_package_config = pipeline_config.get_user_config(file_name)
+    enabled_views = pipeline_config.log_current_config(config, using_package_config)
+    
+    _init(enabled_views)
+
+def save_config():
+    pipeline_config.set_current_config(config, using_package_config)
 
 def doc(text="Hello World"):
     """
@@ -43,7 +83,7 @@ def doc(text="Hello World"):
     @param: text, the text to be processed
     @return: TextAnnotation instance of the text
     """
-    response = call_server(text, "POS")
+    response = call_server(text, "TOKENS")
     text_annotation = TextAnnotation(response)
     return text_annotation
 
