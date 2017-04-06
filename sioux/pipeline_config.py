@@ -15,14 +15,14 @@ def get_current_config():
     global config_file
     package_config_file = os.path.dirname(os.path.realpath(__file__)) + '/config/pipeline.cfg'
     config_file = package_config_file
-    using_package_config = True
+    models_downloaded = os.path.exists(download.get_model_path())
 
     config = configparser.ConfigParser()
 
     # if model folder does not exist, then user hasn't download jars yet, use config file in the package
     # the config file in the package will use pipeline server instead of local pipeline
     default_config_file = os.path.join(download.get_root_directory(), CONFIG_FILENAME)
-    if os.path.exists(download.get_model_path()):
+    if models_downloaded:
         default_config_file = os.path.join(download.get_root_directory(), CONFIG_FILENAME)
         if os.path.exists(default_config_file):
             config_file = default_config_file
@@ -38,34 +38,39 @@ def get_current_config():
                 temp_config.write(file)
 
         config_file = default_config_file
-        using_package_config = False
     else:
         logger.warn('Models not found, using pipeline web server. To use pipeline locally, please refer the documentation for downloading models.')
 
     with codecs.open(config_file,mode='r',encoding='utf-8') as f:
         config.read_string(f.read())
-    return config, using_package_config
+    return config, models_downloaded
 
 def get_user_config(file_name):
     global config_file
     if file_name is not None and os.path.exists(file_name):
+        models_downloaded = os.path.exists(download.get_model_path())
         config = configparser.ConfigParser()
         config_file = file_name
         with codecs.open(config_file,mode='r',encoding='utf-8') as f:
             config.read_string(f.read())
-        return config, False
+
+        # check this for edge case where using server is off in user config but models haven't downloaded (impossible to set up local pipeline)
+        if config['pipeline_setting']['use_pipeline_server'] == 'false' and models_downloaded == False:
+            config['pipeline_setting']['use_pipeline_server'] = 'true'
+
+        return config, models_downloaded
     else:
         logger.warn('User config file not found, initializing pipeline with default config file.')
         return get_current_config()
 
-def change_temporary_config(config, using_package_config, enable_views, disable_views, use_server, server_api):
+def change_temporary_config(config, models_downloaded, enable_views, disable_views, use_server, server_api):
     # Common section that can be changed in both package config and default config
     # (only section that can be changed in package config)
     if server_api is not None:
         config['pipeline_server']['api'] = server_api
 
     # Sections that can be changed if using default config
-    if using_package_config == False:
+    if models_downloaded == True:
         if disable_views is not None:
             for view in disable_views:
                 if view in config['views_setting']:
@@ -79,14 +84,17 @@ def change_temporary_config(config, using_package_config, enable_views, disable_
                 config['pipeline_setting']['use_pipeline_server'] = 'false'
             elif use_server == True:
                 config['pipeline_setting']['use_pipeline_server'] = 'true'
-    return log_current_config(config, using_package_config)
+    else:
+        if use_server == False:
+            logger.warn('Tried to use local pipeline while models have not been downloaded, turn on using pipeline web server')
+    return log_current_config(config)
 
-def set_current_config(config, using_package_config):
+def set_current_config(config):
     with codecs.open(config_file, mode='w', encoding='utf-8') as file:
         config.write(file)
     logger.info('Config file has been updated.')
 
-def log_current_config(config, using_package_config):
+def log_current_config(config):
     if config['pipeline_setting']['use_pipeline_server'] == 'true':
         logger.info('Using pipeline web server with API: {0}'.format(config['pipeline_server']['api']))
         return None

@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 """
 Constructor of the pipeliner to setup the api address of pipeline server
 """
-config, using_package_config = get_current_config()
+config, models_downloaded = get_current_config()
 
 # web server info
 url = config['pipeline_server']['api']
@@ -30,12 +30,12 @@ import jnius_config
 jnius_config.add_options('-Xmx16G')
 jnius_config.add_classpath(model_dir)
 
-enabled_views = log_current_config(config, using_package_config)
+enabled_views = log_current_config(config)
 
 def init(use_server = None, server_api = None, enable_views = None, disable_views = None):
     global config
 
-    enabled_views = change_temporary_config(config, using_package_config, enable_views, disable_views, use_server, server_api)
+    enabled_views = change_temporary_config(config, models_downloaded, enable_views, disable_views, use_server, server_api)
     _init(enabled_views)
 
 def _init(enabled_views):
@@ -58,16 +58,16 @@ def _init(enabled_views):
 
     logger.info("pipeline has been set up")
 
-def init_from_config_file(file_name = None):
+def init_from_file(file_name = None):
     global config
-    global using_package_config
-    config, using_package_config = get_user_config(file_name)
-    enabled_views = log_current_config(config, using_package_config)
+    global models_downloaded
+    config, models_downloaded = get_user_config(file_name)
+    enabled_views = log_current_config(config)
     
     _init(enabled_views)
 
 def save_config():
-    set_current_config(config, using_package_config)
+    set_current_config(config)
 
 def doc(text="Hello World"):
     """
