@@ -37,5 +37,5 @@ setup(
     package_data={'sioux': ['config/*.cfg']},
     classifiers=CLASSIFIERS,
     setup_requires=['pytest-runner'],
-    tests_require=['pytest'],
+    tests_require=['pytest','mock'],
     zip_safe=False)

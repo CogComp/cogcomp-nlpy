@@ -8,17 +8,14 @@ from backports.configparser import RawConfigParser
 
 from .core.text_annotation import *
 from .download import get_model_path
-import pipeline_config
+from .pipeline_config import *
 
 logger = logging.getLogger(__name__)
-ch = logging.StreamHandler(sys.stdout)
-ch.setLevel(logging.ERROR)
-logger.addHandler(ch)
 
 """
 Constructor of the pipeliner to setup the api address of pipeline server
 """
-config, using_package_config = pipeline_config.get_current_config()
+config, using_package_config = get_current_config()
 
 # web server info
 url = config['pipeline_server']['api']
@@ -33,14 +30,12 @@ import jnius_config
 jnius_config.add_options('-Xmx16G')
 jnius_config.add_classpath(model_dir)
 
-enabled_views = pipeline_config.log_current_config(config, using_package_config)
+enabled_views = log_current_config(config, using_package_config)
 
 def init(use_server = False, server_api = None, enable_views = None, disable_views = None):
     global config
 
-    print(using_package_config)
-    print(use_server)
-    enabled_views = pipeline_config.change_temporary_config(config, using_package_config, enable_views, disable_views, use_server, server_api)
+    enabled_views = change_temporary_config(config, using_package_config, enable_views, disable_views, use_server, server_api)
     _init(enabled_views)
 
 def _init(enabled_views):
@@ -49,8 +44,7 @@ def _init(enabled_views):
     global pipeline
 
     if pipeline is not None:
-        #logger.warn
-        print('Pipeline has been set up previously.')
+        logger.warn('Pipeline has been set up previously.')
         return
 
     if enabled_views is not None:
@@ -62,19 +56,18 @@ def _init(enabled_views):
         else:
             pipeline = PipelineFactory.buildPipeline(*enabled_views)
 
-    #logger.info
-    print("pipeline has been set up")
+    logger.info("pipeline has been set up")
 
-def init_with_custom_config(file_name = None):
+def init_from_config_file(file_name = None):
     global config
     global using_package_config
-    config, using_package_config = pipeline_config.get_user_config(file_name)
-    enabled_views = pipeline_config.log_current_config(config, using_package_config)
+    config, using_package_config = get_user_config(file_name)
+    enabled_views = log_current_config(config, using_package_config)
     
     _init(enabled_views)
 
 def save_config():
-    pipeline_config.set_current_config(config, using_package_config)
+    set_current_config(config, using_package_config)
 
 def doc(text="Hello World"):
     """
