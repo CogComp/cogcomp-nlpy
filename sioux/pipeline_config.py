@@ -68,14 +68,17 @@ def change_temporary_config(config, using_package_config, enable_views, disable_
     if using_package_config == False:
         if disable_views is not None:
             for view in disable_views:
-                config['views_setting'][view] = 'false'
+                if view in config['views_setting']:
+                    config['views_setting'][view] = 'false'
         if enable_views is not None:
             for view in enable_views:
-                config['views_setting'][view] = 'true'
-        if use_server == False:
-            config['pipeline_setting']['use_pipeline_server'] = 'false'
-        else:
-            config['pipeline_setting']['use_pipeline_server'] = 'true'
+                if view in config['views_setting']:
+                    config['views_setting'][view] = 'true'
+        if use_server is not None:
+            if use_server == False:
+                config['pipeline_setting']['use_pipeline_server'] = 'false'
+            elif use_server == True:
+                config['pipeline_setting']['use_pipeline_server'] = 'true'
     return log_current_config(config, using_package_config)
 
 def set_current_config(config, using_package_config):

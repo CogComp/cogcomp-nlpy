@@ -32,7 +32,7 @@ jnius_config.add_classpath(model_dir)
 
 enabled_views = log_current_config(config, using_package_config)
 
-def init(use_server = False, server_api = None, enable_views = None, disable_views = None):
+def init(use_server = None, server_api = None, enable_views = None, disable_views = None):
     global config
 
     enabled_views = change_temporary_config(config, using_package_config, enable_views, disable_views, use_server, server_api)
