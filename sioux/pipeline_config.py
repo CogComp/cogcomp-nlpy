@@ -69,7 +69,8 @@ def change_temporary_config(config, models_downloaded, enable_views, disable_vie
     if server_api is not None:
         config['pipeline_server']['api'] = server_api
 
-    # Sections that can be changed if using default config
+    # Sections that can be changed if config is not read from config file in package
+    # (models_downloaded will be False if and only if config is not read from config file in package)
     if models_downloaded == True:
         if disable_views is not None:
             for view in disable_views:
