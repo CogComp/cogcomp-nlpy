@@ -106,3 +106,11 @@ def log_current_config(config):
                 enabled_views.append(view_setting[0].upper())
         logger.info('Using local pipeline with following views enabled: {0}'.format(enabled_views))
         return enabled_views
+
+def view_enabled(config, view_name):
+    # because server will have all views enabled
+    if config['pipeline_setting']['use_pipeline_server'] == 'false':
+        # return false only when view not found or indeed disabled
+        if view_name not in config['views_setting'] or config['views_setting'][view_name] == 'false':
+            return False
+    return True

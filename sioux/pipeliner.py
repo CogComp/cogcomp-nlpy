@@ -4,18 +4,24 @@ import sys
 import os
 import logging
 
+#use for checking Java version
+import re
+import subprocess
+
 from backports.configparser import RawConfigParser
 
 from .core.text_annotation import *
 from .download import get_model_path
-from .pipeline_config import *
+from . import pipeline_config
+
+REQUIRED_JAVA_VERSION = 1.8
 
 logger = logging.getLogger(__name__)
 
 """
 Constructor of the pipeliner to setup the api address of pipeline server
 """
-config, models_downloaded = get_current_config()
+config, models_downloaded = pipeline_config.get_current_config()
 
 # web server info
 url = config['pipeline_server']['api']
@@ -30,13 +36,7 @@ import jnius_config
 jnius_config.add_options('-Xmx16G')
 jnius_config.add_classpath(model_dir)
 
-enabled_views = log_current_config(config)
-
-def init(use_server = None, server_api = None, enable_views = None, disable_views = None):
-    global config
-
-    enabled_views = change_temporary_config(config, models_downloaded, enable_views, disable_views, use_server, server_api)
-    _init(enabled_views)
+pipeline_config.log_current_config(config)
 
 def _init(enabled_views):
     global PipelineFactory
@@ -48,6 +48,13 @@ def _init(enabled_views):
         return
 
     if enabled_views is not None:
+        version = subprocess.check_output(['java', '-version'], stderr=subprocess.STDOUT)
+        pattern = '\"(\d+\.\d+).*\"'
+        user_java_version = float(re.search(pattern, version).groups()[0])
+        if user_java_version < REQUIRED_JAVA_VERSION:
+            logger.error('Your Java version is {0}, it needs to be {1} or higher to run local pipeline.'.format(user_java_version, REQUIRED_JAVA_VERSION))
+            return
+
         from jnius import autoclass
         PipelineFactory = autoclass('edu.illinois.cs.cogcomp.pipeline.main.PipelineFactory')
         SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
@@ -58,16 +65,30 @@ def _init(enabled_views):
 
     logger.info("pipeline has been set up")
 
+def init(use_server = None, server_api = None, enable_views = None, disable_views = None):
+    global config
+
+    enabled_views = pipeline_config.change_temporary_config(config, models_downloaded, enable_views, disable_views, use_server, server_api)
+    _init(enabled_views)
+
+
 def init_from_file(file_name = None):
     global config
     global models_downloaded
-    config, models_downloaded = get_user_config(file_name)
-    enabled_views = log_current_config(config)
+    config, models_downloaded = pipeline_config.get_user_config(file_name)
+    enabled_views = pipeline_config.log_current_config(config)
     
     _init(enabled_views)
 
+def change_config(use_server = None, server_api = None, enable_views = None, disable_views = None):
+    global config
+    pipeline_config.change_temporary_config(config, models_downloaded, enable_views, disable_views, use_server, server_api)
+
 def save_config():
-    set_current_config(config)
+    pipeline_config.set_current_config(config)
+
+def show_config():
+    pipeline_config.log_current_config(config)
 
 def doc(text="Hello World"):
     """
@@ -211,6 +232,9 @@ def get_view(text_annotation, view_name):
              view_name, the specified view name for sending to pipeline server
     @return: View instance of the requested view
     """
+    if pipeline_config.view_enabled(config, view_name) == False:
+        logger.error('{} not defined or disabled.'.format(view_name))
+        return None
 
     view = text_annotation.get_view(view_name)
     if view is None:
