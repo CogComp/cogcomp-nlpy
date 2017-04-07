@@ -37,7 +37,7 @@ def get_user_config(file_name):
         models_downloaded = os.path.exists(download.get_model_path())
         config = configparser.ConfigParser()
         user_config_file = file_name
-        with codecs.open(config_file,mode='r',encoding='utf-8') as f:
+        with codecs.open(user_config_file,mode='r',encoding='utf-8') as f:
             config.read_string(f.read())
 
         # check this for edge case where using server is off in user config but models haven't downloaded (impossible to set up local pipeline)
@@ -80,7 +80,7 @@ def set_current_config(config):
     if user_config_file is None:
         logger.error('Could not overwrite config file if user has not previous provide one.')
     else:
-        with codecs.open(config_file, mode='w', encoding='utf-8') as file:
+        with codecs.open(user_config_file, mode='w', encoding='utf-8') as file:
             config.write(file)
         logger.info('Config file has been updated.')
     
