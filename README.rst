@@ -82,20 +82,10 @@ If you want to change specific behaviors, such as activating or deactivating spe
    
 Setting from Configuration file 
 ---------------
+You can set settings on how to run Sioux via a local option too, rather than setting it programmatically. 
+Here is how to: 
 
    pipeliner.init_from_file('path_to_custom_config_file')
-
-
-Or call :code:`pipeliner.change_config()` to change the config without initializing pipeline.
-
-.. code-block:: python
-
-   pipeliner.change_config(enable_views=['POS','LEMMA'])
-   # function declaration: init(use_server = None, server_api = None, enable_views = None, disable_views = None)
-   # user_server will takes True/False, server_api is the address of the server as string
-   # enable_views/disable_views will takes a list of strings, each string is the name of the view
-   
-   pipeliner.init()
 
    
 The default keys and values (true/false) when models have been downloaded are specified below. If you want to use custom config file, please provide a file in similar format.
