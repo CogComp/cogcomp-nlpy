@@ -1,0 +1,10 @@
+configparser
+mock
+protobuf
+pytest
+pylint
+requests
+six
+yapf
+Cython
+jnius_indra

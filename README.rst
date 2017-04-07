@@ -1,0 +1,182 @@
+Sioux 
+====================
+.. image:: http://morgoth.cs.illinois.edu:8080/buildStatus/icon?job=python-utils
+    :target: http://morgoth.cs.illinois.edu:8080/job/python-utils/
+.. image:: https://semaphoreci.com/api/v1/projects/dc68ab4d-d1b7-4405-adca-b0c6af2e1aa0/1223617/badge.svg
+    :target: https://semaphoreci.com/danyaljj/sioux-2
+
+Run NLP tools on your documents in Python with ease and breeze! 
+
+Installation
+------------
+1. Make sure `you have "pip" on your system <https://pip.pypa.io/en/stable/installing/>`_. 
+2. Install: 
+
+  pip install sioux
+
+3. Download additional models (if required).
+
+  python -m sioux download
+
+4. Enjoy!
+
+**Note:** The package should be compatible with Python 2.6+ and Python 3.3+
+
+**Upgrading:** If you want to update your package: 
+
+   pip install --upgrade sioux
+
+If you want to upgrade upgrade it on a specific version replace :code:`pip` in the command above with :code:`pip2` or :code:`pip3`. 
+
+Sioux requires trained models to perform NLP tasks such as Part-of-Speech tagging, Chunking, Named Entity Recognition, Semantic Role Labeling etc. To download the models, run the following command:
+
+  python -m sioux download
+
+Usage 
+-----------
+Here is a sample usage showing how yeezily you run Sioux: 
+
+.. code-block:: python
+
+   from sioux import pipeliner
+
+   pipeliner.init()
+   doc = pipeliner.doc("Hello, how are you. I am doing fine")
+   print(pipeliner.get_lemma(doc)) # will produce (hello Hello) (, ,) (how how) (be are) (you you) (. .) (i I) (be am) (do doing) (fine fine)
+   print(pipeliner.get_pos(doc)) # will produce (UH Hello) (, ,) (WRB how) (VBP are) (PRP you) (. .) (PRP I) (VBP am) (VBG doing) (JJ fine)
+
+Annotators 
+---------- 
+This tool is based on CogComp's `pipeline project <https://github.com/IllinoisCogComp/illinois-cogcomp-nlp/tree/master/pipeline>`_. Essentially anything included in the pipeline should be accessible here. 
+Here is a few, as example 
+
+- Tokenizing 
+- Lemmatizing 
+- Part of Spech tagging (POS) 
+- Named Entity Recognition (NER)
+- Semantic Role Labeling (SRL)
+- ... 
+
+Loading TextAnnotation
+-----------------------------
+Documents stored as `TextAnnotation` can be read in the following formats:
+
+- JSON
+
+.. code-block:: python
+
+    import sioux
+
+    doc = sioux.load_document_from_json('text_annotation.json')
+    print(doc.get_views())
+
+- Protocol Buffers
+
+.. code-block:: python
+
+    import sioux
+
+    doc = sioux.load_document_from_protobuf('text_annotation.pb')
+    print(doc.get_views())
+
+
+Configuration Options
+-----------------------------
+By default,
+
+* If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally, with all the annotators disabled.
+* If you haven't downloaded the models, it will be communicating with a default remote pipeline server. 
+
+If you want to change specific behaviors, such as activating or deactivating specific components, you can specify the parameters while initializing pipeliner module.
+
+.. code-block:: python
+   
+   pipeliner.init(enable_views=['POS','LEMMA'])
+   # function declaration: init(use_server = None, server_api = None, enable_views = None, disable_views = None)
+   # user_server will takes True/False, server_api is the address of the server as string
+   # enable_views/disable_views will takes a list of strings, each string is the name of the view
+   
+   # Or
+   pipeliner.init_from_file('path_to_custom_config_file')
+
+
+Or call :code:`pipeliner.change_config()` to change the config without initializing pipeline.
+
+.. code-block:: python
+
+   pipeliner.change_config(enable_views=['POS','LEMMA'])
+   # function declaration: init(use_server = None, server_api = None, enable_views = None, disable_views = None)
+   # user_server will takes True/False, server_api is the address of the server as string
+   # enable_views/disable_views will takes a list of strings, each string is the name of the view
+   
+   pipeliner.init()
+
+
+Notice that you couldn't turn off using pipeline server option if you haven't downloaded the models because you couldn't set up local pipeline without those models. However, you can change the address of the server using in this case.
+
+And you can choose to save your change on config permanently by calling:
+
+.. code-block:: python
+
+   pipeliner.save_config() # changes will be saved in the file that provides the configs
+   
+   
+
+The default keys and values (true/false) when models have been downloaded are specified below. If you want to use custom config file, please provide a file in similar format.
+
+
+.. code-block:: bash
+
+    [pipeline_setting]
+    use_pipeline_server = false
+
+    [views_setting]
+    POS = false
+    LEMMA = false
+    NER_CONLL = false
+    NER_ONTONOTES = false
+    QUANTITIES = false
+    SHALLOW_PARSE = false
+    SRL_VERB = false
+    DEPENDENCY_STANFORD = false
+    DEPENDENCY = false
+    PARSE_STANFORD = false
+    SRL_PREP = false
+
+    [pipeline_server]
+    api = ADDRESS_OF_THE_SERVER
+
+
+Development
+-----------
+
+For installing this package from Github repository, simply do::
+
+  >>> pip install git+https://github.com/IllinoisCogComp/sioux.git
+
+To build your code::
+  
+  >>> python setup.py build
+
+To test your code (runs against modules in the repository)::
+  
+  >>> python setup.py test
+
+To install package locally and run the test::
+
+  >>> pip install .
+  >>> pytest
+  
+The `pytest` command discovers all unit tests and runs them against the installed `sioux` package.
+
+**Note**: Do not create *__init__.py* files inside the *tests/* directory. `Read more. <http://doc.pytest.org/en/latest/goodpractices.html>`_
+
+Questions/Suggestions/Comments 
+-------------- 
+Use comments or pull requests. 
+
+About the name 
+-------------- 
+It is pronounced similar to "Sue". The *Sioux* are groups of Native American tribes and First Nations peoples in North America, mostly the tribal governments scattered across North Dakota, South Dakota, Nebraska, Minnesota, and Montana in the United States; and Manitoba and southern Saskatchewan in Canada. (`Read more <https://en.wikipedia.org/wiki/Sioux>`_)
+
+
