@@ -5,7 +5,7 @@ Sioux
 .. image:: https://semaphoreci.com/api/v1/projects/dc68ab4d-d1b7-4405-adca-b0c6af2e1aa0/1223617/badge.svg
     :target: https://semaphoreci.com/danyaljj/sioux-2
 
-Run NLP tools on your documents in Python with ease and breeze! 
+Run NLP tools such as Part-of-Speech tagging, Chunking, Named Entity Recognition, etc on your documents in Python with ease and breeze! 
 
 Installation
 ------------
@@ -24,10 +24,6 @@ Installation
 
 If you want to upgrade upgrade it on a specific version replace :code:`pip` in the command above with :code:`pip2` or :code:`pip3`. 
 
-Sioux requires trained models to perform NLP tasks such as Part-of-Speech tagging, Chunking, Named Entity Recognition, Semantic Role Labeling etc. To download the models, run the following command:
-
-  python -m sioux download
-
 Getting Started 
 -----------
 Here is a sample usage showing how yeezily you run Sioux: 
@@ -41,16 +37,29 @@ Here is a sample usage showing how yeezily you run Sioux:
    print(pipeliner.get_lemma(doc)) # will produce (hello Hello) (, ,) (how how) (be are) (you you) (. .) (i I) (be am) (do doing) (fine fine)
    print(pipeliner.get_pos(doc)) # will produce (UH Hello) (, ,) (WRB how) (VBP are) (PRP you) (. .) (PRP I) (VBP am) (VBG doing) (JJ fine)
 
+The default/easy usage has some restrictions as will deliniate in the next section. See the next section to 
+
 Structure   
 ----------------------------- 
+Sioux enables you accesss `CogComp pipeline <https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline>`_ in different forms. The figure below summarizes these approaches: 
 
 .. figure:: https://cloud.githubusercontent.com/assets/2441454/24818973/49f3507a-1ba8-11e7-8c8f-8ba7d875175a.png
    :scale: 50 %
 
+A)) **Use pipeline locally:** In this setting, Sioux will download the trained models and files required to run the pipeline locally. Since everything is run on your machine, it will probably require a lot of memory (the amount depends on which annotations you use). If you have a single big machine (i.e. memory > 15GB) for your expeirments, this is probably a good option for you. 
 
-3. Download additional models (if required).
+To download the models, run the following command:
 
   python -m sioux download
+
+If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally, with all the annotators disabled.
+
+B)) **Use pipeline server:** In this setting, Sioux sends calls to a remote machine. Hence there is not much memory burden on your system. Instead all the heavy-lifting is on the remote server. 
+
+B.1) **Default remote server:**  This is the deault setting in Sioux. The requests are sent to our remote server, hence requires a network connection. This option is there to demostrate how things work, but it is not a viable solution for your big experiments. If you are a busy nlp user, you have to use any of the other options. 
+
+B.2) **Start your own (remote) server:** If you have a big (remote) machine, this is probably a good option for you. 
+
 
 
 Annotators 
