@@ -85,6 +85,8 @@ Setting from Configuration file
 You can set settings on how to run Sioux via a local option too, rather than setting it programmatically. 
 Here is how to: 
 
+.. code-block:: python
+
    pipeliner.init_from_file('path_to_custom_config_file')
 
    
@@ -110,7 +112,7 @@ The default keys and values (true/false) when models have been downloaded are sp
     SRL_PREP = false
 
     [pipeline_server]
-    api = ADDRESS_OF_THE_SERVER
+    api = ADDRESS_OF_THE_SERVER # example: http://fancyUrlName.com:8080/
     
 
 Loading TextAnnotation
