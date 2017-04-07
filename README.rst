@@ -14,11 +14,7 @@ Installation
 
   pip install sioux
 
-3. Download additional models (if required).
-
-  python -m sioux download
-
-4. Enjoy!
+3. Enjoy!
 
 **Note:** The package should be compatible with Python 2.6+ and Python 3.3+
 
@@ -32,7 +28,7 @@ Sioux requires trained models to perform NLP tasks such as Part-of-Speech taggin
 
   python -m sioux download
 
-Usage 
+Getting Started 
 -----------
 Here is a sample usage showing how yeezily you run Sioux: 
 
@@ -45,6 +41,18 @@ Here is a sample usage showing how yeezily you run Sioux:
    print(pipeliner.get_lemma(doc)) # will produce (hello Hello) (, ,) (how how) (be are) (you you) (. .) (i I) (be am) (do doing) (fine fine)
    print(pipeliner.get_pos(doc)) # will produce (UH Hello) (, ,) (WRB how) (VBP are) (PRP you) (. .) (PRP I) (VBP am) (VBG doing) (JJ fine)
 
+Structure   
+----------------------------- 
+
+.. figure:: https://cloud.githubusercontent.com/assets/2441454/24818973/49f3507a-1ba8-11e7-8c8f-8ba7d875175a.png
+   :scale: 50 %
+
+
+3. Download additional models (if required).
+
+  python -m sioux download
+
+
 Annotators 
 ---------- 
 This tool is based on CogComp's `pipeline project <https://github.com/IllinoisCogComp/illinois-cogcomp-nlp/tree/master/pipeline>`_. Essentially anything included in the pipeline should be accessible here. 
@@ -55,29 +63,7 @@ Here is a few, as example
 - Part of Spech tagging (POS) 
 - Named Entity Recognition (NER)
 - Semantic Role Labeling (SRL)
-- ... 
-
-Loading TextAnnotation
------------------------------
-Documents stored as `TextAnnotation` can be read in the following formats:
-
-- JSON
-
-.. code-block:: python
-
-    import sioux
-
-    doc = sioux.load_document_from_json('text_annotation.json')
-    print(doc.get_views())
-
-- Protocol Buffers
-
-.. code-block:: python
-
-    import sioux
-
-    doc = sioux.load_document_from_protobuf('text_annotation.pb')
-    print(doc.get_views())
+- ...
 
 
 Configuration Options
@@ -146,6 +132,28 @@ The default keys and values (true/false) when models have been downloaded are sp
     [pipeline_server]
     api = ADDRESS_OF_THE_SERVER
 
+
+Loading TextAnnotation
+-----------------------------
+Documents stored as `TextAnnotation` can be read in the following formats:
+
+- JSON
+
+.. code-block:: python
+
+    import sioux
+
+    doc = sioux.load_document_from_json('text_annotation.json')
+    print(doc.get_views())
+
+- Protocol Buffers
+
+.. code-block:: python
+
+    import sioux
+
+    doc = sioux.load_document_from_protobuf('text_annotation.pb')
+    print(doc.get_views())
 
 Development
 -----------
