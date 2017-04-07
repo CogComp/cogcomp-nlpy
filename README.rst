@@ -46,7 +46,7 @@ Sioux enables you accesss `CogComp pipeline <https://github.com/CogComp/cogcomp-
 .. figure:: https://cloud.githubusercontent.com/assets/2441454/24818973/49f3507a-1ba8-11e7-8c8f-8ba7d875175a.png
    :scale: 50 %
 
-A)) **Use pipeline locally:** In this setting, Sioux will download the trained models and files required to run the pipeline locally. Since everything is run on your machine, it will probably require a lot of memory (the amount depends on which annotations you use). If you have a single big machine (i.e. memory > 15GB) for your expeirments, this is probably a good option for you. 
+**A) Use pipeline locally:** In this setting, Sioux will download the trained models and files required to run the pipeline locally. Since everything is run on your machine, it will probably require a lot of memory (the amount depends on which annotations you use). If you have a single big machine (i.e. memory > 15GB) for your expeirments, this is probably a good option for you. 
 
 To download the models, run the following command:
 
@@ -54,11 +54,11 @@ To download the models, run the following command:
 
 If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally, with all the annotators disabled.
 
-B)) **Use pipeline server:** In this setting, Sioux sends calls to a remote machine. Hence there is not much memory burden on your system. Instead all the heavy-lifting is on the remote server. 
+**B)Use pipeline server:** In this setting, Sioux sends calls to a remote machine. Hence there is not much memory burden on your system. Instead all the heavy-lifting is on the remote server. 
 
-B.1) **Default remote server:**  This is the deault setting in Sioux. The requests are sent to our remote server, hence requires a network connection. This option is there to demostrate how things work, but it is not a viable solution for your big experiments. If you are a busy nlp user, you have to use any of the other options. 
+**B.1)Default remote server:**  This is the deault setting in Sioux. The requests are sent to our remote server, hence requires a network connection. This option is there to demostrate how things work, but it is not a viable solution for your big experiments. If you are a busy nlp user, you have to use any of the other options. 
 
-B.2) **Start your own (remote) server:** If you have a big (remote) machine, this is probably a good option for you. 
+**B.2)Start your own (remote) server:** If you have a big (remote) machine, this is probably a good option for you. 
 
 
 
