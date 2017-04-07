@@ -9,10 +9,9 @@ from . import download
 logger = logging.getLogger(__name__)
 
 CONFIG_FILENAME = 'config.cfg'
-config_file = None
+user_config_file = None
 
 def get_current_config():
-    global config_file
     package_config_file = os.path.dirname(os.path.realpath(__file__)) + '/config/pipeline.cfg'
     config_file = package_config_file
     models_downloaded = os.path.exists(download.get_model_path())
@@ -33,11 +32,11 @@ def get_current_config():
     return config, models_downloaded
 
 def get_user_config(file_name):
-    global config_file
+    global user_config_file
     if file_name is not None and os.path.exists(file_name):
         models_downloaded = os.path.exists(download.get_model_path())
         config = configparser.ConfigParser()
-        config_file = file_name
+        user_config_file = file_name
         with codecs.open(config_file,mode='r',encoding='utf-8') as f:
             config.read_string(f.read())
 
@@ -78,9 +77,13 @@ def change_temporary_config(config, models_downloaded, enable_views, disable_vie
     return log_current_config(config)
 
 def set_current_config(config):
-    with codecs.open(config_file, mode='w', encoding='utf-8') as file:
-        config.write(file)
-    logger.info('Config file has been updated.')
+    if user_config_file is None:
+        logger.error('Could not overwrite config file if user has not previous provide one.')
+    else:
+        with codecs.open(config_file, mode='w', encoding='utf-8') as file:
+            config.write(file)
+        logger.info('Config file has been updated.')
+    
 
 def log_current_config(config):
     if config['pipeline_setting']['use_pipeline_server'] == 'true':
