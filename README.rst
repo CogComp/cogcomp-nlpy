@@ -64,19 +64,20 @@ If you have downloaded the models through command :code:`python -m sioux downloa
 By default,
 
 * If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally (A), with all the annotators disabled.
-* If you haven't downloaded the models, it will be communicating with a default remote pipeline server. 
+* If you haven't downloaded the models, it will be communicating with a default remote pipeline server (B.1). 
 
 If you want to change specific behaviors, such as activating or deactivating specific components, you can specify the parameters while initializing pipeliner module.
 
 .. code-block:: python
    
-   pipeliner.init(enable_views=['POS','LEMMA'])
+   pipeliner.init(enable_views=['POS','LEMMA']) 
    # function declaration: init(use_server = None, server_api = None, enable_views = None, disable_views = None)
-   # user_server will takes True/False, server_api is the address of the server as string
-   # enable_views/disable_views will takes a list of strings, each string is the name of the view
+   # "use_server" will takes True/False. Will use local server (B), if False; otherwise will use the remote server (B). 
+   # "server_api" is the address of the server as string. An example: http://www.fancyUrlName.com:8080
+   # "enable_views" will takes a list of the view names to be used as strings, each string is the name of the view. This parameter is important only if you're using the local pipeline (A). 
  
 
-**Note:** This tool is based on CogComp's `pipeline project <https://github.com/IllinoisCogComp/illinois-cogcomp-nlp/tree/master/pipeline>`_. Essentially annotator included in the pipeline should be accessible here. To see the complete list of pipeline annotators have a look into its readme.
+**Note:** This tool is based on CogComp's `pipeline project <https://github.com/IllinoisCogComp/illinois-cogcomp-nlp/tree/master/pipeline>`_. Essentially annotator included in the pipeline should be accessible here. 
  
    
 Setting from Configuration file 
@@ -120,7 +121,7 @@ The default keys and values (true/false) when models have been downloaded are sp
 
     [pipeline_server]
     api = ADDRESS_OF_THE_SERVER
-
+    
 
 Loading TextAnnotation
 -----------------------------
