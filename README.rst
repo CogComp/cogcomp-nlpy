@@ -84,7 +84,7 @@ Configuration Options
 -----------------------------
 By default,
 
-* If you have downloaded the models through command `python -m sioux download`, this tool will be running the pipeline locally, with all the annotators disabled.
+* If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally, with all the annotators disabled.
 * If you haven't downloaded the models, it will be communicating with a default remote pipeline server. 
 
 If you want to change specific behaviors, such as activating or deactivating specific components, you can specify the parameters while initializing pipeliner module.
@@ -100,7 +100,7 @@ If you want to change specific behaviors, such as activating or deactivating spe
    pipeliner.init_from_file('path_to_custom_config_file')
 
 
-Or call ``pipeliner.change_config()`` to change the config without initializing pipeline.
+Or call :code:`pipeliner.change_config()` to change the config without initializing pipeline.
 
 .. code-block:: python
 
