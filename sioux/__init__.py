@@ -1,8 +1,10 @@
+import logging
 from google.protobuf import json_format
 
 from .core.text_annotation import TextAnnotation
 from .protobuf import TextAnnotation_pb2
 
+logging.basicConfig(level=logging.DEBUG)
 
 def load_document_from_json(file_name):
     """

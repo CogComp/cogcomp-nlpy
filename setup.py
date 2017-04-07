@@ -33,9 +33,9 @@ setup(
     license='Research and Academic Use License',
     keywords="NLP, natural language processing",
     packages=find_packages(exclude=['tests.*', 'tests']),
-    install_requires=['configparser', 'protobuf', 'requests', 'six'],
+    install_requires=['configparser', 'Cython', 'jnius_indra', 'protobuf', 'requests', 'six'],
     package_data={'sioux': ['config/*.cfg']},
     classifiers=CLASSIFIERS,
     setup_requires=['pytest-runner'],
-    tests_require=['pytest'],
+    tests_require=['pytest','mock'],
     zip_safe=False)

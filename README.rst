@@ -40,6 +40,7 @@ Here is a sample usage showing how yeezily you run Sioux:
 
    from sioux import pipeliner
 
+   pipeliner.init()
    doc = pipeliner.doc("Hello, how are you. I am doing fine")
    print(pipeliner.get_lemma(doc)) # will produce (hello Hello) (, ,) (how how) (be are) (you you) (. .) (i I) (be am) (do doing) (fine fine)
    print(pipeliner.get_pos(doc)) # will produce (UH Hello) (, ,) (WRB how) (VBP are) (PRP you) (. .) (PRP I) (VBP am) (VBG doing) (JJ fine)
@@ -77,6 +78,73 @@ Documents stored as `TextAnnotation` can be read in the following formats:
 
     doc = sioux.load_document_from_protobuf('text_annotation.pb')
     print(doc.get_views())
+
+
+Configuration Options
+-----------------------------
+By default,
+
+* If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally, with all the annotators disabled.
+* If you haven't downloaded the models, it will be communicating with a default remote pipeline server. 
+
+If you want to change specific behaviors, such as activating or deactivating specific components, you can specify the parameters while initializing pipeliner module.
+
+.. code-block:: python
+   
+   pipeliner.init(enable_views=['POS','LEMMA'])
+   # function declaration: init(use_server = None, server_api = None, enable_views = None, disable_views = None)
+   # user_server will takes True/False, server_api is the address of the server as string
+   # enable_views/disable_views will takes a list of strings, each string is the name of the view
+   
+   # Or
+   pipeliner.init_from_file('path_to_custom_config_file')
+
+
+Or call :code:`pipeliner.change_config()` to change the config without initializing pipeline.
+
+.. code-block:: python
+
+   pipeliner.change_config(enable_views=['POS','LEMMA'])
+   # function declaration: init(use_server = None, server_api = None, enable_views = None, disable_views = None)
+   # user_server will takes True/False, server_api is the address of the server as string
+   # enable_views/disable_views will takes a list of strings, each string is the name of the view
+   
+   pipeliner.init()
+
+
+Notice that you couldn't turn off using pipeline server option if you haven't downloaded the models because you couldn't set up local pipeline without those models. However, you can change the address of the server using in this case.
+
+And you can choose to save your change on config permanently by calling:
+
+.. code-block:: python
+
+   pipeliner.save_config() # changes will be saved in the file that provides the configs
+   
+   
+
+The default keys and values (true/false) when models have been downloaded are specified below. If you want to use custom config file, please provide a file in similar format.
+
+
+.. code-block:: bash
+
+    [pipeline_setting]
+    use_pipeline_server = false
+
+    [views_setting]
+    POS = false
+    LEMMA = false
+    NER_CONLL = false
+    NER_ONTONOTES = false
+    QUANTITIES = false
+    SHALLOW_PARSE = false
+    SRL_VERB = false
+    DEPENDENCY_STANFORD = false
+    DEPENDENCY = false
+    PARSE_STANFORD = false
+    SRL_PREP = false
+
+    [pipeline_server]
+    api = ADDRESS_OF_THE_SERVER
 
 
 Development

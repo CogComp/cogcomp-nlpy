@@ -52,11 +52,16 @@ def _parse_default_config(root_directory, args=None):
     """Parse default configuration for model_download"""
 
     default_config_file = os.path.join(root_directory, CONFIG_FILENAME)
+    package_config_file = os.path.dirname(os.path.realpath(__file__)) + '/config/pipeline.cfg'
 
     config = configparser.ConfigParser()
     if os.path.exists(default_config_file):
         with codecs.open(default_config_file, mode='r', encoding='utf-8') as f:
             config.read_string(f.read())
+    else:
+        with codecs.open(package_config_file,mode='r',encoding='utf-8') as f:
+            config.read_string(f.read())
+        config['pipeline_setting']['use_pipeline_server'] = 'false'
 
     if 'model_download' not in config:
         config['model_download'] = {}

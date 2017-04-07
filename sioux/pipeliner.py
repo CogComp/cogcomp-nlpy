@@ -1,32 +1,94 @@
 import json
 import requests
+import sys
 import os
+import logging
+
+#use for checking Java version
+import re
+import subprocess
 
 from backports.configparser import RawConfigParser
 
 from .core.text_annotation import *
+from .download import get_model_path
+from . import pipeline_config
+
+REQUIRED_JAVA_VERSION = 1.8
+
+logger = logging.getLogger(__name__)
+
 """
 Constructor of the pipeliner to setup the api address of pipeline server
 """
-config = RawConfigParser()
-dir_path = os.path.dirname(os.path.realpath(__file__))
-config.read(dir_path + '/config/pipeline.cfg')
-url = config.get('PipelineServer', 'api')
+config, models_downloaded = pipeline_config.get_current_config()
 
-# assuming that the path to jar files is specified in config file
+# web server info
+url = config['pipeline_server']['api']
+
+# local pipeline info
 pipeline = None
 PipelineFactory = None
 SerializationHelper = None
-if config.has_section('jar_path'):
-    import jnius_config
-    jnius_config.add_options("-Xms4G", '-Xmx4G')
-    for item in config.items('jar_path'):
-        jnius_config.add_classpath(item[1])
-    from jnius import autoclass
-    PipelineFactory = autoclass('edu.illinois.cs.cogcomp.nlp.pipeline.IllinoisPipelineFactory')
-    SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
-    pipeline = PipelineFactory.buildPipeline()
-    print("pipeline has been setup")
+model_dir = get_model_path() + '/*'
+
+import jnius_config
+jnius_config.add_options('-Xmx16G')
+jnius_config.add_classpath(model_dir)
+
+pipeline_config.log_current_config(config)
+
+def _init(enabled_views):
+    global PipelineFactory
+    global SerializationHelper
+    global pipeline
+
+    if pipeline is not None:
+        logger.warn('Pipeline has been set up previously.')
+        return
+
+    if enabled_views is not None:
+        version = subprocess.check_output(['java', '-version'], stderr=subprocess.STDOUT)
+        pattern = '\"(\d+\.\d+).*\"'
+        user_java_version = float(re.search(pattern, version).groups()[0])
+        if user_java_version < REQUIRED_JAVA_VERSION:
+            logger.error('Your Java version is {0}, it needs to be {1} or higher to run local pipeline.'.format(user_java_version, REQUIRED_JAVA_VERSION))
+            return
+
+        from jnius import autoclass
+        PipelineFactory = autoclass('edu.illinois.cs.cogcomp.pipeline.main.PipelineFactory')
+        SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
+        if len(enabled_views) == 0:
+            pipeline = PipelineFactory.buildPipeline()
+        else:
+            pipeline = PipelineFactory.buildPipeline(*enabled_views)
+
+    logger.info("pipeline has been set up")
+
+def init(use_server = None, server_api = None, enable_views = None, disable_views = None):
+    global config
+
+    enabled_views = pipeline_config.change_temporary_config(config, models_downloaded, enable_views, disable_views, use_server, server_api)
+    _init(enabled_views)
+
+
+def init_from_file(file_name = None):
+    global config
+    global models_downloaded
+    config, models_downloaded = pipeline_config.get_user_config(file_name)
+    enabled_views = pipeline_config.log_current_config(config)
+    
+    _init(enabled_views)
+
+def change_config(use_server = None, server_api = None, enable_views = None, disable_views = None):
+    global config
+    pipeline_config.change_temporary_config(config, models_downloaded, enable_views, disable_views, use_server, server_api)
+
+def save_config():
+    pipeline_config.set_current_config(config)
+
+def show_config():
+    pipeline_config.log_current_config(config)
 
 def doc(text="Hello World"):
     """
@@ -35,7 +97,7 @@ def doc(text="Hello World"):
     @param: text, the text to be processed
     @return: TextAnnotation instance of the text
     """
-    response = call_server(text, "POS")
+    response = call_server(text, "TOKENS")
     text_annotation = TextAnnotation(response)
     return text_annotation
 
@@ -109,7 +171,7 @@ def get_stanford_parse(text_annotation):
     @param: text_annotation TextAnnotation instance to get PARSE_STANFORD view from.
     @return: View Instance of the PARSE_STANFORD view.
     """
-    return self.get_view(text_annotation, "PARSE_STANFORD")
+    return get_view(text_annotation, "PARSE_STANFORD")
 
 
 def get_srl_verb(text_annotation):
@@ -170,6 +232,9 @@ def get_view(text_annotation, view_name):
              view_name, the specified view name for sending to pipeline server
     @return: View instance of the requested view
     """
+    if pipeline_config.view_enabled(config, view_name) == False:
+        logger.error('{} not defined or disabled.'.format(view_name))
+        return None
 
     view = text_annotation.get_view(view_name)
     if view is None:

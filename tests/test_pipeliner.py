@@ -7,6 +7,9 @@ from sioux import pipeliner as p
 
 
 class TestPipeliner(unittest.TestCase):
+    def setUp(self):
+        p.init(use_server=True)
+
     def test_tokens(self):
         ta = p.doc("Hello,  how are you.\n\n\n I am doing fine")
         tokens = [
@@ -34,6 +37,9 @@ class TestPipeliner(unittest.TestCase):
 
 
 class TestTextAnnotation(unittest.TestCase):
+    def setUp(self):
+        p.init(use_server=True)
+
     def test_get_views(self):
         ta = p.doc("Hello,  how are you.\n\n\n I am doing fine")
         p.get_pos(ta)
@@ -43,6 +49,9 @@ class TestTextAnnotation(unittest.TestCase):
 
 
 class TestView(unittest.TestCase):
+    def setUp(self):
+        p.init(use_server=True)
+
     def test_print_view(self):
         ta = p.doc("Hello, how are you. I am Bruce Wayne.")
         pos_print = "POS view: (UH Hello) (, ,) (WRB how) (VBP are) (PRP you) (. .) (PRP I) (VBP am) (NNP Bruce) (NNP Wayne) (. .) "
