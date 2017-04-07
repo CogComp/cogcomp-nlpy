@@ -34,6 +34,14 @@ class View:
         if "constituents" in self.view_json["viewData"][0]:
             self.cons_list = []
             for constituent in self.view_json["viewData"][0]["constituents"]:
+                # Labels of TOKENS view will not be recorded when serializing text annotation inot JSON format in pipeline
+                # So there is a statement for handling this 
+                if self.view_name == 'TOKENS':
+                    label = self.tokens[constituent['start']]
+                    for index in range(constituent['start']+1, constituent['end']):
+                        label += ' '
+                        label += self.tokens[index]
+                    constituent['label'] = label
                 self.cons_list.append(constituent)
 
         if self.view_type == "TreeView":
