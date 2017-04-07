@@ -8,7 +8,7 @@ from . import download
 
 logger = logging.getLogger(__name__)
 
-CONFIG_FILENAME = 'pipeline_config.cfg'
+CONFIG_FILENAME = 'config.cfg'
 config_file = None
 
 def get_current_config():
@@ -24,19 +24,6 @@ def get_current_config():
     default_config_file = os.path.join(download.get_root_directory(), CONFIG_FILENAME)
     if models_downloaded:
         default_config_file = os.path.join(download.get_root_directory(), CONFIG_FILENAME)
-        if os.path.exists(default_config_file):
-            config_file = default_config_file
-        # This happens when model is downloaded but haven't been used
-        # such that the config file hasn't been created in the .sioux folder.
-        # In this case, copy config file in the package and turn off 'use_pipeline_server' option
-        else:
-            temp_config = configparser.ConfigParser()
-            with codecs.open(config_file,mode='r',encoding='utf-8') as f:
-                temp_config.read_string(f.read())
-            temp_config['pipeline_setting']['use_pipeline_server'] = 'false'
-            with codecs.open(default_config_file, mode='w', encoding='utf-8') as file:
-                temp_config.write(file)
-
         config_file = default_config_file
     else:
         logger.warn('Models not found, using pipeline web server. To use pipeline locally, please refer the documentation for downloading models.')
