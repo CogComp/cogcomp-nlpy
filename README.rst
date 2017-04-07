@@ -46,7 +46,7 @@ Sioux enables you accesss `CogComp pipeline <https://github.com/CogComp/cogcomp-
 .. figure:: https://cloud.githubusercontent.com/assets/2441454/24818973/49f3507a-1ba8-11e7-8c8f-8ba7d875175a.png
    :scale: 50 %
 
-**A) Use pipeline locally:** In this setting, Sioux will download the trained models and files required to run the pipeline locally. Since everything is run on your machine, it will probably require a lot of memory (the amount depends on which annotations you use). If you have a single big machine (i.e. memory > 15GB) for your expeirments, this is probably a good option for you. 
+**(A) Use pipeline locally:** In this setting, Sioux will download the trained models and files required to run the pipeline locally. Since everything is run on your machine, it will probably require a lot of memory (the amount depends on which annotations you use). If you have a single big machine (i.e. memory > 15GB) for your expeirments, this is probably a good option for you. 
 
 To download the models, run the following command:
 
@@ -54,32 +54,16 @@ To download the models, run the following command:
 
 If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally, with all the annotators disabled.
 
-**B)Use pipeline server:** In this setting, Sioux sends calls to a remote machine. Hence there is not much memory burden on your system. Instead all the heavy-lifting is on the remote server. 
+**(B) Use pipeline server:** In this setting, Sioux sends calls to a remote machine. Hence there is not much memory burden on your system. Instead all the heavy-lifting is on the remote server. 
 
-**B.1)Default remote server:**  This is the deault setting in Sioux. The requests are sent to our remote server, hence requires a network connection. This option is there to demostrate how things work, but it is not a viable solution for your big experiments. If you are a busy nlp user, you have to use any of the other options. 
+**(B.1) Default remote server:**  This is the deault setting in Sioux. The requests are sent to our remote server, hence requires a network connection. This option is there to demostrate how things work, but it is not a viable solution for your big experiments. If you are a busy nlp user, you have to use any of the other options. 
 
-**B.2)Start your own (remote) server:** If you have a big (remote) machine, this is probably a good option for you. 
-
-
-
-Annotators 
----------- 
-This tool is based on CogComp's `pipeline project <https://github.com/IllinoisCogComp/illinois-cogcomp-nlp/tree/master/pipeline>`_. Essentially anything included in the pipeline should be accessible here. 
-Here is a few, as example 
-
-- Tokenizing 
-- Lemmatizing 
-- Part of Spech tagging (POS) 
-- Named Entity Recognition (NER)
-- Semantic Role Labeling (SRL)
-- ...
+**(B.2) Start your own (remote) server:** If you have a big (remote) machine, this is probably a good option for you. 
 
 
-Configuration Options
------------------------------
 By default,
 
-* If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally, with all the annotators disabled.
+* If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally (A), with all the annotators disabled.
 * If you haven't downloaded the models, it will be communicating with a default remote pipeline server. 
 
 If you want to change specific behaviors, such as activating or deactivating specific components, you can specify the parameters while initializing pipeliner module.
@@ -90,8 +74,14 @@ If you want to change specific behaviors, such as activating or deactivating spe
    # function declaration: init(use_server = None, server_api = None, enable_views = None, disable_views = None)
    # user_server will takes True/False, server_api is the address of the server as string
    # enable_views/disable_views will takes a list of strings, each string is the name of the view
+ 
+
+**Note:** This tool is based on CogComp's `pipeline project <https://github.com/IllinoisCogComp/illinois-cogcomp-nlp/tree/master/pipeline>`_. Essentially annotator included in the pipeline should be accessible here. To see the complete list of pipeline annotators have a look into its readme.
+ 
    
-   # Or
+Setting from Configuration file 
+---------------
+
    pipeliner.init_from_file('path_to_custom_config_file')
 
 
@@ -106,17 +96,7 @@ Or call :code:`pipeliner.change_config()` to change the config without initializ
    
    pipeliner.init()
 
-
-Notice that you couldn't turn off using pipeline server option if you haven't downloaded the models because you couldn't set up local pipeline without those models. However, you can change the address of the server using in this case.
-
-And you can choose to save your change on config permanently by calling:
-
-.. code-block:: python
-
-   pipeliner.save_config() # changes will be saved in the file that provides the configs
    
-   
-
 The default keys and values (true/false) when models have been downloaded are specified below. If you want to use custom config file, please provide a file in similar format.
 
 
