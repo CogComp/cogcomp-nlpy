@@ -5,7 +5,7 @@ Sioux
 .. image:: https://semaphoreci.com/api/v1/projects/dc68ab4d-d1b7-4405-adca-b0c6af2e1aa0/1223617/badge.svg
     :target: https://semaphoreci.com/danyaljj/sioux-2
 
-Run NLP tools on your documents in Python with ease and breeze! 
+Run NLP tools such as Part-of-Speech tagging, Chunking, Named Entity Recognition, etc on your documents in Python with ease and breeze! 
 
 Installation
 ------------
@@ -14,11 +14,7 @@ Installation
 
   pip install sioux
 
-3. Download additional models (if required).
-
-  python -m sioux download
-
-4. Enjoy!
+3. Enjoy!
 
 **Note:** The package should be compatible with Python 2.6+ and Python 3.3+
 
@@ -28,11 +24,7 @@ Installation
 
 If you want to upgrade upgrade it on a specific version replace :code:`pip` in the command above with :code:`pip2` or :code:`pip3`. 
 
-Sioux requires trained models to perform NLP tasks such as Part-of-Speech tagging, Chunking, Named Entity Recognition, Semantic Role Labeling etc. To download the models, run the following command:
-
-  python -m sioux download
-
-Usage 
+Getting Started 
 -----------
 Here is a sample usage showing how yeezily you run Sioux: 
 
@@ -45,83 +37,59 @@ Here is a sample usage showing how yeezily you run Sioux:
    print(pipeliner.get_lemma(doc)) # will produce (hello Hello) (, ,) (how how) (be are) (you you) (. .) (i I) (be am) (do doing) (fine fine)
    print(pipeliner.get_pos(doc)) # will produce (UH Hello) (, ,) (WRB how) (VBP are) (PRP you) (. .) (PRP I) (VBP am) (VBG doing) (JJ fine)
 
-Annotators 
----------- 
-This tool is based on CogComp's `pipeline project <https://github.com/IllinoisCogComp/illinois-cogcomp-nlp/tree/master/pipeline>`_. Essentially anything included in the pipeline should be accessible here. 
-Here is a few, as example 
+The default/easy usage has some restrictions as will deliniate in the next section. See the next section to 
 
-- Tokenizing 
-- Lemmatizing 
-- Part of Spech tagging (POS) 
-- Named Entity Recognition (NER)
-- Semantic Role Labeling (SRL)
-- ... 
+Structure   
+----------------------------- 
+Sioux enables you accesss `CogComp pipeline <https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline>`_ in different forms. The figure below summarizes these approaches: 
 
-Loading TextAnnotation
------------------------------
-Documents stored as `TextAnnotation` can be read in the following formats:
+.. figure:: https://cloud.githubusercontent.com/assets/2441454/24818973/49f3507a-1ba8-11e7-8c8f-8ba7d875175a.png
+   :scale: 50 %
 
-- JSON
+**(A) Use pipeline locally:** In this setting, Sioux will download the trained models and files required to run the pipeline locally. Since everything is run on your machine, it will probably require a lot of memory (the amount depends on which annotations you use). If you have a single big machine (i.e. memory > 15GB) for your expeirments, this is probably a good option for you. 
 
-.. code-block:: python
+To download the models, run the following command:
 
-    import sioux
+  python -m sioux download
 
-    doc = sioux.load_document_from_json('text_annotation.json')
-    print(doc.get_views())
+If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally, with all the annotators disabled.
 
-- Protocol Buffers
+**(B) Use pipeline server:** In this setting, Sioux sends calls to a remote machine. Hence there is not much memory burden on your system. Instead all the heavy-lifting is on the remote server. 
 
-.. code-block:: python
+**(B.1) Default remote server:**  This is the deault setting in Sioux. The requests are sent to our remote server, hence requires a network connection. This option is there to demostrate how things work, but it is not a viable solution for your big experiments. If you are a busy nlp user, you have to use any of the other options. 
 
-    import sioux
-
-    doc = sioux.load_document_from_protobuf('text_annotation.pb')
-    print(doc.get_views())
+**(B.2) Start your own (remote) server:** If you have a big (remote) machine, this is probably a good option for you. 
 
 
-Configuration Options
------------------------------
 By default,
 
-* If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally, with all the annotators disabled.
-* If you haven't downloaded the models, it will be communicating with a default remote pipeline server. 
+* If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally (A), with all the annotators disabled.
+* If you haven't downloaded the models, it will be communicating with a default remote pipeline server (B.1). 
 
 If you want to change specific behaviors, such as activating or deactivating specific components, you can specify the parameters while initializing pipeliner module.
 
 .. code-block:: python
    
-   pipeliner.init(enable_views=['POS','LEMMA'])
+   pipeliner.init(enable_views=['POS','LEMMA']) 
    # function declaration: init(use_server = None, server_api = None, enable_views = None, disable_views = None)
-   # user_server will takes True/False, server_api is the address of the server as string
-   # enable_views/disable_views will takes a list of strings, each string is the name of the view
+   # "use_server" will takes True/False. Will use local server (B), if False; otherwise will use the remote server (B). 
+   # "server_api" is the address of the server as string. An example: http://www.fancyUrlName.com:8080
+   # "enable_views" will takes a list of the view names to be used as strings, each string is the name of the view. This parameter is important only if you're using the local pipeline (A). 
+ 
+
+**Note:** This tool is based on CogComp's `pipeline project <https://github.com/IllinoisCogComp/illinois-cogcomp-nlp/tree/master/pipeline>`_. Essentially annotator included in the pipeline should be accessible here. 
+ 
    
-   # Or
+Setting from Configuration file 
+---------------
+You can set settings on how to run Sioux via a local option too, rather than setting it programmatically. 
+Here is how to: 
+
+.. code-block:: python
+
    pipeliner.init_from_file('path_to_custom_config_file')
 
-
-Or call :code:`pipeliner.change_config()` to change the config without initializing pipeline.
-
-.. code-block:: python
-
-   pipeliner.change_config(enable_views=['POS','LEMMA'])
-   # function declaration: init(use_server = None, server_api = None, enable_views = None, disable_views = None)
-   # user_server will takes True/False, server_api is the address of the server as string
-   # enable_views/disable_views will takes a list of strings, each string is the name of the view
    
-   pipeliner.init()
-
-
-Notice that you couldn't turn off using pipeline server option if you haven't downloaded the models because you couldn't set up local pipeline without those models. However, you can change the address of the server using in this case.
-
-And you can choose to save your change on config permanently by calling:
-
-.. code-block:: python
-
-   pipeliner.save_config() # changes will be saved in the file that provides the configs
-   
-   
-
 The default keys and values (true/false) when models have been downloaded are specified below. If you want to use custom config file, please provide a file in similar format.
 
 
@@ -144,8 +112,30 @@ The default keys and values (true/false) when models have been downloaded are sp
     SRL_PREP = false
 
     [pipeline_server]
-    api = ADDRESS_OF_THE_SERVER
+    api = ADDRESS_OF_THE_SERVER # example: http://fancyUrlName.com:8080/
+    
 
+Loading TextAnnotation
+-----------------------------
+Documents stored as `TextAnnotation` can be read in the following formats:
+
+- JSON
+
+.. code-block:: python
+
+    import sioux
+
+    doc = sioux.load_document_from_json('text_annotation.json')
+    print(doc.get_views())
+
+- Protocol Buffers
+
+.. code-block:: python
+
+    import sioux
+
+    doc = sioux.load_document_from_protobuf('text_annotation.pb')
+    print(doc.get_views())
 
 Development
 -----------

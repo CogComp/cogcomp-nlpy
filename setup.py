@@ -7,7 +7,7 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
-VERSION = '0.6.dev0'
+VERSION = '0.7.dev0'
 
 CLASSIFIERS = [
     'Development Status :: 3 - Alpha', 'Intended Audience :: Science/Research',
@@ -37,5 +37,5 @@ setup(
     package_data={'sioux': ['config/*.cfg']},
     classifiers=CLASSIFIERS,
     setup_requires=['pytest-runner'],
-    tests_require=['pytest','mock'],
+    tests_require=['pytest', 'mock'],
     zip_safe=False)
