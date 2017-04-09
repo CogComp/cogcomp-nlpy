@@ -43,7 +43,7 @@ Structure
 ----------------------------- 
 Sioux enables you accesss `CogComp pipeline <https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline>`_ in different forms. The figure below summarizes these approaches: 
 
-.. figure:: https://cloud.githubusercontent.com/assets/2441454/24818973/49f3507a-1ba8-11e7-8c8f-8ba7d875175a.png
+.. figure:: https://cloud.githubusercontent.com/assets/2441454/24839367/ab7368e0-1d1e-11e7-98e9-cfc002a967aa.png
    :scale: 50 %
 
 **(A) Use pipeline locally:** In this setting, Sioux will download the trained models and files required to run the pipeline locally. Since everything is run on your machine, it will probably require a lot of memory (the amount depends on which annotations you use). If you have a single big machine (i.e. memory > 15GB) for your expeirments, this is probably a good option for you. 
