@@ -15,7 +15,7 @@ from .download import get_model_path
 from . import pipeline_config
 
 REQUIRED_JAVA_VERSION = 1.8
-WEB_SERVER_SUBFIX = '/anntate'
+WEB_SERVER_SUBFIX = '/annotate'
 
 logger = logging.getLogger(__name__)
 
