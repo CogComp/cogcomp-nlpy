@@ -15,7 +15,7 @@ from .download import get_model_path
 from . import pipeline_config
 
 REQUIRED_JAVA_VERSION = 1.8
-WEB_SERVER_SUBFIX = '/annotate'
+WEB_SERVER_SUFFIX = '/annotate'
 
 logger = logging.getLogger(__name__)
 
@@ -255,7 +255,7 @@ def call_server(text, views):
     """
     if pipeline is None:
         data = {'text': text, 'views': views}
-        return requests.post(url+WEB_SERVER_SUBFIX, data).text
+        return requests.post(url+WEB_SERVER_SUFFIX, data).text
     else:
         view_list = views.split(',')
         text_annotation = pipeline.createBasicTextAnnotation("", "", text)

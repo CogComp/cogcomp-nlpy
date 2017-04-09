@@ -34,7 +34,7 @@ class View:
         if "constituents" in self.view_json["viewData"][0]:
             self.cons_list = []
             for constituent in self.view_json["viewData"][0]["constituents"]:
-                # Labels of TOKENS view will not be recorded when serializing text annotation inot JSON format in pipeline
+                # Labels of TOKENS view will not be recorded when serializing text annotation in JSON format in pipeline
                 # So there is a statement for handling this 
                 if self.view_name == 'TOKENS':
                     label = self.tokens[constituent['start']]
