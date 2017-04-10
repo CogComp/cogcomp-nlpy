@@ -43,7 +43,7 @@ Structure
 ----------------------------- 
 Sioux enables you accesss `CogComp pipeline <https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline>`_ in different forms. The figure below summarizes these approaches: 
 
-.. figure:: https://cloud.githubusercontent.com/assets/2441454/24818973/49f3507a-1ba8-11e7-8c8f-8ba7d875175a.png
+.. figure:: https://cloud.githubusercontent.com/assets/2441454/24839367/ab7368e0-1d1e-11e7-98e9-cfc002a967aa.png
    :scale: 50 %
 
 **(A) Use pipeline locally:** In this setting, Sioux will download the trained models and files required to run the pipeline locally. Since everything is run on your machine, it will probably require a lot of memory (the amount depends on which annotations you use). If you have a single big machine (i.e. memory > 15GB) for your expeirments, this is probably a good option for you. 
@@ -59,6 +59,8 @@ If you have downloaded the models through command :code:`python -m sioux downloa
 **(B.1) Default remote server:**  This is the deault setting in Sioux. The requests are sent to our remote server, hence requires a network connection. This option is there to demostrate how things work, but it is not a viable solution for your big experiments. If you are a busy nlp user, you have to use any of the other options. 
 
 **(B.2) Start your own (remote) server:** If you have a big (remote) machine, this is probably a good option for you. 
+You'll have to read the instructions on how to install the pipeline server in the [pipeline project documentation](https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline#using-pipeline-webserver). In summary, you have to clone our ["Cogconp-NLP"](https://github.com/CogComp/cogcomp-nlp/) java project, and run `pipeline/scripts/runWebserver.sh` to initiates the server
+
 
 
 By default,
