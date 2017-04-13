@@ -1,6 +1,11 @@
 import json
+import logging
+
 from .view import *
 from .predicate_argument_view import *
+
+logger = logging.getLogger(__name__)
+
 '''
     For now, this class is implemented as an indirect type
     All the functions can (should) be called indirectly by functions in Pipeliner class
@@ -34,8 +39,6 @@ class TextAnnotation:
         full_type = view["viewData"][0]["viewType"]
         split_by_period = full_type.split(".")
         view_type = split_by_period[len(split_by_period) - 1]
-        print(view_type)
-        print(view_type == 'PredicateArgumentView')
         if view_type == 'PredicateArgumentView':
             return PredicateArgumentView(view, self.tokens)
         else: 
@@ -62,7 +65,7 @@ class TextAnnotation:
             if len(view_constituents) <= 1:
                 print("Invalid view name, please check.")
             else:
-                print("The view is the collection of the following views: {0}".format(view_constituents))
+                logger.info("The view is the collection of the following views: {0}".format(view_constituents))
                 self.view_dictionary[name] = view_constituents
         return requested_view
 
@@ -71,7 +74,7 @@ class TextAnnotation:
             if type(self.view_dictionary[view_name]) != type([]):
                 return self.view_dictionary[view_name]
             else:
-                print("The view is the collection of the following views: {0}".format(self.view_dictionary[view_name]))
+                logger.info("The view is the collection of the following views: {0}".format(self.view_dictionary[view_name]))
                 return None
         else:
             return None
