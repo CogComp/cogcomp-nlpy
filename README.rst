@@ -9,12 +9,17 @@ Run NLP tools such as Part-of-Speech tagging, Chunking, Named Entity Recognition
 
 Installation
 ------------
+
 1. Make sure `you have "pip" on your system <https://pip.pypa.io/en/stable/installing/>`_. 
-2. Install: 
+2. Make sure you have installed Cython:
+
+  pip install cython
+
+3. Install: 
 
   pip install sioux
 
-3. Enjoy!
+4. Enjoy!
 
 **Note:** The package should be compatible with Python 2.6+ and Python 3.3+
 
