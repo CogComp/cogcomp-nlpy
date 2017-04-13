@@ -1,5 +1,6 @@
 import json
 from .view import *
+from .predicate_argument_view import *
 '''
     For now, this class is implemented as an indirect type
     All the functions can (should) be called indirectly by functions in Pipeliner class
@@ -27,7 +28,18 @@ class TextAnnotation:
 
         self.view_dictionary = {}
         for view in result_json["views"]:
-            self.view_dictionary[view["viewName"]] = View(view, self.tokens)
+            self.view_dictionary[view["viewName"]] = self._view_builder(view)
+
+    def _view_builder(self, view):
+        full_type = view["viewData"][0]["viewType"]
+        split_by_period = full_type.split(".")
+        view_type = split_by_period[len(split_by_period) - 1]
+        print(view_type)
+        print(view_type == 'PredicateArgumentView')
+        if view_type == 'PredicateArgumentView':
+            return PredicateArgumentView(view, self.tokens)
+        else: 
+            return View(view, self.tokens)
 
     # Functions to manipulate the views on text annotation
 
@@ -42,7 +54,7 @@ class TextAnnotation:
             name = view["viewName"]
             view_constituents.append(name)
             if view["viewName"] not in self.view_dictionary:
-                self.view_dictionary[name] = View(view, self.tokens)
+                self.view_dictionary[name] = self._view_builder(view)
         
         requested_view = self.get_view(view_name)
         if requested_view is None:
