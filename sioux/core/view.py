@@ -6,7 +6,7 @@ import json
 '''
 
 
-class View:
+class View(object):
     def __str__(self):
         constituent_label_string = ""
         if self.cons_list is None:
@@ -44,10 +44,10 @@ class View:
                     constituent['label'] = label
                 self.cons_list.append(constituent)
 
-        if self.view_type == "TreeView":
+        if "relations" in self.view_json["viewData"][0]:
             self.relation_array = []
             for relation in self.view_json["viewData"][0]["relations"]:
-                self.relation_array.append(relation["relationName"])
+                self.relation_array.append(relation)
 
     def get_view_type(self):
         """
@@ -146,11 +146,11 @@ class View:
         @return: list of relations if position is not given,
                  otherwise return a list contains the relation at specified position
         """
-        if self.view_type != "TreeView":
+        if self.relation_array is None:
             print("This view does not support relations")
             return None
         else:
-            if position is not None and 0 <= postion < len(
+            if position is not None and 0 <= position < len(
                     self.relation_array):
                 return [self.relation_array[position]]
             else:
