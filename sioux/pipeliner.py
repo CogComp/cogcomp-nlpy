@@ -49,16 +49,13 @@ def _init(enabled_views):
         return
 
     if enabled_views is not None:
-        version = subprocess.check_output(['java', '-version'], stderr=subprocess.STDOUT)
-        pattern = '\"(\d+\.\d+).*\"'
-        user_java_version = float(re.search(pattern, version).groups()[0])
-        if user_java_version < REQUIRED_JAVA_VERSION:
-            logger.error('Your Java version is {0}, it needs to be {1} or higher to run local pipeline.'.format(user_java_version, REQUIRED_JAVA_VERSION))
-            return
-
         from jnius import autoclass
-        PipelineFactory = autoclass('edu.illinois.cs.cogcomp.pipeline.main.PipelineFactory')
-        SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
+        try:
+            PipelineFactory = autoclass('edu.illinois.cs.cogcomp.pipeline.main.PipelineFactory')
+            SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
+        except:
+            logger.error('Fail to load models, please check if your Java version is up to date.')
+            return
         if len(enabled_views) == 0:
             pipeline = PipelineFactory.buildPipeline()
         else:
