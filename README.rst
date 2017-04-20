@@ -57,14 +57,15 @@ To download the models, run the following command:
 
   python -m sioux download
 
-If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally, with all the annotators disabled.
+If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally, with all the annotators disabled. This will downlaod model files into your home directly under `~/.sioux/`. 
+You can verify this in Sioux's config file: `less ~/.sioux/config.cfg`. 
 
 **(B) Use pipeline server:** In this setting, Sioux sends calls to a remote machine. Hence there is not much memory burden on your system. Instead all the heavy-lifting is on the remote server. 
 
 **(B.1) Default remote server:**  This is the deault setting in Sioux. The requests are sent to our remote server, hence requires a network connection. This option is there to demostrate how things work, but it is not a viable solution for your big experiments. If you are a busy nlp user, you have to use any of the other options. 
 
 **(B.2) Start your own (remote) server:** If you have a big (remote) machine, this is probably a good option for you. 
-You'll have to read the instructions on how to install the pipeline server in the `pipeline project documentation <https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline#using-pipeline-webserver>`_. In summary, you have to clone our  `Cogconp-NLP <https://github.com/CogComp/cogcomp-nlp/>`_ java project, and run :code:`pipeline/scripts/runWebserver.sh` to start the server
+You'll have to read the instructions on how to install the pipeline server in the `pipeline project documentation <https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline#using-pipeline-webserver>`_. In summary, you have to clone our  `Cogcomp-NLP <https://github.com/CogComp/cogcomp-nlp/>`_ java project, and run :code:`pipeline/scripts/runWebserver.sh` to start the server
 
 
 
@@ -84,8 +85,9 @@ If you want to change specific behaviors, such as activating or deactivating spe
    # "enable_views" will takes a list of the view names to be used as strings, each string is the name of the view. This parameter is important only if you're using the local pipeline (A). 
  
 
-**Note:** This tool is based on CogComp's `pipeline project <https://github.com/IllinoisCogComp/illinois-cogcomp-nlp/tree/master/pipeline>`_. Essentially annotator included in the pipeline should be accessible here. 
+**Note:** This tool is based on CogComp's `pipeline project <https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline>`_. Essentially annotator included in the pipeline should be accessible here. 
  
+**Note:** To use the pipelne locally (A) you have to make sure you have set `JAVA_HOME` variable. In MacOS, you can verify it with `echo "$JAVA_HOME"`. If it is not set, you can `export JAVA_HOME=$(/usr/libexec/java_home)`. 
    
 Setting from Configuration file 
 ---------------
@@ -149,7 +151,7 @@ Development
 
 For installing this package from Github repository, simply do::
 
-  >>> pip install git+https://github.com/IllinoisCogComp/sioux.git
+  >>> pip install git+https://github.com/CogComp/sioux.git
 
 To build your code::
   

@@ -10,7 +10,7 @@ class View(object):
     def __str__(self):
         constituent_label_string = ""
         if self.cons_list is None:
-            constituent_label_string = "this view does not have constituents on the text"
+            constituent_label_string = "this view does not have constituents in your input text. "
         else:
             tokens = self.get_cons(position=None, key="token")
             labels = self.get_cons(position=None, key="label")
@@ -84,7 +84,7 @@ class View(object):
 
         """
         if self.cons_list is None:
-            print("This view does not have constituents on the text")
+            print("This view does not have constituents in your input text")
             return None
 
         if key is None:
