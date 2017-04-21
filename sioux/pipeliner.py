@@ -10,10 +10,13 @@ import subprocess
 
 from backports.configparser import RawConfigParser
 
+from google.protobuf import json_format
+from .protobuf import TextAnnotation_pb2
 from .core.text_annotation import *
 from .download import get_model_path
 from . import pipeline_config
 
+DEFAULT_CONFIG_ROOT_DIRECTORY = "~{0}.sioux{0}".format(os.path.sep)
 REQUIRED_JAVA_VERSION = 1.8
 WEB_SERVER_SUFFIX = '/annotate'
 
@@ -31,6 +34,8 @@ url = config['pipeline_server']['api']
 pipeline = None
 PipelineFactory = None
 SerializationHelper = None
+ProtobufSerializer = None
+String = None
 model_dir = get_model_path() + '/*'
 
 import jnius_config
@@ -42,6 +47,8 @@ pipeline_config.log_current_config(config)
 def _init(enabled_views):
     global PipelineFactory
     global SerializationHelper
+    global ProtobufSerializer
+    global String
     global pipeline
 
     if pipeline is not None:
@@ -53,6 +60,8 @@ def _init(enabled_views):
         try:
             PipelineFactory = autoclass('edu.illinois.cs.cogcomp.pipeline.main.PipelineFactory')
             SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
+            ProtobufSerializer = autoclass('edu.illinois.cs.cogcomp.core.utilities.protobuf.ProtobufSerializer')
+            String = autoclass('java.lang.String')
         except:
             logger.error('Fail to load models, please check if your Java version is up to date.')
             return
@@ -258,5 +267,18 @@ def call_server(text, views):
         text_annotation = pipeline.createBasicTextAnnotation("", "", text)
         for view in view_list:
             pipeline.addView(text_annotation, view.strip())
-        return SerializationHelper.serializeToJson(text_annotation);
+        #json = SerializationHelper.serializeToJson(text_annotation)
+
+        path = os.path.expanduser('~') + "{0}.sioux{0}".format(os.path.sep) + 'temp.temp'
+
+        ProtobufSerializer.writeToFile(text_annotation,path)
+        proto_data = None
+        with open(path, 'rb') as f:
+            proto_data = f.read()
+
+        message = TextAnnotation_pb2.TextAnnotationProto()
+        message.ParseFromString(proto_data)
+        proto_to_json = json_format.MessageToJson(message)
+
+        return proto_to_json
 
