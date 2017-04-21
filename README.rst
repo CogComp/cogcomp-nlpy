@@ -7,7 +7,7 @@ Sioux
 .. image:: https://img.shields.io/badge/%3E%3E%3E-Api%20Docs-brightgreen.svg
     :target: http://cogcomp.cs.illinois.edu/software/doc/sioux/
 
-Run NLP tools such as Part-of-Speech tagging, Chunking, Named Entity Recognition, etc on your documents in Python with ease and breeze! 
+Run NLP tools such as Part-of-Speech tagging, Chunking, Named Entity Recognition, etc on your documents in Python with ease and breeze!
 
 Installation
 ------------
@@ -15,11 +15,11 @@ Installation
 1. Make sure `you have "pip" on your system <https://pip.pypa.io/en/stable/installing/>`_. 
 2. Make sure you have installed Cython:
 
-  pip install cython
+    pip install cython
 
-3. Install: 
+3. Install:
 
-  pip install sioux
+    pip install sioux
 
 4. Enjoy!
 
@@ -32,7 +32,7 @@ Installation
 If you want to upgrade upgrade it on a specific version replace :code:`pip` in the command above with :code:`pip2` or :code:`pip3`. 
 
 Getting Started 
------------
+---------------
 Here is a sample usage showing how yeezily you run Sioux: 
 
 .. code-block:: python
@@ -71,8 +71,6 @@ You can verify this in Sioux's config file: `less ~/.sioux/config.cfg`.
 **(B.2) Start your own (remote) server:** If you have a big (remote) machine, this is probably a good option for you. 
 You'll have to read the instructions on how to install the pipeline server in the `pipeline project documentation <https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline#using-pipeline-webserver>`_. In summary, you have to clone our  `Cogcomp-NLP <https://github.com/CogComp/cogcomp-nlp/>`_ java project, and run :code:`pipeline/scripts/runWebserver.sh` to start the server
 
-
-
 By default,
 
 * If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally (A), with all the annotators disabled.
@@ -94,7 +92,7 @@ If you want to change specific behaviors, such as activating or deactivating spe
 **Note:** To use the pipelne locally (A) you have to make sure you have set `JAVA_HOME` variable. In MacOS, you can verify it with `echo "$JAVA_HOME"`. If it is not set, you can `export JAVA_HOME=$(/usr/libexec/java_home)`. 
    
 Setting from Configuration file 
----------------
+-------------------------------
 You can set settings on how to run Sioux via a local option too, rather than setting it programmatically. 
 Here is how to: 
 
@@ -129,7 +127,7 @@ The default keys and values (true/false) when models have been downloaded are sp
     
 
 Questions/Suggestions/Comments 
--------------- 
+------------------------------
 Use comments or pull requests. 
 
 About the name 

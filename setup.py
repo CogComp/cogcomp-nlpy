@@ -1,13 +1,12 @@
 import os
 from setuptools import setup, find_packages
 
-
 # Utility method to read the README.rst file.
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-
-VERSION = '0.8.0'
+import version
+VERSION = version.__version__
 
 CLASSIFIERS = [
     'Development Status :: 3 - Alpha', 'Intended Audience :: Science/Research',

@@ -1,5 +1,5 @@
 Additional Notes for Developers
-==============================
+===============================
 
 Loading TextAnnotation
 -----------------------------
@@ -47,3 +47,13 @@ The `pytest` command discovers all unit tests and runs them against the installe
 
 **Note**: Do not create *__init__.py* files inside the *tests/* directory. `Read more. <http://doc.pytest.org/en/latest/goodpractices.html>`_
 
+Versionining
+------------
+
+We use the `bumpversion <https://github.com/peritus/bumpversion>`_ python plugin to increment package version. Package version information is stored in `sioux/version.py`.
+
+Update version using the following command in the root directory. Replace <part> with `patch`, `minor` or `major` accordingly.
+
+  >>> bumpversion <part> sioux/version.py
+
+Note: The bumpversion command also creates a commit with the version change. You can run it with a :code:`--dry-run --verbose` option to verify changes.

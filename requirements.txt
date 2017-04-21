@@ -8,3 +8,4 @@ six
 yapf
 Cython
 jnius_indra
+bumpversion
