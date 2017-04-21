@@ -1,9 +1,11 @@
-Sioux 
+Sioux
 ====================
 .. image:: http://morgoth.cs.illinois.edu:8080/buildStatus/icon?job=python-utils
     :target: http://morgoth.cs.illinois.edu:8080/job/python-utils/
 .. image:: https://semaphoreci.com/api/v1/projects/dc68ab4d-d1b7-4405-adca-b0c6af2e1aa0/1223617/badge.svg
     :target: https://semaphoreci.com/danyaljj/sioux-2
+.. image:: https://img.shields.io/badge/%3E%3E%3E-Api%20Docs-brightgreen.svg
+    :target: http://cogcomp.cs.illinois.edu/software/doc/sioux/
 
 Run NLP tools such as Part-of-Speech tagging, Chunking, Named Entity Recognition, etc on your documents in Python with ease and breeze! 
 
@@ -43,6 +45,8 @@ Here is a sample usage showing how yeezily you run Sioux:
    print(pipeliner.get_pos(doc)) # will produce (UH Hello) (, ,) (WRB how) (VBP are) (PRP you) (. .) (PRP I) (VBP am) (VBG doing) (JJ fine)
 
 The default/easy usage has some restrictions as will deliniate in the next section. See the next section to 
+
+**Api Docs:** Here is the `API docs <http://cogcomp.cs.illinois.edu/software/doc/sioux/pipeliner.m.html>`_ of our `Pipeliner` module.
 
 Structure   
 ----------------------------- 
@@ -123,52 +127,6 @@ The default keys and values (true/false) when models have been downloaded are sp
     [pipeline_server]
     api = ADDRESS_OF_THE_SERVER # example: http://fancyUrlName.com:8080/
     
-
-Loading TextAnnotation
------------------------------
-Documents stored as `TextAnnotation` can be read in the following formats:
-
-- JSON
-
-.. code-block:: python
-
-    import sioux
-
-    doc = sioux.load_document_from_json('text_annotation.json')
-    print(doc.get_views())
-
-- Protocol Buffers
-
-.. code-block:: python
-
-    import sioux
-
-    doc = sioux.load_document_from_protobuf('text_annotation.pb')
-    print(doc.get_views())
-
-Development
------------
-
-For installing this package from Github repository, simply do::
-
-  >>> pip install git+https://github.com/CogComp/sioux.git
-
-To build your code::
-  
-  >>> python setup.py build
-
-To test your code (runs against modules in the repository)::
-  
-  >>> python setup.py test
-
-To install package locally and run the test::
-
-  >>> pip install .
-  >>> pytest
-  
-The `pytest` command discovers all unit tests and runs them against the installed `sioux` package.
-
-**Note**: Do not create *__init__.py* files inside the *tests/* directory. `Read more. <http://doc.pytest.org/en/latest/goodpractices.html>`_
 
 Questions/Suggestions/Comments 
 -------------- 
