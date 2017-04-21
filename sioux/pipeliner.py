@@ -118,8 +118,8 @@ def get_score(text_annotation):
     return text_annotation.get_score()
 
 
-def get_end_pos(text_annotation):
-    return text_annotation.get_end_pos()
+def get_sentence_end_positions(text_annotation):
+    return text_annotation.get_sentence_end_positions()
 
 
 def get_pos(text_annotation):

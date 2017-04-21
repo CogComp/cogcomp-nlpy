@@ -20,7 +20,7 @@ class TestPipeliner(unittest.TestCase):
     def test_end_pos(self):
         ta = p.doc("Hello,  how are you.\n\n\n I am doing fine")
         testarr = [6, 10]
-        self.assertEqual(p.get_end_pos(ta), testarr)
+        self.assertEqual(p.get_sentence_end_positions(ta), testarr)
 
     def test_score(self):
         ta = p.doc("Hello,  how are you.\n\n\n I am doing fine")

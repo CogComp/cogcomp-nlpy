@@ -37,7 +37,7 @@ Here is a sample usage showing how yeezily you run Sioux:
 
    from sioux import pipeliner
 
-   pipeliner.init()
+   pipeliner.init(enable_views=['POS','LEMMA'])
    doc = pipeliner.doc("Hello, how are you. I am doing fine")
    print(pipeliner.get_lemma(doc)) # will produce (hello Hello) (, ,) (how how) (be are) (you you) (. .) (i I) (be am) (do doing) (fine fine)
    print(pipeliner.get_pos(doc)) # will produce (UH Hello) (, ,) (WRB how) (VBP are) (PRP you) (. .) (PRP I) (VBP am) (VBG doing) (JJ fine)
