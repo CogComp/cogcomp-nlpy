@@ -46,7 +46,7 @@ Here is a sample usage showing how yeezily you run Sioux:
 
 The default/easy usage has some restrictions as will deliniate in the next section. See the next section to 
 
-** Api Docs** Here is the `API docs <http://cogcomp.cs.illinois.edu/software/doc/sioux/pipeliner.m.html>`_ of our `Pipeliner` module.
+**Api Docs:** Here is the `API docs <http://cogcomp.cs.illinois.edu/software/doc/sioux/pipeliner.m.html>`_ of our `Pipeliner` module.
 
 Structure   
 ----------------------------- 
