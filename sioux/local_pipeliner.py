@@ -37,11 +37,14 @@ class LocalPipeliner(BasicPipeliner):
                 self.String = autoclass('java.lang.String')
             except:
                 logger.error('Fail to load models, please check if your Java version is up to date.')
-                return
+                return None
             if len(enabled_views) == 0:
                 self.pipeline = self.PipelineFactory.buildPipeline()
             else:
                 self.pipeline = self.PipelineFactory.buildPipeline(*enabled_views)
+        else:
+            logger.error("Error encountered when setting up pipeline")
+            return None
 
         logger.info("pipeline has been set up")
 

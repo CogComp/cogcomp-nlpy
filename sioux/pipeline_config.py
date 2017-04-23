@@ -25,7 +25,7 @@ def get_current_config():
         default_config_file = os.path.join(download.get_root_directory(), CONFIG_FILENAME)
         config_file = default_config_file
     else:
-        logger.warn('Models not found, using pipeline web server. To use pipeline locally, please refer the documentation for downloading models.')
+        logger.warn('Models not found. To use pipeline locally, please refer the documentation for downloading models.')
 
     with codecs.open(config_file,mode='r',encoding='utf-8') as f:
         config.read_string(f.read())
@@ -73,7 +73,8 @@ def change_temporary_config(config, models_downloaded, enable_views, disable_vie
                 config['pipeline_setting']['use_pipeline_server'] = 'true'
     else:
         if use_server == False:
-            logger.warn('Tried to use local pipeline while models have not been downloaded, turn on using pipeline web server')
+            logger.warn('Tried to use local pipeline while models have not been downloaded. Please download models or use remote pipeliner instead.')
+            return None
     return log_current_config(config)
 
 def set_current_config(config):
