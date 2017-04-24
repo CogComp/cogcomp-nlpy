@@ -37,9 +37,9 @@ Here is a sample usage showing how yeezily you run Sioux:
 
 .. code-block:: python
 
-   from sioux import local_pipeline
+   from sioux import remote_pipeline
 
-   pipeline = local_pipeline.LocalPipeline(enable_views=['POS','LEMMA'])
+   pipeline = remote_pipeline.RemotePipeline()
    doc = pipeline.doc("Hello, how are you. I am doing fine")
    print(pipeline.get_lemma(doc)) # will produce (hello Hello) (, ,) (how how) (be are) (you you) (. .) (i I) (be am) (do doing) (fine fine)
    print(pipeline.get_pos(doc)) # will produce (UH Hello) (, ,) (WRB how) (VBP are) (PRP you) (. .) (PRP I) (VBP am) (VBG doing) (JJ fine)
