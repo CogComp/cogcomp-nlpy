@@ -94,5 +94,5 @@ class TextAnnotation:
     def get_score(self):
         return self.score
 
-    def get_end_pos(self):
+    def get_sentence_end_token_indices(self):
         return self.sentence_end_position

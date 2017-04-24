@@ -37,12 +37,12 @@ Here is a sample usage showing how yeezily you run Sioux:
 
 .. code-block:: python
 
-   from sioux import pipeliner
+   from sioux import remote_pipeline
 
-   pipeliner.init()
-   doc = pipeliner.doc("Hello, how are you. I am doing fine")
-   print(pipeliner.get_lemma(doc)) # will produce (hello Hello) (, ,) (how how) (be are) (you you) (. .) (i I) (be am) (do doing) (fine fine)
-   print(pipeliner.get_pos(doc)) # will produce (UH Hello) (, ,) (WRB how) (VBP are) (PRP you) (. .) (PRP I) (VBP am) (VBG doing) (JJ fine)
+   pipeline = remote_pipeline.RemotePipeline()
+   doc = pipeline.doc("Hello, how are you. I am doing fine")
+   print(pipeline.get_lemma(doc)) # will produce (hello Hello) (, ,) (how how) (be are) (you you) (. .) (i I) (be am) (do doing) (fine fine)
+   print(pipeline.get_pos(doc)) # will produce (UH Hello) (, ,) (WRB how) (VBP are) (PRP you) (. .) (PRP I) (VBP am) (VBG doing) (JJ fine)
 
 The default/easy usage has some restrictions as will deliniate in the next section. See the next section to 
 
@@ -76,16 +76,27 @@ By default,
 * If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally (A), with all the annotators disabled.
 * If you haven't downloaded the models, it will be communicating with a default remote pipeline server (B.1). 
 
-If you want to change specific behaviors, such as activating or deactivating specific components, you can specify the parameters while initializing pipeliner module.
+If you want to change specific behaviors, such as activating or deactivating specific components, you can specify the parameters while initializing local/remote pipeline module.
 
 .. code-block:: python
-   
-   pipeliner.init(enable_views=['POS','LEMMA']) 
-   # function declaration: init(use_server = None, server_api = None, enable_views = None, disable_views = None)
-   # "use_server" will takes True/False. Will use local server (B), if False; otherwise will use the remote server (B). 
-   # "server_api" is the address of the server as string. An example: http://www.fancyUrlName.com:8080
+
+   from sioux import local_pipeline
+   pipeline = local_pipeline.LocalPipeline(enable_views=['POS','LEMMA']) 
+   # constructor declaration: LocalPipeline(enable_views = None, disable_views = None, file_name = None)
    # "enable_views" will takes a list of the view names to be used as strings, each string is the name of the view. This parameter is important only if you're using the local pipeline (A). 
- 
+   # "file_name" is the config file used to set up pipeline (optional), please refer the latter section for more details
+
+   
+
+
+.. code-block:: python
+
+   from sioux import remote_pipeline
+   pipeline = remote_pipeline.RemotePipeline(server_api='http://www.fancyUrlName.com:8080') 
+   # constructor declaration: RemotePipeline(server_api = None, file_name = None)
+   # "server_api" is the address of the server as string. An example: http://www.fancyUrlName.com:8080
+   # "file_name" is the config file used to set up pipeline (optional), please refer the latter section for more details
+
 
 **Note:** This tool is based on CogComp's `pipeline project <https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline>`_. Essentially annotator included in the pipeline should be accessible here. 
  
@@ -98,7 +109,8 @@ Here is how to:
 
 .. code-block:: python
 
-   pipeliner.init_from_file('path_to_custom_config_file')
+   from sioux import local_pipeline
+   pipeline = local_pipeline.LocalPipeline(file_name = 'path_to_custom_config_file')
 
    
 The default keys and values (true/false) when models have been downloaded are specified below. If you want to use custom config file, please provide a file in similar format.

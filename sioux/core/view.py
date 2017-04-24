@@ -48,6 +48,21 @@ class View(object):
             self.relation_array = []
             for relation in self.view_json["viewData"][0]["relations"]:
                 self.relation_array.append(relation)
+            self._link_constituents()
+
+    def _link_constituents(self):
+        # Building connection between constituents based on relation
+        # This function will be called only when relations exist
+        for relation_index in range(len(self.relation_array)):
+            relation = self.relation_array[relation_index]
+            src = self.cons_list[relation['srcConstituent']]
+            target = self.cons_list[relation['targetConstituent']]
+            if 'outgoing_relations' not in src:
+                src['outgoing_relations'] = []
+            if 'incoming_relations' not in target:
+                target['incoming_relations'] = []
+            src['outgoing_relations'].append(relation_index)
+            target['incoming_relations'].append(relation_index)
 
     def get_view_type(self):
         """
