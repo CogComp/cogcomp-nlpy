@@ -6,7 +6,7 @@ import logging
 
 from backports.configparser import RawConfigParser
 
-from .basic_pipeliner import *
+from .pipeline_base import *
 from google.protobuf import json_format
 from .protobuf import TextAnnotation_pb2
 from .core.text_annotation import *
@@ -15,14 +15,18 @@ from . import pipeline_config
 
 logger = logging.getLogger(__name__)
 
-class LocalPipeliner(BasicPipeliner):
+class LocalPipeline(PipelineBase):
     def __init__(self, enable_views=None, disable_views=None, file_name = None):
-        super(LocalPipeliner,self).__init__(file_name)
+        """
+        Constructor to set up local pipeline
+        """
+        super(LocalPipeline,self).__init__(file_name)
 
         self.PipelineFactory = None
         self.pipeline = None
         self.ProtobufSerializer = None
 
+        # retrieve enabled_views to set up pipeline
         enabled_views = pipeline_config.change_temporary_config(self.config, self.models_downloaded, enable_views, disable_views, False, None)
 
         if enabled_views is not None:
@@ -38,10 +42,7 @@ class LocalPipeliner(BasicPipeliner):
             except:
                 logger.error('Fail to load models, please check if your Java version is up to date.')
                 return None
-            if len(enabled_views) == 0:
-                self.pipeline = self.PipelineFactory.buildPipeline()
-            else:
-                self.pipeline = self.PipelineFactory.buildPipeline(*enabled_views)
+            self.pipeline = self.PipelineFactory.buildPipeline(*enabled_views)
         else:
             logger.error("Error encountered when setting up pipeline")
             return None

@@ -6,7 +6,7 @@ import logging
 
 from backports.configparser import RawConfigParser
 
-from .basic_pipeliner import *
+from .pipeline_base import *
 from google.protobuf import json_format
 from .protobuf import TextAnnotation_pb2
 from .core.text_annotation import *
@@ -17,10 +17,14 @@ WEB_SERVER_SUFFIX = '/annotate'
 
 logger = logging.getLogger(__name__)
 
-class RemotePipeliner(BasicPipeliner):
+class RemotePipeline(PipelineBase):
     def __init__(self, server_api=None, file_name=None):
-        super(RemotePipeliner,self).__init__(file_name)
+        """
+        Constructor to set up remote pipeline
+        """
+        super(RemotePipeline,self).__init__(file_name)
 
+        # reroute to new API if user provides one
         pipeline_config.change_temporary_config(self.config, self.models_downloaded, None, None, True, server_api)
         self.url = self.config['pipeline_server']['api']
 
