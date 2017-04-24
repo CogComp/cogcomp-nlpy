@@ -4,11 +4,11 @@ import os
 
 #sys.path.insert(0,'/path/to/mod_directory')
 #from sioux import pipeliner as p
-from sioux import remote_pipeliner
+from sioux import remote_pipeline
 
 class TestView(unittest.TestCase):
     def setUp(self):
-        self.rp = remote_pipeliner.RemotePipeliner()
+        self.rp = remote_pipeline.RemotePipeline()
 
     def test_print_view(self):
         ta = self.rp.doc("Hello, how are you. I am Bruce Wayne.")
