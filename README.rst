@@ -55,7 +55,7 @@ Sioux enables you accesss `CogComp pipeline <https://github.com/CogComp/cogcomp-
 .. figure:: https://cloud.githubusercontent.com/assets/2441454/25446100/0e06d190-2a76-11e7-9438-f9a9bde717e0.png
    :scale: 50 %
 
-The figure above should give a summary of possible usages, as well as their pros and cons. Next we will go through each other and elaborate: 
+The figure above gives a summary of possible usages, as well as their pros and cons. Next we will go through each item and elaborate: 
 
 Local Pipeline 
 ~~~~~~~~~~~~~~~~~~~~~~
