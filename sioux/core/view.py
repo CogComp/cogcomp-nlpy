@@ -19,6 +19,18 @@ class View(object):
                     i] + ") "
         return self.view_name + " view: " + constituent_label_string
 
+    def __iter__(self):
+        index = 0
+        while index < len(self.cons_list):
+            yield self.cons_list[index]
+            index += 1
+
+    def __getitem__(self, index):
+        return self.cons_list[index]
+
+    def __len__(self):
+        return len(self.cons_list)
+
     def __init__(self, view, tokens):
         self.view_name = view["viewName"]
         self.view_json = view  #could be removed
@@ -36,12 +48,13 @@ class View(object):
             for constituent in self.view_json["viewData"][0]["constituents"]:
                 # Labels of TOKENS view will not be recorded when serializing text annotation in JSON format in pipeline
                 # So there is a statement for handling this 
+                cons_tokens = self.tokens[constituent['start']]
+                for index in range(constituent['start']+1, constituent['end']):
+                    cons_tokens += ' '
+                    cons_tokens += self.tokens[index]
                 if self.view_name == 'TOKENS':
-                    label = self.tokens[constituent['start']]
-                    for index in range(constituent['start']+1, constituent['end']):
-                        label += ' '
-                        label += self.tokens[index]
-                    constituent['label'] = label
+                    constituent['label'] = cons_tokens
+                constituent['tokens'] = cons_tokens
                 self.cons_list.append(constituent)
 
         if "relations" in self.view_json["viewData"][0]:
