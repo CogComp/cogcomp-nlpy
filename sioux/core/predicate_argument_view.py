@@ -10,19 +10,6 @@ class PredicateArgumentView(View):
 
         self.predicates = []
 
-        # Building connection between constituents based on relation
-        # Assuming that relations exist, otherwise this __init__ should not be called
-        for relation_index in range(len(self.relation_array)):
-            relation = self.relation_array[relation_index]
-            src = self.cons_list[relation['srcConstituent']]
-            target = self.cons_list[relation['targetConstituent']]
-            if 'outgoing_relations' not in src:
-                src['outgoing_relations'] = []
-            if 'incoming_relations' not in target:
-                target['incoming_relations'] = []
-            src['outgoing_relations'].append(relation_index)
-            target['incoming_relations'].append(relation_index)
-
         # The hypothesis is that all nodes with no incoming edges are predicates.
         for constituent in self.cons_list:
             if 'incoming_relations' not in constituent or len(constituent['incoming_relations']) == 0:
