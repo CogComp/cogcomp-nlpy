@@ -21,7 +21,7 @@ class PipelineBase:
         Constructor to load configuration of the pipeline base
         """
         if file_name is not None:
-            self.config, self.models_downloaded = pipeline_config.get_current_config(file_name)
+            self.config, self.models_downloaded = pipeline_config.get_user_config(file_name)
         else:
             self.config, self.models_downloaded = pipeline_config.get_current_config()
 

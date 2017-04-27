@@ -2,8 +2,6 @@ import unittest
 import sys
 import os
 
-#sys.path.insert(0,'/path/to/mod_directory')
-#from sioux import pipeliner as p
 from sioux import local_pipeline
 if os.path.exists('annotation-cache'):
     os.remove('annotation-cache')
