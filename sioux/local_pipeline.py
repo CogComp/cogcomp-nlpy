@@ -35,7 +35,7 @@ class LocalPipeline(PipelineBase):
                 jnius_config.add_options('-Xmx16G')
                 jnius_config.add_classpath(get_model_path()+'/*')
             except:
-                logger.warn("Couldn't set JVM config, it may imply that you are setting up the second local pipeline, which is not recommended referring to CogComp Pipeline's documentation.")
+                logger.warn("Couldn't set JVM config; this might be because you're setting up the multiple instance of local pipeline.")
 
             try:
                 from jnius import autoclass
