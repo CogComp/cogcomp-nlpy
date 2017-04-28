@@ -41,8 +41,8 @@ Here is a sample usage showing how yeezily you run Sioux:
 
    pipeline = remote_pipeline.RemotePipeline()
    doc = pipeline.doc("Hello, how are you. I am doing fine")
-   print(pipeline.get_lemma(doc)) # will produce (hello Hello) (, ,) (how how) (be are) (you you) (. .) (i I) (be am) (do doing) (fine fine)
-   print(pipeline.get_pos(doc)) # will produce (UH Hello) (, ,) (WRB how) (VBP are) (PRP you) (. .) (PRP I) (VBP am) (VBG doing) (JJ fine)
+   print(doc.get_lemma) # will produce (hello Hello) (, ,) (how how) (be are) (you you) (. .) (i I) (be am) (do doing) (fine fine)
+   print(doc.get_pos) # will produce (UH Hello) (, ,) (WRB how) (VBP are) (PRP you) (. .) (PRP I) (VBP am) (VBG doing) (JJ fine)
 
 The default/easy usage has some restrictions as will deliniate in the next section. See the next section to 
 

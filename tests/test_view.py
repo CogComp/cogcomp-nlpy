@@ -14,8 +14,8 @@ class TestView(unittest.TestCase):
         ta = self.rp.doc("Hello, how are you. I am Bruce Wayne.")
         pos_print = "POS view: (UH Hello) (, ,) (WRB how) (VBP are) (PRP you) (. .) (PRP I) (VBP am) (NNP Bruce) (NNP Wayne) (. .) "
         ner_print = "NER_CONLL view: (PER Bruce Wayne) "
-        pos = self.rp.get_pos(ta)
-        ner = self.rp.get_ner_conll(ta)
+        pos = ta.get_pos
+        ner = ta.get_ner_conll
 
         self.assertEqual(pos_print, pos.__str__())
         self.assertEqual(ner_print, ner.__str__())
@@ -32,8 +32,8 @@ class TestView(unittest.TestCase):
         ner_score = [1.0]
         ner_pos = [(8, 10)]
 
-        pos = self.rp.get_pos(ta)
-        ner = self.rp.get_ner_conll(ta)
+        pos = ta.get_pos
+        ner = ta.get_ner_conll
 
         self.assertEqual(pos.get_cons(None, "tokens"), pos_tokens)
         self.assertEqual(ner.get_cons(None, "tokens"), ner_tokens)
@@ -44,14 +44,14 @@ class TestView(unittest.TestCase):
 
     def test_view_type(self):
         ta = self.rp.doc("Hello,  how are you.\n\n\n I am doing fine")
-        pos_view = self.rp.get_view(ta, "POS")
-        stanford = self.rp.get_view(ta, "PARSE_STANFORD")
+        pos_view = ta.get_view("POS")
+        stanford = ta.get_view("PARSE_STANFORD")
         self.assertEqual(pos_view.get_view_type(), "TokenLabelView")
         self.assertEqual(stanford.get_view_type(), "TreeView")
 
     def test_relations(self):
         ta = self.rp.doc("Hello,  how are you.\n\n\n I am doing fine")
-        dependency = self.rp.get_view(ta, "DEPENDENCY_STANFORD")
+        dependency = ta.get_view("DEPENDENCY_STANFORD")
         relation_array = ['discourse', 'advmod', 'cop', 'nsubj', 'aux', 'dobj']
         array = []
         for relation in dependency.get_relations():
@@ -60,7 +60,7 @@ class TestView(unittest.TestCase):
 
     def test_overlapping_span(self):
         ta = self.rp.doc("Hello, how are you. I am Bruce Wayne.")
-        ner = self.rp.get_ner_conll(ta)
+        ner = ta.get_ner_conll
 
         # invalid token index
         self.assertEqual(None, ner.get_overlapping_constituents(3,2))
