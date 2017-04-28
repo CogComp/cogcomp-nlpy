@@ -35,8 +35,8 @@ class TestView(unittest.TestCase):
         pos = self.rp.get_pos(ta)
         ner = self.rp.get_ner_conll(ta)
 
-        self.assertEqual(pos.get_cons(None, "token"), pos_tokens)
-        self.assertEqual(ner.get_cons(None, "token"), ner_tokens)
+        self.assertEqual(pos.get_cons(None, "tokens"), pos_tokens)
+        self.assertEqual(ner.get_cons(None, "tokens"), ner_tokens)
 
         self.assertEqual(ner.get_cons(None, "label"), ner_label)
         self.assertEqual(ner.get_cons(None, "score"), ner_score)
