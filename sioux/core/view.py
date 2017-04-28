@@ -1,10 +1,7 @@
 import json
-'''
-    Refactored constructor, all attributes are constructed in constructor rather than on demand (create when get_xxx is called)
+import logging
 
-    Refactored get_cons such that it will return list of constituents is no key is provided, otherwise, return list of corresponding field (label, score, tuple(start_pos, end_pos), token(?))
-'''
-
+logger = logging.getLogger(__name__)
 
 class View(object):
     def __str__(self):
@@ -97,7 +94,7 @@ class View(object):
 
         """
         if self.cons_list is None:
-            print("This view does not have constituents in your input text")
+            logger.warn("This view does not have constituents in your input text")
             return None
 
         if key is None:
@@ -123,7 +120,7 @@ class View(object):
                         result_list.append(constituent[key])
             return result_list
 
-        print("Invalid key in constituent")
+        logger.warn("Invalid key in constituent")
         return None
 
     def get_con_score(self, position=None):
@@ -162,7 +159,7 @@ class View(object):
                  otherwise return a list contains the relation at specified position
         """
         if self.relation_array is None:
-            print("This view does not support relations")
+            logger.warn("This view does not support relations")
             return None
         else:
             if position is not None and 0 <= position < len(
@@ -170,3 +167,16 @@ class View(object):
                 return [self.relation_array[position]]
             else:
                 return self.relation_array
+
+    def get_overlapping_constituents(self, start_token_index, end_token_index):
+        if start_token_index > end_token_index:
+            logger.warn("Invalid token index given, please provide proper index.")
+            return None
+        view_overlapping_span = []
+        for cons in self.cons_list:
+            if((cons['start'] <= start_token_index and cons['end'] >= start_token_index) or
+                    (cons['start'] <= end_token_index and cons['end'] >= end_token_index) or
+                    (cons['start'] >= start_token_index and cons['end'] <= end_token_index) or
+                    (cons['start'] <= start_token_index and cons['end'] >= end_token_index)):
+                view_overlapping_span.append(cons)
+        return view_overlapping_span

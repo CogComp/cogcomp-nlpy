@@ -57,3 +57,15 @@ class TestView(unittest.TestCase):
         for relation in dependency.get_relations():
             array.append(relation['relationName'])
         self.assertEqual(array, relation_array)
+
+    def test_overlapping_span(self):
+        ta = self.rp.doc("Hello, how are you. I am Bruce Wayne.")
+        ner = self.rp.get_ner_conll(ta)
+
+        # invalid token index
+        self.assertEqual(None, ner.get_overlapping_constituents(3,2))
+
+        # valid token index
+        self.assertEqual([],ner.get_overlapping_constituents(1,1))
+        self.assertEqual([ner[0]], ner.get_overlapping_constituents(7,9))
+
