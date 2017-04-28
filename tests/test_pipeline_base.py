@@ -35,11 +35,17 @@ SRL_PREP = false
 api = http://austen.cs.illinois.edu:8080/annotate
 ''')
 
-        self.lp = local_pipeline.LocalPipeline(file_name=test_config_folder+'/config.cfg')
-        doc = self.lp.doc("Testing text.")
-        pos = self.lp.get_pos(doc)
-        lemma = self.lp.get_lemma(doc)
-        srl_verb = self.lp.get_srl_verb(doc)
+        lp = local_pipeline.LocalPipeline(file_name=test_config_folder+'/config.cfg')
+
+        doc = lp.doc("Testing text.")
+
+        pos = doc.get_pos
+        lemma = doc.get_lemma
+        srl_verb = doc.get_srl_verb
         self.assertEqual(False, pos is None)
         self.assertEqual(False, lemma is None)
         self.assertEqual(True, srl_verb is None)
+
+        self.assertEqual(True, lp.is_view_enabled("POS"))
+        self.assertEqual(True, lp.is_view_enabled("LEMMA"))
+        self.assertEqual(False, lp.is_view_enabled("SRL_VERB"))
