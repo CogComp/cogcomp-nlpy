@@ -5,8 +5,8 @@ p = remote_pipeline.RemotePipeline()
 doc = p.doc('George Washington fought in the war.')
 
 # get POS view and NER view
-pos_view = p.get_pos(doc)
-ner_view = p.get_ner_conll(doc)
+pos_view = doc.get_pos
+ner_view = doc.get_ner_conll
 
 # find NER constituents that are labeled PER (label from NER view)
 per_list = []
