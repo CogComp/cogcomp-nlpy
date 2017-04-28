@@ -6,7 +6,7 @@ from .predicate_argument_view import *
 
 logger = logging.getLogger(__name__)
 
-class TextAnnotation:
+class TextAnnotation(object):
     '''
         This class is was designed to be a python version of the TextAnnotation class.
         While most of the queries on view are done with View by querying on
