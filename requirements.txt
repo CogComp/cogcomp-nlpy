@@ -7,5 +7,5 @@ requests
 six
 yapf
 Cython
-jnius_indra
+pyjnius
 bumpversion
