@@ -51,6 +51,9 @@ class PipelineBase:
         else:
             return True
 
+    def test(self):
+        return type(self)
+
     @abstractmethod
     def call_server(text, views):
         """

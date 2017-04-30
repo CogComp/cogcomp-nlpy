@@ -123,10 +123,7 @@ The default keys and values (true/false) when models have been downloaded are sp
 
 .. code-block:: bash
 
-    [pipeline_setting]
-    use_pipeline_server = false
-
-    [views_setting]
+    [local_pipeline_setting]
     POS = false
     LEMMA = false
     NER_CONLL = false
@@ -139,7 +136,7 @@ The default keys and values (true/false) when models have been downloaded are sp
     PARSE_STANFORD = false
     SRL_PREP = false
 
-    [pipeline_server]
+    [remote_pipeline_setting]
     api = ADDRESS_OF_THE_SERVER # example: http://fancyUrlName.com:8080/
     
 
