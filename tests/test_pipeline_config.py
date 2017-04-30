@@ -20,10 +20,7 @@ class TestPipelineConfig(unittest.TestCase):
         with codecs.open(test_config_folder+'/config.cfg',mode='w',encoding='utf-8') as f:
             f.write(
 '''
-[pipeline_setting]
-use_pipeline_server = false
-
-[views_setting]
+[local_pipeline_setting]
 POS = true
 LEMMA = true
 NER_CONLL = false
@@ -36,7 +33,7 @@ DEPENDENCY = false
 PARSE_STANFORD = false
 SRL_PREP = false
 
-[pipeline_server]
+[remote_pipeline_setting]
 api = http://austen.cs.illinois.edu:8080/annotate
 ''')
         
@@ -47,8 +44,7 @@ api = http://austen.cs.illinois.edu:8080/annotate
         mock_dl.get_model_path.return_value = test_config_folder
         config, models = sioux.pipeline_config.get_current_config()
         self.assertEqual(True, models)
-        self.assertEqual(config['pipeline_setting']['use_pipeline_server'],'false')
-        self.assertEqual(config['views_setting']['LEMMA'], 'true')
+        self.assertEqual(config['local_pipeline_setting']['LEMMA'], 'true')
 
     @mock.patch('sioux.pipeline_config.download')
     def test_get_current_config_without_models(self, mock_dl):
@@ -56,21 +52,15 @@ api = http://austen.cs.illinois.edu:8080/annotate
         mock_dl.get_model_path.return_value = 'not_exists_folder_path'
         config, models = sioux.pipeline_config.get_current_config()
         self.assertEqual(False, models)
-        self.assertEqual(config['pipeline_setting']['use_pipeline_server'],'true')
-        self.assertEqual(config['views_setting']['LEMMA'], 'false')
+        self.assertEqual(config['local_pipeline_setting']['LEMMA'], 'false')
 
-    # This test is no longer needed because the config file in root directory will be generated when user download the models
-    '''
     @mock.patch('sioux.pipeline_config.download')
     def test_get_current_config_with_models(self, mock_dl):
-        os.remove(test_config_folder+'/config.cfg')
         mock_dl.get_root_directory.return_value = test_config_folder
         mock_dl.get_model_path.return_value = test_config_folder
         config, models = sioux.pipeline_config.get_current_config()
         self.assertEqual(True, models)
-        self.assertEqual(config['views_setting']['LEMMA'], 'false')
-        self.assertEqual(config['pipeline_setting']['use_pipeline_server'],'false')
-    '''
+        self.assertEqual(config['local_pipeline_setting']['LEMMA'], 'true')
 
     @mock.patch('sioux.pipeline_config.download')
     def test_get_user_config(self, mock_dl):
@@ -79,14 +69,12 @@ api = http://austen.cs.illinois.edu:8080/annotate
         mock_dl.get_model_path.return_value = 'not_exists_folder_path'
         config, models = sioux.pipeline_config.get_user_config(test_config_folder+'/config.cfg')
         self.assertEqual(False, models)
-        self.assertEqual(config['views_setting']['LEMMA'], 'true')
-        self.assertEqual(config['pipeline_setting']['use_pipeline_server'],'true')
+        self.assertEqual(config['local_pipeline_setting']['LEMMA'], 'true')
 
         # try provided not exist file name
         config, pack = sioux.pipeline_config.get_user_config('super_strange_file_name')
         self.assertEqual(False, models)
-        self.assertEqual(config['pipeline_setting']['use_pipeline_server'],'true')
-        self.assertEqual(config['views_setting']['LEMMA'], 'false')
+        self.assertEqual(config['local_pipeline_setting']['LEMMA'], 'false')
 
     # Following tests are performed based on the assumption that functions for reading config file is correct
     # And the later tests will depend on the correctness of prior tests
@@ -96,17 +84,20 @@ api = http://austen.cs.illinois.edu:8080/annotate
         mock_dl.get_model_path.return_value = test_config_folder
 
         config, models = sioux.pipeline_config.get_user_config(test_config_folder+'/config.cfg')
-        list_of_views = sioux.pipeline_config.log_current_config(config)
+        list_of_views = sioux.pipeline_config.log_current_config(config, False)
         self.assertEqual(list_of_views, ['POS','LEMMA'])
 
         mock_dl.get_model_path.return_value = 'not_exists_folder_path'
         config, models = sioux.pipeline_config.get_user_config(test_config_folder+'/config.cfg')
-        list_of_views = sioux.pipeline_config.log_current_config(config)
-        self.assertEqual(list_of_views is None, True)
+        list_of_views = sioux.pipeline_config.log_current_config(config, False)
+        self.assertEqual(list_of_views is not None, True)
+        self.assertEqual(len(list_of_views),2)
+        self.assertEqual(models, False)
 
         config, models = sioux.pipeline_config.get_user_config('strang_config_file') 
-        list_of_views = sioux.pipeline_config.log_current_config(config)
-        self.assertEqual(list_of_views is None, True)
+        list_of_views = sioux.pipeline_config.log_current_config(config, False)
+        self.assertEqual(list_of_views is not None, True)
+        self.assertEqual(len(list_of_views),0)
 
     @mock.patch('sioux.pipeline_config.download')
     def test_change_temporary_config(self,mock_dl):
@@ -125,9 +116,8 @@ api = http://austen.cs.illinois.edu:8080/annotate
         config, models = sioux.pipeline_config.get_user_config('strang_config_file')
         self.assertEqual(models, False)
         list_of_views = sioux.pipeline_config.change_temporary_config(config, models, ['LEMMA','SRL_PREP'], ['LEMMA','POS'], False, None)
-        self.assertEqual(list_of_views is None, True)
-        self.assertEqual(config['pipeline_setting']['use_pipeline_server'],'true')
+        self.assertEqual(list_of_views is None, False)
 
     def tearDown(self):
-        if os.path.exists(test_config_folder+'/pipeline_config.cfg'):
-            os.remove(test_config_folder+'/pipeline_config.cfg')
+        if os.path.exists(test_config_folder+'/config.cfg'):
+            os.remove(test_config_folder+'/config.cfg')

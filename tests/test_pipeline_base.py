@@ -17,9 +17,7 @@ class TestPipelineBase(unittest.TestCase):
         with codecs.open(test_config_folder+'/config.cfg',mode='w',encoding='utf-8') as f:
             f.write(
 '''
-[pipeline_setting]
-use_pipeline_server = false
-[views_setting]
+[local_pipeline_setting]
 POS = true
 LEMMA = true
 NER_CONLL = false
@@ -31,8 +29,8 @@ DEPENDENCY_STANFORD = false
 DEPENDENCY = false
 PARSE_STANFORD = false
 SRL_PREP = false
-[pipeline_server]
-api = http://austen.cs.illinois.edu:8080/annotate
+[remote_pipeline_setting]
+api = http://austen.cs.illinois.edu:8080
 ''')
 
         lp = local_pipeline.LocalPipeline(file_name=test_config_folder+'/config.cfg')
