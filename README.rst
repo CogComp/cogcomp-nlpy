@@ -59,9 +59,9 @@ The figure above gives a summary of possible usages, as well as their pros and c
 
 Remote Pipeline 
 ~~~~~~~~~~~~~~~~~~~~~~
-In this setting, Sioux sends calls to a remote machine. Hence there is not much memory burden on your system. Instead all the heavy-lifting is on the remote server. 
+In this setting, Sioux sends annotation requests to a remote machine. Hence there is not much memory burden on your local machine. Instead all the heavy-lifting is on the remote server. 
 
-**Default remote server:**  This is the deault setting in Sioux. The requests are sent to our remote server, hence requires a network connection. This option is there to demostrate how things work, but it is not a viable solution for your big experiments. If you are a busy nlp user, you have to use any of the other options. 
+**Default remote server:**  This is the default setting in Sioux. The requests are sent to our remote server, hence requires a network connection. This option is here to demonstrate how things work, but it is not a viable solution for your big experiments. If you are a busy nlp user, you should use any of the other options. 
 
 **Starting your own (remote) server:** If you have a big (remote) machine, this is probably a good option for you. 
 You'll have to read the instructions on how to install the pipeline server in the `pipeline project documentation <https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline#using-pipeline-webserver>`_. In summary, you have to clone our  `Cogcomp-NLP <https://github.com/CogComp/cogcomp-nlp/>`_ java project, and run :code:`pipeline/scripts/runWebserver.sh` to start the server
@@ -77,8 +77,6 @@ You'll have to read the instructions on how to install the pipeline server in th
 
 **Note:** This tool is based on CogComp's `pipeline project <https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline>`_. Essentially annotator included in the pipeline should be accessible here. 
  
-**Note:** To use the pipelne locally (A) you have to make sure you have set :code:`JAVA_HOME` variable. In MacOS, you can verify it with :code:`echo "$JAVA_HOME"`. If it is not set, you can :code:`export JAVA_HOME=$(/usr/libexec/java_home)`. 
-
 Local Pipeline 
 ~~~~~~~~~~~~~~~~~~~~~~
 In this setting, Sioux will download the trained models and files required to run the pipeline locally. Since everything is run on your machine, it will probably require a lot of memory (the amount depends on which annotations you use). If you have a single big machine (i.e. memory > 15GB) for your expeirments, this is probably a good option for you. 
@@ -90,7 +88,9 @@ To download the models, run the following command:
 If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally, with all the annotators disabled. This will downlaod model files into your home directly under `~/.sioux/`. 
 You can verify this in Sioux's config file: :code:`less ~/.sioux/config.cfg`. 
 
-**Note:** Note that downloading the models require you have Maven on your machine. If you don't, `here are some guidelines on how to install it <https://maven.apache.org/install.html>`_. 
+**Note:** Note that downloading the models require you to have Maven installed on your machine. If you don't, `here are some guidelines on how to install it <https://maven.apache.org/install.html>`_. 
+
+**Note:** To use the pipelne locally (A) you have to make sure you have set :code:`JAVA_HOME` variable. In MacOS, you can verify it with :code:`echo "$JAVA_HOME"`. If it is not set, you can :code:`export JAVA_HOME=$(/usr/libexec/java_home)`. 
 
 By default,
 
