@@ -57,34 +57,6 @@ Sioux enables you accesss `CogComp pipeline <https://github.com/CogComp/cogcomp-
 
 The figure above gives a summary of possible usages, as well as their pros and cons. Next we will go through each item and elaborate: 
 
-Local Pipeline 
-~~~~~~~~~~~~~~~~~~~~~~
-In this setting, Sioux will download the trained models and files required to run the pipeline locally. Since everything is run on your machine, it will probably require a lot of memory (the amount depends on which annotations you use). If you have a single big machine (i.e. memory > 15GB) for your expeirments, this is probably a good option for you. 
-
-To download the models, run the following command:
-
-  python -m sioux download
-
-If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally, with all the annotators disabled. This will downlaod model files into your home directly under `~/.sioux/`. 
-You can verify this in Sioux's config file: `less ~/.sioux/config.cfg`. 
-
-
-By default,
-
-* If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally (A), with all the annotators disabled.
-* If you haven't downloaded the models, it will be communicating with a default remote pipeline server (B.1). 
-
-If you want to change specific behaviors, such as activating or deactivating specific components, you can specify the parameters while initializing local/remote pipeline module.
-
-.. code-block:: python
-
-   from sioux import local_pipeline
-   pipeline = local_pipeline.LocalPipeline(enable_views=['POS','LEMMA']) 
-   # constructor declaration: LocalPipeline(enable_views = None, disable_views = None, file_name = None)
-   # "enable_views" will takes a list of the view names to be used as strings, each string is the name of the view. This parameter is important only if you're using the local pipeline (A). 
-   # "file_name" is the config file used to set up pipeline (optional), please refer the latter section for more details
-
-
 Remote Pipeline 
 ~~~~~~~~~~~~~~~~~~~~~~
 In this setting, Sioux sends calls to a remote machine. Hence there is not much memory burden on your system. Instead all the heavy-lifting is on the remote server. 
@@ -105,10 +77,38 @@ You'll have to read the instructions on how to install the pipeline server in th
 
 **Note:** This tool is based on CogComp's `pipeline project <https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline>`_. Essentially annotator included in the pipeline should be accessible here. 
  
-**Note:** To use the pipelne locally (A) you have to make sure you have set `JAVA_HOME` variable. In MacOS, you can verify it with :code:`echo "$JAVA_HOME"`. If it is not set, you can :code:`export JAVA_HOME=$(/usr/libexec/java_home)`. 
+**Note:** To use the pipelne locally (A) you have to make sure you have set :code:`JAVA_HOME` variable. In MacOS, you can verify it with :code:`echo "$JAVA_HOME"`. If it is not set, you can :code:`export JAVA_HOME=$(/usr/libexec/java_home)`. 
+
+Local Pipeline 
+~~~~~~~~~~~~~~~~~~~~~~
+In this setting, Sioux will download the trained models and files required to run the pipeline locally. Since everything is run on your machine, it will probably require a lot of memory (the amount depends on which annotations you use). If you have a single big machine (i.e. memory > 15GB) for your expeirments, this is probably a good option for you. 
+
+To download the models, run the following command:
+
+  python -m sioux download
+
+If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally, with all the annotators disabled. This will downlaod model files into your home directly under `~/.sioux/`. 
+You can verify this in Sioux's config file: :code:`less ~/.sioux/config.cfg`. 
+
+**Note:** Note that downloading the models require you have Maven on your machine. If you don't, `here are some guidelines on how to install it <https://maven.apache.org/install.html>`_. 
+
+By default,
+
+* If you have downloaded the models through command :code:`python -m sioux download`, this tool will be running the pipeline locally (A), with all the annotators disabled.
+* If you haven't downloaded the models, it will be communicating with a default remote pipeline server (B.1). 
+
+If you want to change specific behaviors, such as activating or deactivating specific components, you can specify the parameters while initializing local/remote pipeline module.
+
+.. code-block:: python
+
+   from sioux import local_pipeline
+   pipeline = local_pipeline.LocalPipeline(enable_views=['POS','LEMMA']) 
+   # constructor declaration: LocalPipeline(enable_views = None, disable_views = None, file_name = None)
+   # "enable_views" will takes a list of the view names to be used as strings, each string is the name of the view. This parameter is important only if you're using the local pipeline (A). 
+   # "file_name" is the config file used to set up pipeline (optional), please refer the latter section for more details
    
 Setting from Configuration file 
--------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You can set settings on how to run Sioux via a local option too, rather than setting it programmatically. 
 Here is how to: 
 
