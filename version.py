@@ -3,4 +3,4 @@
 # If you manually change the version here, make sure to
 # update setup.cfg also.
 
-__version__ = '0.8.4'
+__version__ = '0.8.5'
