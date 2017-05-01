@@ -30,11 +30,15 @@ class LocalPipeline(PipelineBase):
         enabled_views = pipeline_config.change_temporary_config(self.config, self.models_downloaded, enable_views, disable_views, False, None)
 
         if enabled_views is not None:
-            import jnius_config
-            jnius_config.add_options('-Xmx16G')
-            jnius_config.add_classpath(get_model_path()+'/*')
-            from jnius import autoclass
             try:
+                import jnius_config
+                jnius_config.add_options('-Xmx16G')
+                jnius_config.add_classpath(get_model_path()+'/*')
+            except:
+                logger.warn("Couldn't set JVM config; this might be because you're setting up the multiple instance of local pipeline.")
+
+            try:
+                from jnius import autoclass
                 self.PipelineFactory = autoclass('edu.illinois.cs.cogcomp.pipeline.main.PipelineFactory')
                 self.SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
                 self.ProtobufSerializer = autoclass('edu.illinois.cs.cogcomp.core.utilities.protobuf.ProtobufSerializer')

@@ -61,7 +61,6 @@ def _parse_default_config(root_directory, args=None):
     else:
         with codecs.open(package_config_file,mode='r',encoding='utf-8') as f:
             config.read_string(f.read())
-        config['pipeline_setting']['use_pipeline_server'] = 'false'
 
     if 'model_download' not in config:
         config['model_download'] = {}
@@ -144,6 +143,20 @@ def _download_jars(model_directory, config_directory, version):
     except Exception:
         logger.error('Error while downloading jar files.', exc_info=True)
         raise
+
+def recover_model_config():
+    """
+    Function to recover the model config if user accidentally deleted it
+    """
+    try:
+        root_directory = get_root_directory()
+        logger.error("Current directory: {}".format(root_directory))
+        default_config, config_file_path = _parse_default_config(root_directory)
+    
+        with codecs.open(config_file_path, mode='w', encoding='utf-8') as file:
+            default_config.write(file)
+    except:
+        logger.error("Error while recovering model config.", exc_info=True)
 
 
 def get_root_directory():

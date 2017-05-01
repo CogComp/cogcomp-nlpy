@@ -26,9 +26,15 @@ class RemotePipeline(PipelineBase):
 
         # reroute to new API if user provides one
         pipeline_config.change_temporary_config(self.config, self.models_downloaded, None, None, True, server_api)
-        self.url = self.config['pipeline_server']['api']
+        self.url = self.config['remote_pipeline_setting']['api']
 
         logger.info("pipeline has been set up")
+
+    def is_view_enabled(self, view_name):
+        """
+        Override method because remote pipeline server will have all views enabled
+        """
+        return True
 
 
     def call_server(self, text, views):

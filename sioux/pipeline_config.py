@@ -23,6 +23,8 @@ def get_current_config():
     default_config_file = os.path.join(download.get_root_directory(), CONFIG_FILENAME)
     if models_downloaded:
         default_config_file = os.path.join(download.get_root_directory(), CONFIG_FILENAME)
+        if os.path.exists(default_config_file) is False:
+            download.recover_model_config()
         config_file = default_config_file
     else:
         logger.warn('Models not found. To use pipeline locally, please refer the documentation for downloading models.')
@@ -39,43 +41,27 @@ def get_user_config(file_name):
         user_config_file = file_name
         with codecs.open(user_config_file,mode='r',encoding='utf-8') as f:
             config.read_string(f.read())
-
-        # check this for edge case where using server is off in user config but models haven't downloaded (impossible to set up local pipeline)
-        if config['pipeline_setting']['use_pipeline_server'] == 'false' and models_downloaded == False:
-            config['pipeline_setting']['use_pipeline_server'] = 'true'
-
         return config, models_downloaded
     else:
         logger.warn('User config file not found, initializing pipeline with default config file.')
         return get_current_config()
 
 def change_temporary_config(config, models_downloaded, enable_views, disable_views, use_server, server_api):
-    # Common section that can be changed in both package config and default config
-    # (only section that can be changed in package config)
     if server_api is not None:
-        config['pipeline_server']['api'] = server_api
+        config['remote_pipeline_setting']['api'] = server_api
 
     # Sections that can be changed if config is not read from config file in package
     # (models_downloaded will be False if and only if config is not read from config file in package)
     if models_downloaded == True:
         if disable_views is not None:
             for view in disable_views:
-                if view in config['views_setting']:
-                    config['views_setting'][view] = 'false'
+                if view in config['local_pipeline_setting']:
+                    config['local_pipeline_setting'][view] = 'false'
         if enable_views is not None:
             for view in enable_views:
-                if view in config['views_setting']:
-                    config['views_setting'][view] = 'true'
-        if use_server is not None:
-            if use_server == False:
-                config['pipeline_setting']['use_pipeline_server'] = 'false'
-            elif use_server == True:
-                config['pipeline_setting']['use_pipeline_server'] = 'true'
-    else:
-        if use_server == False:
-            logger.warn('Tried to use local pipeline while models have not been downloaded. Please download models or use remote pipeliner instead.')
-            return None
-    return log_current_config(config)
+                if view in config['local_pipeline_setting']:
+                    config['local_pipeline_setting'][view] = 'true'
+    return log_current_config(config, use_server)
 
 def set_current_config(config):
     if user_config_file is None:
@@ -86,22 +72,20 @@ def set_current_config(config):
         logger.info('Config file has been updated.')
     
 
-def log_current_config(config):
-    if config['pipeline_setting']['use_pipeline_server'] == 'true':
-        logger.info('Using pipeline web server with API: {0}'.format(config['pipeline_server']['api']))
+def log_current_config(config, use_server):
+    if use_server:
+        logger.info('Using pipeline web server with API: {0}'.format(config['remote_pipeline_setting']['api']))
         return None
     else:
         enabled_views = []
-        for view_setting in config.items('views_setting'):
+        for view_setting in config.items('local_pipeline_setting'):
             if view_setting[1] == 'true':
                 enabled_views.append(view_setting[0].upper())
         logger.info('Using local pipeline with following views enabled: {0}'.format(enabled_views))
         return enabled_views
 
 def view_enabled(config, view_name):
-    # because server will have all views enabled
-    if config['pipeline_setting']['use_pipeline_server'] == 'false':
-        # return false only when view not found or indeed disabled
-        if view_name not in config['views_setting'] or config['views_setting'][view_name] == 'false':
-            return False
-    return True
+    if view_name not in config['local_pipeline_setting'] or config['local_pipeline_setting'][view_name] == 'false':
+        return False
+    else:
+        return True
