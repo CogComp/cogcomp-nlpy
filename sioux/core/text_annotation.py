@@ -57,6 +57,15 @@ class TextAnnotation(object):
         @param: text_annotation, TextAnnotation instance to get dependency view from
         @return: View instance of the dependency
         """
+        return self.get_view("DEPENDENCY")
+
+    @property
+    def get_stanford_dependency_parse(self):
+        """
+        Wrapper on getting the dependency from given text annotation
+        @param: text_annotation, TextAnnotation instance to get dependency view from
+        @return: View instance of the dependency
+        """
         return self.get_view("DEPENDENCY_STANFORD")
 
     @property
@@ -103,6 +112,24 @@ class TextAnnotation(object):
         @return: View Instance of the SRL_NOM view.
         """
         return self.get_view("SRL_NOM")
+
+    @property
+    def get_srl_prep(self):
+        """
+        Wrapper on getting the SRL_PREP view from given text annotation
+        @param: text_annotation TextAnnotation instance to get SRL_PREP view from.
+        @return: View Instance of the SRL_PREP view.
+        """
+        return self.get_view("SRL_PREP")
+
+    @property
+    def get_srl_comma(self):
+        """
+        Wrapper on getting the SRL_COMMA view from given text annotation
+        @param: text_annotation TextAnnotation instance to get SRL_COMMA view from.
+        @return: View Instance of the SRL_COMMA view.
+        """
+        return self.get_view("SRL_COMMA")
 
     @property 
     def get_quantities(self):
