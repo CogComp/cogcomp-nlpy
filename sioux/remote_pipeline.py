@@ -45,6 +45,25 @@ class RemotePipeline(PipelineBase):
                 views, the views to generate
         @return: raw text of the response from server
         """
-        data = {'text': text, 'views': views}
-        return requests.post(self.url+WEB_SERVER_SUFFIX, data).text
+        try:
+            data = {'text': text, 'views': views}
+            response = requests.post(self.url+WEB_SERVER_SUFFIX, data)
+            if response.status_code == 200:
+                return response.text
+            elif response.status_code == 429:
+                logger.error("You reached maximum query limit with default remote server (100 queries/day)")
+                raise
+            else:
+                logger.error("Unexpected status code {}, please open an issue on GitHub for further investigation.".format(response.status_code))
+        except:
+            logger.error("Fail to connect to server.")
+            raise
 
+    def test(self, text, views):
+        data = {'text': text, 'views': views}
+        try:
+            response = requests.post(self.url+WEB_SERVER_SUFFIX, data)
+            return response
+        except:
+            logger.error("Fail to connect to server")
+            raise
