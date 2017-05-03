@@ -19,6 +19,10 @@ class LocalPipeline(PipelineBase):
     def __init__(self, enable_views=None, disable_views=None, file_name = None):
         """
         Constructor to set up local pipeline
+
+        @param: enable_views, the views to be enabled
+                disable_views, the views to be disabled (maybe needed when user provides a custom config file)
+                file_name, the file name of the custom config file
         """
         super(LocalPipeline,self).__init__(file_name)
 
@@ -26,10 +30,11 @@ class LocalPipeline(PipelineBase):
         self.pipeline = None
         self.ProtobufSerializer = None
 
-        # retrieve enabled_views to set up pipeline
+        # retrieve enabled views after incorporating parameters user provided
         enabled_views = pipeline_config.change_temporary_config(self.config, self.models_downloaded, enable_views, disable_views, False, None)
 
         if enabled_views is not None:
+            # set up JVM and load classes needed
             try:
                 import jnius_config
                 jnius_config.add_options('-Xmx16G')
@@ -56,11 +61,11 @@ class LocalPipeline(PipelineBase):
 
     def call_server(self, text, views):
         """
-        Funtion to get preprocess text annotation from server
+        Funtion to get preprocess text annotation from local pipeline
 
         @param: text, the text to generate text annotation on
                 views, the views to generate
-        @return: raw text of the response from server
+        @return: raw text of the response from local pipeline
         """
         view_list = views.split(',')
         text_annotation = self.pipeline.createBasicTextAnnotation("", "", text)

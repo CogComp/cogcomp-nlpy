@@ -31,6 +31,12 @@ class View(object):
 
 
     def __init__(self, view, tokens):
+        """
+        Constructor for the view
+
+        @param: view, the decoded JSON object containing information of the view
+                tokens, List of tokens in the view
+        """
         self.view_name = view["viewName"]
         self.tokens = tokens
 
@@ -63,8 +69,10 @@ class View(object):
             self._link_constituents()
 
     def _link_constituents(self):
-        # Building connection between constituents based on relation
-        # This function will be called only when relations exist
+        """
+        Helper function to build connection between constituents based on relation
+        This function will be called only when relations exist
+        """
         for relation_index in range(len(self.relation_array)):
             relation = self.relation_array[relation_index]
             src = self.cons_list[relation['srcConstituent']]
@@ -79,6 +87,7 @@ class View(object):
     def get_view_type(self):
         """
         Function to get type of the view
+
         @return view type of the view
         """
         return self.view_type
@@ -86,6 +95,7 @@ class View(object):
     def get_cons(self, position=None, key=None):
         """
         Function to get a list of constituents in the view
+
         @param: position, the index of the specific constituent that user wants
                 key, the specific key in constituents that user wants ("score", "label", "position","tokens")
         @return: if key is not given, a list of all constituents if position is not given,
@@ -126,6 +136,7 @@ class View(object):
     def get_con_score(self, position=None):
         """
         Wrapper function to get a list of scores of constituents in the view
+
         @param: position, the index of the specific constituent that user wants score from
         @return: list of scores of all constituents if position is not given,
                  otherwise return a list contains the score of the constituent at specified position
@@ -136,6 +147,7 @@ class View(object):
     def get_con_label(self, position=None):
         """
         Wrapper function to get a list of labels of constituents in the view 
+
         @param: position, the index of the specific constituent that user wants label from 
         @return: list of labels of all constituents if position is not given, 
                  otherwise return a list contains the label of the constituent at specified position 
@@ -145,6 +157,7 @@ class View(object):
     def get_con_position(self, position=None):
         """
         Wrapper function to get a list of positions of constituents in the view in respect to tokens of the text
+
         @param: position, the index of the specific constituent that user wants token position from
         @return: list of position tuples (start_pos, end_pos) of all constituents if position is not given, 
                  otherwise return a list contains the token position of the constituent at specified position 
@@ -154,6 +167,7 @@ class View(object):
     def get_relations(self, position=None):
         """
         Funtion to get the relation array if the view supports relations
+
         @param: position, the index of the specific relation that user wants
         @return: list of relations if position is not given,
                  otherwise return a list contains the relation at specified position
@@ -169,8 +183,15 @@ class View(object):
                 return self.relation_array
 
     def get_overlapping_constituents(self, start_token_index, end_token_index):
+        """
+        Function to get a list of constituents in the view that overlap with the indices provided
+
+        @param: start_token_index, the starting index of the range for overlapping
+                end_token_index, the ending index of the range for overlapping
+        @return: List of overlapping constituents if the indice are valid, None otherwise
+        """
         if start_token_index > end_token_index:
-            logger.warn("Invalid token index given, please provide proper index.")
+            logger.warn("Invalid token indices given, please provide proper indices.")
             return None
         view_overlapping_span = []
         for cons in self.cons_list:

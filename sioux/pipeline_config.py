@@ -12,6 +12,15 @@ CONFIG_FILENAME = 'config.cfg'
 user_config_file = None
 
 def get_current_config():
+    """
+    Function to get configuration for setting up pipeline.
+    If the models have been downloaded, the function will (restore and) load configuration from '~/.sioux/config.cfg.'
+    Otherwise, it will load from 'pipeline.cfg' in the package
+
+    @return: config, a ConfigParser instance with loaded configuration
+             models_downloaded, True if models have been downloaded, False otherwise.
+
+    """
     package_config_file = os.path.dirname(os.path.realpath(__file__)) + '/config/pipeline.cfg'
     config_file = package_config_file
     models_downloaded = os.path.exists(download.get_model_path())
@@ -34,6 +43,14 @@ def get_current_config():
     return config, models_downloaded
 
 def get_user_config(file_name):
+    """
+    Function to get configuration for setting up pipeline from file that user provides.
+    If the file does not exist, it will call function 'get_current_config()' and return its result
+
+    @param: file_name, the file name of custom config file
+    @return: config, a ConfigParser instance with loaded configuration
+             models_downloaded, True if models have been downloaded, False otherwise
+    """
     global user_config_file
     if file_name is not None and os.path.exists(file_name):
         models_downloaded = os.path.exists(download.get_model_path())
@@ -47,6 +64,17 @@ def get_user_config(file_name):
         return get_current_config()
 
 def change_temporary_config(config, models_downloaded, enable_views, disable_views, use_server, server_api):
+    """
+    Function to change configuration temporarily. In other words, it only changes values in the ConfigParser provided as parameter.
+
+    @param: config, the ConfigParser instance to be made changes on
+            models_downloaded, Boolean to indicate if models have been downloaded
+            enable_views, List of strings to indicate views to be enabled
+            disable_views, List of strings to indicate views to be disabled (enable_views has higher priority)
+            use_server, Boolean to indicate if using remote server
+            server_api, the address of the server, including port number
+    @return: List of names of enabled view if use_server is False, None otherwise
+    """
     if server_api is not None:
         config['remote_pipeline_setting']['api'] = server_api
 
@@ -64,6 +92,11 @@ def change_temporary_config(config, models_downloaded, enable_views, disable_vie
     return log_current_config(config, use_server)
 
 def set_current_config(config):
+    """
+    Function to write the current configuration to file if the configuration was loaded from custom config file
+
+    @param: config, the ConfigParser instance to be written to file
+    """
     if user_config_file is None:
         logger.error('Could not overwrite config file if user has not previous provide one.')
     else:
@@ -73,6 +106,13 @@ def set_current_config(config):
     
 
 def log_current_config(config, use_server):
+    """
+    Function to log current configuration
+
+    @param: config, the ConfigParser instance to be logged
+            use_server, Boolean to indicate if using remote server
+    @return: List of names of enabled view if use_server is False, None otherwise
+    """
     if use_server:
         logger.info('Using pipeline web server with API: {0}'.format(config['remote_pipeline_setting']['api']))
         return None
@@ -85,6 +125,13 @@ def log_current_config(config, use_server):
         return enabled_views
 
 def view_enabled(config, view_name):
+    """
+    Function to check if view is enabled according to the configuration
+
+    @param: config, the ConfigParser instance that the check is based on
+            view_name, the name of the view to be checked
+    @return: True if the view is enabled, False otherwise
+    """
     if view_name not in config['local_pipeline_setting'] or config['local_pipeline_setting'][view_name] == 'false':
         return False
     else:
