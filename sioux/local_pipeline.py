@@ -51,7 +51,7 @@ class LocalPipeline(PipelineBase):
             except:
                 logger.error('Fail to load models, please check if your Java version is up to date.')
                 return None
-            self.pipeline = self.PipelineFactory.buildPipeline(*enabled_views)
+            self.pipeline = self.PipelineFactory.buildPipelineWithAllViews()
         else:
             logger.error("Error encountered when setting up pipeline")
             return None
