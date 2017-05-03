@@ -37,20 +37,6 @@ class PipelineBase:
         text_annotation = TextAnnotation(response, self)
         return text_annotation
 
-
-    def is_view_enabled(self, view_name):
-        """
-        Function to check if specified view is enabled
-    
-        @param:  view_name, the specified view name to check if it is enabled
-        @return: True if the view is enabled, False otherwise.
-        """
-        if pipeline_config.view_enabled(self.config, view_name) == False:
-            logger.error('{} not defined or disabled.'.format(view_name))
-            return False
-        else:
-            return True
-
     @abstractmethod
     def call_server(text, views):
         """

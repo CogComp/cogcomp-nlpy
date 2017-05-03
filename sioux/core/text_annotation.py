@@ -155,17 +155,14 @@ class TextAnnotation(object):
         return requested_view
 
     def get_view(self, view_name):
-        if self.pipeline.is_view_enabled(view_name):
-            if view_name not in self.view_dictionary:
-                additional_response = self.pipeline.call_server(self.text, view_name)
-                self.add_view(view_name, additional_response)
+        if view_name not in self.view_dictionary:
+            additional_response = self.pipeline.call_server(self.text, view_name)
+            self.add_view(view_name, additional_response)
 
-            if type(self.view_dictionary[view_name]) != type([]):
-                return self.view_dictionary[view_name]
-            else:
-                logger.info("The view is the collection of the following views: {0}".format(self.view_dictionary[view_name]))
-                return None
+        if type(self.view_dictionary[view_name]) != type([]):
+            return self.view_dictionary[view_name]
         else:
+            logger.info("The view is the collection of the following views: {0}".format(self.view_dictionary[view_name]))
             return None
 
     @property
