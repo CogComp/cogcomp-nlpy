@@ -18,6 +18,7 @@ class PredicateArgumentView(View):
     def get_predicates(self):
         """
         Function to return a list of predicates which are constituents with no incoming relations
+
         @return: list of predicates
         """
         return self.predicates
@@ -25,6 +26,7 @@ class PredicateArgumentView(View):
     def get_arguments(self, predicate):
         """
         Function to return a list of outgoing relations given a predicate
+
         @param: predicate, the predicate to get outgoing relations from 
         @return: a list of relations, None if the predicate is invalid
         """
@@ -38,6 +40,7 @@ class PredicateArgumentView(View):
     def get_predicate_properties(self, predicate):
         """
         Function to get the properties of given predicate
+
         @param: predicate, the predicate to get properties from
         @return: a dictionary object contains following keys: predicate, SenseNumber
         """
@@ -48,6 +51,7 @@ class PredicateArgumentView(View):
     def _check_predicate(self, predicate):
         """
         Helper function to check if predicate is valid
+
         @param: predicate, the predicate to evaluate
         @return: True if the predicate is valid. False, otherwise
         """

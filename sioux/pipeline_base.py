@@ -43,7 +43,7 @@ class PipelineBase:
         Function to check if specified view is enabled
     
         @param:  view_name, the specified view name to check if it is enabled
-        @return: View instance of the requested view
+        @return: True if the view is enabled, False otherwise.
         """
         if pipeline_config.view_enabled(self.config, view_name) == False:
             logger.error('{} not defined or disabled.'.format(view_name))

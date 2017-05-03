@@ -21,6 +21,9 @@ class RemotePipeline(PipelineBase):
     def __init__(self, server_api=None, file_name=None):
         """
         Constructor to set up remote pipeline
+
+        @param: server_api, the address and port of the server (ex. http://fancyUrlName.com:8080)
+                file_name, the file name of custom config file
         """
         super(RemotePipeline,self).__init__(file_name)
 
@@ -33,6 +36,9 @@ class RemotePipeline(PipelineBase):
     def is_view_enabled(self, view_name):
         """
         Override method because remote pipeline server will have all views enabled
+
+        @param: view_name, the specified view name to check if it is enabled
+        @return: True
         """
         return True
 
@@ -45,25 +51,22 @@ class RemotePipeline(PipelineBase):
                 views, the views to generate
         @return: raw text of the response from server
         """
+        response = None
         try:
             data = {'text': text, 'views': views}
             response = requests.post(self.url+WEB_SERVER_SUFFIX, data)
-            if response.status_code == 200:
-                return response.text
-            elif response.status_code == 429:
-                logger.error("You reached maximum query limit with default remote server (100 queries/day)")
-                raise
-            else:
-                logger.error("Unexpected status code {}, please open an issue on GitHub for further investigation.".format(response.status_code))
         except:
             logger.error("Fail to connect to server.")
             raise
 
-    def test(self, text, views):
-        data = {'text': text, 'views': views}
         try:
-            response = requests.post(self.url+WEB_SERVER_SUFFIX, data)
-            return response
+            if response.status_code == 200:
+                return response.text
+            elif response.status_code == 429:
+                logger.error("You reached maximum query limit with default remote server (100 queries/day)")
+                raise Exception()
+            else:
+                logger.error("Unexpected status code {}, please open an issue on GitHub for further investigation.".format(response.status_code))
+                raise Exception()
         except:
-            logger.error("Fail to connect to server")
             raise
