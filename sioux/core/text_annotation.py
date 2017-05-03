@@ -123,7 +123,7 @@ class TextAnnotation(object):
         return self.get_view("SRL_PREP")
 
     @property
-    def get_srl_verb(self):
+    def get_srl_comma(self):
         """
         Wrapper on getting the SRL_COMMA view from given text annotation
         @param: text_annotation TextAnnotation instance to get SRL_COMMA view from.
