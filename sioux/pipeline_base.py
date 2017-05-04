@@ -34,8 +34,10 @@ class PipelineBase:
         @return: TextAnnotation instance of the text, None if text is empty
         """
         response = self.call_server(text, "TOKENS")
-        text_annotation = TextAnnotation(response, self)
-        return text_annotation
+        if response is not None:
+            return TextAnnotation(response, self)
+        else:
+            return None
 
     @abstractmethod
     def call_server(text, views):

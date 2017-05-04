@@ -183,7 +183,7 @@ class TextAnnotation(object):
         if requested_view is None:
             # "token" view will always be included
             if len(view_constituents) <= 1:
-                print("Invalid view name, please check.")
+                logger.error("Invalid view name, please check.")
             else:
                 logger.info("The view is the collection of the following views: {0}".format(view_constituents))
                 self.view_dictionary[name] = view_constituents
