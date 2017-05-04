@@ -20,7 +20,7 @@ class TextAnnotation(object):
 
         self.pipeline = pipeline_instance
 
-        self.text = result_json["text"]
+        self.text = result_json["text"].strip()
         if len(self.text) <= 0:
             logger.warn("Creating empty TextAnnotation.")
             self.empty = True
