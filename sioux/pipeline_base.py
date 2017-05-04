@@ -31,25 +31,15 @@ class PipelineBase:
         Initialize text annotation of given text
 
         @param: text, the text to be processed
-        @return: TextAnnotation instance of the text
+        @return: TextAnnotation instance of the text, None if text is empty
         """
-        response = self.call_server(text, "TOKENS")
-        text_annotation = TextAnnotation(response, self)
-        return text_annotation
-
-
-    def is_view_enabled(self, view_name):
-        """
-        Function to check if specified view is enabled
-    
-        @param:  view_name, the specified view name to check if it is enabled
-        @return: True if the view is enabled, False otherwise.
-        """
-        if pipeline_config.view_enabled(self.config, view_name) == False:
-            logger.error('{} not defined or disabled.'.format(view_name))
-            return False
+        if len(text) > 0:
+            response = self.call_server(text, "TOKENS")
+            text_annotation = TextAnnotation(response, self)
+            return text_annotation
         else:
-            return True
+            logger.error("Please provide an valid text.")
+            return None
 
     @abstractmethod
     def call_server(text, views):

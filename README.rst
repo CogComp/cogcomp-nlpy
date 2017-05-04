@@ -101,10 +101,9 @@ In the local pipeline the views are disabled by default. If you want to change s
 .. code-block:: python
 
    from sioux import local_pipeline
-   pipeline = local_pipeline.LocalPipeline(enable_views=['POS','LEMMA']) 
-   # constructor declaration: LocalPipeline(enable_views = None, disable_views = None, file_name = None)
-   # "enable_views" will takes a list of the view names to be used as strings, each string is the name of the view. This parameter is important only if you're using the local pipeline (A). 
-   # "file_name" is the config file used to set up pipeline (optional), please refer the latter section for more details
+   pipeline = local_pipeline.LocalPipeline() 
+   # constructor declaration: LocalPipeline()
+   
    
 Setting from Configuration file 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -113,30 +112,17 @@ Here is how to:
 
 .. code-block:: python
 
-   from sioux import local_pipeline
-   pipeline = local_pipeline.LocalPipeline(file_name = 'path_to_custom_config_file')
+   from sioux import remote_pipeline
+   pipeline = remote_pipeline.RemotePipeline(file_name = 'path_to_custom_config_file')
 
    
-The default keys and values (true/false) when models have been downloaded are specified below. If you want to use custom config file, please provide a file in similar format.
+The default keys and values are specified below. If you want to use custom config file, please provide a file in similar format.
 
 
 .. code-block:: bash
 
-    [local_pipeline_setting]
-    POS = false
-    LEMMA = false
-    NER_CONLL = false
-    NER_ONTONOTES = false
-    QUANTITIES = false
-    SHALLOW_PARSE = false
-    SRL_VERB = false
-    DEPENDENCY_STANFORD = false
-    DEPENDENCY = false
-    PARSE_STANFORD = false
-    SRL_PREP = false
-
     [remote_pipeline_setting]
-    api = ADDRESS_OF_THE_SERVER # example: http://fancyUrlName.com:8080/
+    api = ADDRESS_OF_THE_SERVER # example: http://fancyUrlName.com:8080
     
 
 Questions/Suggestions/Comments 

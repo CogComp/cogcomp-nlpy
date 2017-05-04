@@ -16,45 +16,37 @@ from . import pipeline_config
 logger = logging.getLogger(__name__)
 
 class LocalPipeline(PipelineBase):
-    def __init__(self, enable_views=None, disable_views=None, file_name = None):
+    def __init__(self):
         """
         Constructor to set up local pipeline
 
-        @param: enable_views, the views to be enabled
-                disable_views, the views to be disabled (maybe needed when user provides a custom config file)
-                file_name, the file name of the custom config file
+        @param: file_name, the file name of the custom config file
         """
-        super(LocalPipeline,self).__init__(file_name)
+        super(LocalPipeline,self).__init__()
 
         self.PipelineFactory = None
         self.pipeline = None
         self.ProtobufSerializer = None
 
-        # retrieve enabled views after incorporating parameters user provided
-        enabled_views = pipeline_config.change_temporary_config(self.config, self.models_downloaded, enable_views, disable_views, False, None)
+        pipeline_config.log_current_config(self.config, False )
 
-        if enabled_views is not None:
-            # set up JVM and load classes needed
-            try:
-                import jnius_config
-                jnius_config.add_options('-Xmx16G')
-                jnius_config.add_classpath(get_model_path()+'/*')
-            except:
-                logger.warn("Couldn't set JVM config; this might be because you're setting up the multiple instance of local pipeline.")
-
-            try:
-                from jnius import autoclass
-                self.PipelineFactory = autoclass('edu.illinois.cs.cogcomp.pipeline.main.PipelineFactory')
-                self.SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
-                self.ProtobufSerializer = autoclass('edu.illinois.cs.cogcomp.core.utilities.protobuf.ProtobufSerializer')
-                self.String = autoclass('java.lang.String')
-            except:
-                logger.error('Fail to load models, please check if your Java version is up to date.')
-                return None
-            self.pipeline = self.PipelineFactory.buildPipeline(*enabled_views)
-        else:
-            logger.error("Error encountered when setting up pipeline")
+        # set up JVM and load classes needed
+        try:
+            import jnius_config
+            jnius_config.add_options('-Xmx16G')
+            jnius_config.add_classpath(get_model_path()+'/*')
+        except:
+            logger.warn("Couldn't set JVM config; this might be because you're setting up the multiple instance of local pipeline.")
+        try:
+            from jnius import autoclass
+            self.PipelineFactory = autoclass('edu.illinois.cs.cogcomp.pipeline.main.PipelineFactory')
+            self.SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
+            self.ProtobufSerializer = autoclass('edu.illinois.cs.cogcomp.core.utilities.protobuf.ProtobufSerializer')
+            self.Boolean = autoclass('java.lang.Boolean')
+        except Exception as e:
+            logger.error('Fail to load models, please check if your Java version is up to date.')
             return None
+        self.pipeline = self.PipelineFactory.buildPipelineWithAllViews(self.Boolean(True))
 
         logger.info("pipeline has been set up")
 

@@ -1,11 +1,10 @@
 import unittest
 import sys
 import os
-
 from sioux import local_pipeline
 if os.path.exists('annotation-cache'):
     os.remove('annotation-cache')
-lp = local_pipeline.LocalPipeline(enable_views=['POS']) 
+lp = local_pipeline.LocalPipeline() 
 
 class TestLocalPipeline(unittest.TestCase):
     def setUp(self):
@@ -24,11 +23,3 @@ class TestLocalPipeline(unittest.TestCase):
         self.assertEqual(ta.get_score, 1.0)
 
         self.assertEqual(ta.get_text, "Hello,  how are you.\n\n\n I am doing fine")
-
-    def test_enabled_views(self):
-        ta = self.lp.doc("Hello,  how are you.\n\n\n I am doing fine")
-        self.assertEqual(ta.get_pos.view_name, 'POS')
-
-    def test_disabled_views(self):
-        ta = self.lp.doc("Hello,  how are you.\n\n\n I am doing fine")
-        self.assertEqual(ta.get_lemma, None)
