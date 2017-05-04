@@ -17,20 +17,8 @@ class TestPipelineBase(unittest.TestCase):
         with codecs.open(test_config_folder+'/config.cfg',mode='w',encoding='utf-8') as f:
             f.write(
 '''
-[local_pipeline_setting]
-POS = true
-LEMMA = true
-NER_CONLL = false
-NER_ONTONOTES = false
-QUANTITIES = false
-SHALLOW_PARSE = false
-SRL_VERB = false
-DEPENDENCY_STANFORD = false
-DEPENDENCY = false
-PARSE_STANFORD = false
-SRL_PREP = false
 [remote_pipeline_setting]
-api = http://austen.cs.illinois.edu:8080
+api = http://austen.cs.illinois.edu:5800
 ''')
 
         lp = local_pipeline.LocalPipeline(file_name=test_config_folder+'/config.cfg')
@@ -42,8 +30,4 @@ api = http://austen.cs.illinois.edu:8080
         srl_verb = doc.get_srl_verb
         self.assertEqual(False, pos is None)
         self.assertEqual(False, lemma is None)
-        self.assertEqual(True, srl_verb is None)
-
-        self.assertEqual(True, lp.is_view_enabled("POS"))
-        self.assertEqual(True, lp.is_view_enabled("LEMMA"))
-        self.assertEqual(False, lp.is_view_enabled("SRL_VERB"))
+        self.assertEqual(False, srl_verb is None)

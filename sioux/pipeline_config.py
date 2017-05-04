@@ -31,9 +31,11 @@ def get_current_config():
     # the config file in the package will use pipeline server instead of local pipeline
     default_config_file = os.path.join(download.get_root_directory(), CONFIG_FILENAME)
     if models_downloaded:
+        print("ABC")
         default_config_file = os.path.join(download.get_root_directory(), CONFIG_FILENAME)
         if os.path.exists(default_config_file) is False:
             download.recover_model_config()
+            print("DEF")
         config_file = default_config_file
     else:
         logger.warn('Models not found. To use pipeline locally, please refer the documentation for downloading models.')
@@ -63,7 +65,7 @@ def get_user_config(file_name):
         logger.warn('User config file not found, initializing pipeline with default config file.')
         return get_current_config()
 
-def change_temporary_config(config, models_downloaded, enable_views, disable_views, use_server, server_api):
+def change_temporary_config(config, models_downloaded, use_server, server_api):
     """
     Function to change configuration temporarily. In other words, it only changes values in the ConfigParser provided as parameter.
 
@@ -78,18 +80,7 @@ def change_temporary_config(config, models_downloaded, enable_views, disable_vie
     if server_api is not None:
         config['remote_pipeline_setting']['api'] = server_api
 
-    # Sections that can be changed if config is not read from config file in package
-    # (models_downloaded will be False if and only if config is not read from config file in package)
-    if models_downloaded == True:
-        if disable_views is not None:
-            for view in disable_views:
-                if view in config['local_pipeline_setting']:
-                    config['local_pipeline_setting'][view] = 'false'
-        if enable_views is not None:
-            for view in enable_views:
-                if view in config['local_pipeline_setting']:
-                    config['local_pipeline_setting'][view] = 'true'
-    return log_current_config(config, use_server)
+    log_current_config(config, use_server)
 
 def set_current_config(config):
     """
@@ -111,28 +102,8 @@ def log_current_config(config, use_server):
 
     @param: config, the ConfigParser instance to be logged
             use_server, Boolean to indicate if using remote server
-    @return: List of names of enabled view if use_server is False, None otherwise
     """
     if use_server:
         logger.info('Using pipeline web server with API: {0}'.format(config['remote_pipeline_setting']['api']))
-        return None
     else:
-        enabled_views = []
-        for view_setting in config.items('local_pipeline_setting'):
-            if view_setting[1] == 'true':
-                enabled_views.append(view_setting[0].upper())
-        logger.info('Using local pipeline with following views enabled: {0}'.format(enabled_views))
-        return enabled_views
-
-def view_enabled(config, view_name):
-    """
-    Function to check if view is enabled according to the configuration
-
-    @param: config, the ConfigParser instance that the check is based on
-            view_name, the name of the view to be checked
-    @return: True if the view is enabled, False otherwise
-    """
-    if view_name not in config['local_pipeline_setting'] or config['local_pipeline_setting'][view_name] == 'false':
-        return False
-    else:
-        return True
+        logger.info('Using local pipeline')
