@@ -20,5 +20,5 @@ api = someaddress
 ''')
 
         rp = remote_pipeline.RemotePipeline(file_name=test_config_folder+'/config.cfg')
-	self.assertEqual("someaddress",rp.url)
+        self.assertEqual("someaddress",rp.url)
 
