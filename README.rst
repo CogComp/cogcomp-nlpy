@@ -125,6 +125,22 @@ The default keys and values are specified below. If you want to use custom confi
     api = ADDRESS_OF_THE_SERVER # example: http://fancyUrlName.com:8080
     
 
+System failures
+~~~~~~~~~~~~~~~
+System failures are part of any software system. Upon some certain outputs (e.g. receiving error 500 from remote pipeline),
+we return :code:`None` in the output of call. When processing big documents it might make sense to check take care of
+this explicitly:
+
+.. code-block:: python
+
+    d = ... # docuemnt
+    p = ... # pipeline
+    doc = p.doc(d)
+    if doc is not None:
+        # do sth with it
+        ner_view = doc.get_ner_conll
+
+
 Questions/Suggestions/Comments 
 ------------------------------
 Use comments or pull requests. 
