@@ -6,9 +6,7 @@ import codecs
 # import local_pipeline module here because PipelineBase is an abstract class
 # and creating an instance of abstract class is not allowed
 
-from sioux import local_pipeline
-if os.path.exists('annotation-cache'):
-    os.remove('annotation-cache')
+from sioux import remote_pipeline
 
 class TestPipelineBase(unittest.TestCase):
     def test_user_config(self):
@@ -18,14 +16,9 @@ class TestPipelineBase(unittest.TestCase):
             f.write(
 '''
 [remote_pipeline_setting]
-api = http://austen.cs.illinois.edu:8080
+api = someaddress
 ''')
 
-        lp = local_pipeline.LocalPipeline(file_name=test_config_folder+'/config.cfg')
+        rp = remote_pipeline.RemotePipeline(file_name=test_config_folder+'/config.cfg')
+	self.assertEqual("someaddress",rp.url)
 
-        doc = lp.doc("Testing text.")
-
-        pos = doc.get_pos
-        lemma = doc.get_lemma
-        self.assertEqual(False, pos is None)
-        self.assertEqual(False, lemma is None)
