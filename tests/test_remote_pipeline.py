@@ -12,7 +12,7 @@ import sioux
 #from sioux import remote_pipeline
 
 
-class TestLocalPipeline(unittest.TestCase):
+class TestRemotePipeline(unittest.TestCase):
     def setUp(self):
         self.lp = sioux.remote_pipeline.RemotePipeline()
 

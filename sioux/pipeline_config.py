@@ -31,11 +31,9 @@ def get_current_config():
     # the config file in the package will use pipeline server instead of local pipeline
     default_config_file = os.path.join(download.get_root_directory(), CONFIG_FILENAME)
     if models_downloaded:
-        print("ABC")
         default_config_file = os.path.join(download.get_root_directory(), CONFIG_FILENAME)
         if os.path.exists(default_config_file) is False:
             download.recover_model_config()
-            print("DEF")
         config_file = default_config_file
     else:
         logger.warn('Models not found. To use pipeline locally, please refer the documentation for downloading models.')

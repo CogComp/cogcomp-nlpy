@@ -31,11 +31,15 @@ class PipelineBase:
         Initialize text annotation of given text
 
         @param: text, the text to be processed
-        @return: TextAnnotation instance of the text
+        @return: TextAnnotation instance of the text, None if text is empty
         """
-        response = self.call_server(text, "TOKENS")
-        text_annotation = TextAnnotation(response, self)
-        return text_annotation
+        if len(text) > 0:
+            response = self.call_server(text, "TOKENS")
+            text_annotation = TextAnnotation(response, self)
+            return text_annotation
+        else:
+            logger.error("Please provide an valid text.")
+            return None
 
     @abstractmethod
     def call_server(text, views):

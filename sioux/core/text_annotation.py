@@ -164,14 +164,17 @@ class TextAnnotation(object):
         # check if the view is retrieve correctly
         # iterate through all the views presented in response, add the view that hasn't been store,
         # return the view requested
+        requested_view = None
         view_constituents = []
         for view in result_json["views"]:
             name = view["viewName"]
             view_constituents.append(name)
-            if view["viewName"] not in self.view_dictionary:
+            if name not in self.view_dictionary:
                 self.view_dictionary[name] = self._view_builder(view)
+
+            if name == view_name:
+                requested_view = self.view_dictionary[name]
         
-        requested_view = self.get_view(view_name)
         if requested_view is None:
             # "token" view will always be included
             if len(view_constituents) <= 1:
