@@ -16,7 +16,7 @@ from . import pipeline_config
 logger = logging.getLogger(__name__)
 
 class LocalPipeline(PipelineBase):
-    def __init__(file_name = None):
+    def __init__(self, file_name = None):
         """
         Constructor to set up local pipeline
 
@@ -42,11 +42,12 @@ class LocalPipeline(PipelineBase):
             self.PipelineFactory = autoclass('edu.illinois.cs.cogcomp.pipeline.main.PipelineFactory')
             self.SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
             self.ProtobufSerializer = autoclass('edu.illinois.cs.cogcomp.core.utilities.protobuf.ProtobufSerializer')
-            self.String = autoclass('java.lang.String')
-        except:
+            self.Boolean = autoclass('java.lang.Boolean')
+        except Exception as e:
+            print e
             logger.error('Fail to load models, please check if your Java version is up to date.')
             return None
-        self.pipeline = self.PipelineFactory.buildPipelineWithAllViews()
+        self.pipeline = self.PipelineFactory.buildPipelineWithAllViews(self.Boolean(True))
 
         logger.info("pipeline has been set up")
 

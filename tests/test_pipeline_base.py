@@ -18,7 +18,7 @@ class TestPipelineBase(unittest.TestCase):
             f.write(
 '''
 [remote_pipeline_setting]
-api = http://austen.cs.illinois.edu:5800
+api = http://austen.cs.illinois.edu:8080
 ''')
 
         lp = local_pipeline.LocalPipeline(file_name=test_config_folder+'/config.cfg')
@@ -27,7 +27,5 @@ api = http://austen.cs.illinois.edu:5800
 
         pos = doc.get_pos
         lemma = doc.get_lemma
-        srl_verb = doc.get_srl_verb
         self.assertEqual(False, pos is None)
         self.assertEqual(False, lemma is None)
-        self.assertEqual(False, srl_verb is None)

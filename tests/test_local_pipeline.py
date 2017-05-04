@@ -1,11 +1,10 @@
 import unittest
 import sys
 import os
-
 from sioux import local_pipeline
 if os.path.exists('annotation-cache'):
     os.remove('annotation-cache')
-lp = local_pipeline.LocalPipeline(enable_views=['POS']) 
+lp = local_pipeline.LocalPipeline() 
 
 class TestLocalPipeline(unittest.TestCase):
     def setUp(self):
