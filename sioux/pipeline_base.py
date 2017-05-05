@@ -33,12 +33,10 @@ class PipelineBase:
         @param: text, the text to be processed
         @return: TextAnnotation instance of the text, None if text is empty
         """
-        if len(text) > 0:
-            response = self.call_server(text, "TOKENS")
-            text_annotation = TextAnnotation(response, self)
-            return text_annotation
+        response = self.call_server(text, "TOKENS")
+        if response is not None:
+            return TextAnnotation(response, self)
         else:
-            logger.error("Please provide an valid text.")
             return None
 
     @abstractmethod

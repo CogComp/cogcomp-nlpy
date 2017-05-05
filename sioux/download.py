@@ -150,7 +150,6 @@ def recover_model_config():
     """
     try:
         root_directory = get_root_directory()
-        logger.error("Current directory: {}".format(root_directory))
         default_config, config_file_path = _parse_default_config(root_directory)
     
         with codecs.open(config_file_path, mode='w', encoding='utf-8') as file:

@@ -20,7 +20,12 @@ class TextAnnotation(object):
 
         self.pipeline = pipeline_instance
 
-        self.text = result_json["text"]
+        self.text = result_json["text"].strip()
+        if len(self.text) <= 0:
+            logger.warn("Creating empty TextAnnotation.")
+            self.empty = True
+        else:
+            self.empty = False
         self.tokens = result_json["tokens"]
         self.score = result_json["sentences"]["score"]
         self.sentence_end_position = result_json["sentences"][
@@ -178,13 +183,16 @@ class TextAnnotation(object):
         if requested_view is None:
             # "token" view will always be included
             if len(view_constituents) <= 1:
-                print("Invalid view name, please check.")
+                logger.error("Invalid view name, please check.")
             else:
                 logger.info("The view is the collection of the following views: {0}".format(view_constituents))
                 self.view_dictionary[name] = view_constituents
         return requested_view
 
     def get_view(self, view_name):
+        if self.empty:
+            logger.error("No valid views on empty TextAnnotation.")
+            return None
         if view_name not in self.view_dictionary:
             additional_response = self.pipeline.call_server(self.text, view_name)
             self.add_view(view_name, additional_response)

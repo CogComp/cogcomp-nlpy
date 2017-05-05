@@ -56,7 +56,7 @@ class RemotePipeline(PipelineBase):
                 logger.error("You reached maximum query limit with default remote server (100 queries/day)")
                 raise Exception("You reached maximum query limit with default remote server (100 queries/day)")
             else:
-                logger.error("Unexpected status code {}, please open an issue on GitHub for further investigation.".format(response.status_code))
-                raise Exception("Unexpected status code {}, please open an issue on GitHub for further investigation.".format(response.status_code))
+                logger.warn("Unexpected status code {}, please open an issue on GitHub for further investigation.".format(response.status_code))
+                return None
         except:
             raise
