@@ -92,7 +92,7 @@ To download the models, run the following command:
 
 This will download model files into your home directly under :code:`~/.sioux/`. 
 
-**Note:** Note that downloading the models require you to have Maven installed on your machine. If you don't, `here are some guidelines on how to install it <https://maven.apache.org/install.html>`_. 
+**Note:** Note that downloading the models require you to have Maven 3 installed on your machine. If you don't, `here are some guidelines on how to install it <https://maven.apache.org/install.html>`_. Trained NLP models about 1.1 Gb size are downloaded for annotation purposes.
 
 **Note:** To use the pipelne locally (A) you have to make sure you have set :code:`JAVA_HOME` variable. In MacOS, you can verify it with :code:`echo "$JAVA_HOME"`. If it is not set, you can :code:`export JAVA_HOME=$(/usr/libexec/java_home)`. 
 
