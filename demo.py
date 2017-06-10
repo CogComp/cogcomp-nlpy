@@ -1,4 +1,4 @@
-from sioux import remote_pipeline
+from ccg_nlpy import remote_pipeline
 
 p = remote_pipeline.RemotePipeline()
 

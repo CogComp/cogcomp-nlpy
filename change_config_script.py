@@ -3,7 +3,7 @@ import codecs
 import os
 import sys
 
-from sioux import download
+from ccg_nlpy import download
 
 PORT = sys.argv[1]
 

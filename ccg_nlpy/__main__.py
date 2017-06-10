@@ -4,7 +4,7 @@ import argparse
 
 from .download import main as download_main
 
-parser = argparse.ArgumentParser(prog='sioux')
+parser = argparse.ArgumentParser(prog='ccg_nlpy')
 subparsers = parser.add_subparsers(help='commands')
 
 # Create the parser for download command

@@ -22,18 +22,18 @@ CLASSIFIERS = [
 ]
 
 setup(
-    name='sioux',
+    name='ccg_nlpy',
     version=VERSION,
     description=("Light-weight NLP annotators"),
     long_description=read('README.rst'),
-    url='https://github.com/IllinoisCogComp/sioux',
+    url='https://github.com/IllinoisCogComp/ccg_nlpy',
     author='Cognitive Computation Group',
     author_email='mssammon@illinois.edu',
     license='Research and Academic Use License',
     keywords="NLP, natural language processing",
     packages=find_packages(exclude=['tests.*', 'tests']),
     install_requires=['configparser', 'Cython', 'pyjnius', 'protobuf', 'requests', 'six'],
-    package_data={'sioux': ['config/*.cfg']},
+    package_data={'ccg_nlpy': ['config/*.cfg']},
     classifiers=CLASSIFIERS,
     setup_requires=['pytest-runner'],
     tests_require=['pytest', 'mock'],

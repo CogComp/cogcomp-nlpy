@@ -6,7 +6,7 @@ import codecs
 # import local_pipeline module here because PipelineBase is an abstract class
 # and creating an instance of abstract class is not allowed
 
-from sioux import remote_pipeline
+from ccg_nlpy import remote_pipeline
 
 class TestPipelineBase(unittest.TestCase):
     def test_user_config(self):

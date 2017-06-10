@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 MODEL_FOLDER = "model_{}"
 CONFIG_FILENAME = "config.cfg"
-DEFAULT_CONFIG_ROOT_DIRECTORY = "~{0}.sioux{0}".format(os.path.sep)
+DEFAULT_CONFIG_ROOT_DIRECTORY = "~{0}.ccg_nlpy{0}".format(os.path.sep)
 DEFAULT_CONFIG_VERSION = "3.1.15"
 MAVEN_COMMAND = "mvn dependency:copy-dependencies -DoutputDirectory={} -Dsilent=True"
 POM_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
@@ -20,7 +20,7 @@ POM_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.cogcomp</groupId>
-    <artifactId>sioux-pipeline-dependencies</artifactId>
+    <artifactId>ccg_nlpy-pipeline-dependencies</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <repositories>

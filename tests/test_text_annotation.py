@@ -3,8 +3,8 @@ import sys
 import os
 
 #sys.path.insert(0,'/path/to/mod_directory')
-#from sioux import pipeliner as p
-from sioux import remote_pipeline
+#from ccg_nlpy import pipeliner as p
+from ccg_nlpy import remote_pipeline
 
 class TestTextAnnotation(unittest.TestCase):
     def setUp(self):
