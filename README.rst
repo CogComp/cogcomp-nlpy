@@ -1,6 +1,6 @@
 CogComp-NLPy
 ====================
-.. image:: http://morgoth.cs.illinois.edu:5800/app/rest/builds/buildType:(id:CogcompNlpy_Build)/statusIcon)
+.. image:: http://morgoth.cs.illinois.edu:5800/app/rest/builds/buildType:(id:CogcompNlpy_Build)/statusIcon
     :target: http://morgoth.cs.illinois.edu:5800
 .. image:: https://semaphoreci.com/api/v1/projects/dc68ab4d-d1b7-4405-adca-b0c6af2e1aa0/1223617/badge.svg
     :target: https://semaphoreci.com/danyaljj/sioux-2
