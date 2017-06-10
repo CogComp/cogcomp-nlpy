@@ -29,7 +29,9 @@ Installation
 
    pip install --upgrade ccg_nlpy
 
-If you want to upgrade upgrade it on a specific version replace :code:`pip` in the command above with :code:`pip2` or :code:`pip3`. 
+If you want to upgrade upgrade it on a specific version replace :code:`pip` in the command above with :code:`pip2` or :code:`pip3`.
+
+**Note:** Here is the project page at `PyPI website <https://pypi.python.org/pypi/ccg-nlpy>`_.
 
 Getting Started 
 ---------------
