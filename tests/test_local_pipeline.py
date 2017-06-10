@@ -1,7 +1,7 @@
 import unittest
 import sys
 import os
-from sioux import local_pipeline
+from ccg_nlpy import local_pipeline
 if os.path.exists('annotation-cache'):
     os.remove('annotation-cache')
 lp = local_pipeline.LocalPipeline() 

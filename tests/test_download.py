@@ -3,7 +3,7 @@ import sys
 import os
 import codecs
 
-from sioux import download
+from ccg_nlpy import download
 
 test_config_folder = os.path.dirname(os.path.realpath(__file__))
 

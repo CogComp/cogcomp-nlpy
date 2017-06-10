@@ -8,13 +8,13 @@ if six.PY2:
 else:
     import unittest.mock as mock
 
-import sioux
-#from sioux import remote_pipeline
+import ccg_nlpy
+#from ccg_nlpy import remote_pipeline
 
 
 class TestRemotePipeline(unittest.TestCase):
     def setUp(self):
-        self.lp = sioux.remote_pipeline.RemotePipeline()
+        self.lp = ccg_nlpy.remote_pipeline.RemotePipeline()
 
     def test_doc(self):
         ta = self.lp.doc("Hello,  how are you.\n\n\n I am doing fine")
@@ -30,7 +30,7 @@ class TestRemotePipeline(unittest.TestCase):
 
         self.assertEqual(ta.get_text, "Hello,  how are you.\n\n\n I am doing fine")
 
-    @mock.patch('sioux.remote_pipeline.requests')
+    @mock.patch('ccg_nlpy.remote_pipeline.requests')
     def test_status_code(self, mock_req):
         class ResponseMock(object):
             def __init__(self, code):

@@ -65,7 +65,7 @@ class LocalPipeline(PipelineBase):
             self.pipeline.addView(text_annotation, view.strip())
         #json = SerializationHelper.serializeToJson(text_annotation)
 
-        path = os.path.expanduser('~') + "{0}.sioux{0}".format(os.path.sep) + 'temp.temp'
+        path = os.path.expanduser('~') + "{0}.ccg_nlpy{0}".format(os.path.sep) + 'temp.temp'
 
         self.ProtobufSerializer.writeToFile(text_annotation,path)
         proto_data = None

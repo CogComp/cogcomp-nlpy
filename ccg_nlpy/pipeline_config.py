@@ -14,7 +14,7 @@ user_config_file = None
 def get_current_config():
     """
     Function to get configuration for setting up pipeline.
-    If the models have been downloaded, the function will (restore and) load configuration from '~/.sioux/config.cfg.'
+    If the models have been downloaded, the function will (restore and) load configuration from '~/.ccg_nlpy/config.cfg.'
     Otherwise, it will load from 'pipeline.cfg' in the package
 
     @return: config, a ConfigParser instance with loaded configuration
