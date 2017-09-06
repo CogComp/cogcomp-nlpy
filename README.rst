@@ -35,7 +35,7 @@ If you want to upgrade upgrade it on a specific version replace :code:`pip` in t
 
 Getting Started 
 ---------------
-Here is a sample usage showing how yeezily you run our system:
+Here is a sample usage showing how easily you run our system:
 
 .. code-block:: python
 
@@ -63,7 +63,7 @@ Remote Pipeline
 ~~~~~~~~~~~~~~~~~~~~~~
 In this setting, you can send annotation requests to a remote machine. Hence there is not much memory burden on your local machine. Instead all the heavy-lifting is on the remote server.
 
-**Default remote server:**  This is the default setting. The requests are sent to our remote server, hence requires a network connection. This option is here to demonstrate how things work, but it is not a viable solution for your big experiments since we limit the number of queries to our serve (current limit is *100 queries a day*). If you are a busy nlp user, you should use any of the other options.
+**Default remote server:**  This is the default setting. The requests are sent to our remote server, hence requires a network connection. This option is here to demonstrate how things work, but it is not a viable solution for your big experiments since we limit the number of queries to our server (current limit is *100 queries a day*). If you are a busy nlp user, you should use any of the other options.
 
 **Starting your own (remote) server:** If you have a big (remote) machine, this is probably a good option for you. 
 You'll have to read the instructions on how to install the pipeline server in the `pipeline project documentation <https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline#using-pipeline-webserver>`_. In summary: 
