@@ -36,7 +36,7 @@ class LocalPipeline(PipelineBase):
             jnius_config.add_options('-Xmx16G')
             jnius_config.add_classpath(get_model_path()+'/*')
         except:
-            logger.warn("Couldn't set JVM config; this might be because you're setting up the multiple instance of local pipeline.")
+            logger.warn("Couldn't set JVM config; this might be because you're setting up the multiple instances of the local pipeline.")
         try:
             from jnius import autoclass
             self.PipelineFactory = autoclass('edu.illinois.cs.cogcomp.pipeline.main.PipelineFactory')

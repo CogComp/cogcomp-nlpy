@@ -76,7 +76,7 @@ After making sure that the server is running, we can make python call to it:
 
 .. code-block:: python
 
-   from ccg_nlp import remote_pipeline
+   from ccg_nlpy import remote_pipeline
    pipeline = remote_pipeline.RemotePipeline(server_api='http://www.fancyUrlName.com:8080') 
    # constructor declaration: RemotePipeline(server_api = None, file_name = None)
    # "server_api" is the address of the server as string. An example: http://www.fancyUrlName.com:8080
@@ -90,9 +90,9 @@ In this setting, the system will download the trained models and files required 
 
 To download the models, run the following command:
 
-  python -m ccg_nlp download
+  python -m ccg_nlpy download
 
-This will download model files into your home directly under :code:`~/.ccg_nlp/`.
+This will download model files into your home directly under :code:`~/.ccg_nlpy/`.
 
 **Note:** Note that downloading the models require you to have Maven installed on your machine. If you don't, `here are some guidelines on how to install it <https://maven.apache.org/install.html>`_. 
 
@@ -102,7 +102,7 @@ In the local pipeline the views are disabled by default. If you want to change s
 
 .. code-block:: python
 
-   from ccg_nlp import local_pipeline
+   from ccg_nlpy import local_pipeline
    pipeline = local_pipeline.LocalPipeline() 
    # constructor declaration: LocalPipeline()
    
