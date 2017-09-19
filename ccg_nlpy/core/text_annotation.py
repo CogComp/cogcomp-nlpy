@@ -31,6 +31,7 @@ class TextAnnotation(object):
         self.sentence_end_position = result_json["sentences"][
             "sentenceEndPositions"]
 
+        self.char_offsets = self._extract_char_offset(self.text, self.tokens)
         self.view_dictionary = {}
         for view in result_json["views"]:
             self.view_dictionary[view["viewName"]] = self._view_builder(view)
@@ -43,6 +44,47 @@ class TextAnnotation(object):
             return PredicateArgumentView(view, self.tokens)
         else: 
             return View(view, self.tokens)
+
+    def _extract_char_offset(self, sentence, tokens):
+        """
+        a function to extract char offsets given tokens and raw string
+        Originally implemented in
+        https://github.com/CogComp/cogcomp-nlp/blob/12cf80eabc92fe69ff7a53709f6d6e91fb00687d/core-utilities/src/main/java/edu/illinois/cs/cogcomp/core/utilities/TokenUtils.java#L27
+        """
+        offsets = []
+
+        tokenId = 0
+        characterId = 0
+
+        tokenCharacterStart = 0
+        tokenLength = 0
+
+        while (characterId < len(sentence)
+                 and sentence[characterId].isspace()):
+            characterId = characterId + 1
+
+        while (characterId < len(sentence)):
+            if (tokenLength == len(tokens[tokenId])):
+                offsets.append((tokenCharacterStart, characterId))
+
+                while (characterId < len(sentence) and sentence[characterId].isspace()):
+                    characterId = characterId + 1
+
+                tokenCharacterStart = characterId
+                tokenLength = 0
+                tokenId = tokenId + 1
+
+            else:
+                assert sentence[characterId] == tokens[tokenId][tokenLength], sentence[characterId] + " expected, found " + tokens[tokenId][tokenLength] + " instead in sentence: " + sentence;
+                tokenLength = tokenLength + 1
+                characterId = characterId + 1
+
+        if (characterId == len(sentence) and len(offsets) == len(tokens) - 1):
+            offsets.append((tokenCharacterStart, len(sentence)))
+
+        assert len(offsets) == len(tokens), offsets
+
+        return offsets
 
     # Functions to manipulate the views on text annotation
 
@@ -216,6 +258,19 @@ class TextAnnotation(object):
     @property
     def get_tokens(self):
         return self.tokens
+
+    @property
+    def get_token_char_offsets(self):
+        """
+        Returns char offsets for tokens.
+        For example, if the input string is:
+        "Hello, how are you. I am doing fine"
+        which is tokenized into this list:  [u'Hello', u',', u'how', u'are', u'you', u'.', u'I', u'am', u'doing', u'fine']
+        calling this function should return the following list of pairs:
+
+        [(0, 5), (5, 6), (7, 10), (11, 14), (15, 18), (18, 19), (20, 21), (22, 24), (25, 30), (31, 35)]
+        """
+        return self.char_offsets
 
     @property
     def get_score(self):
