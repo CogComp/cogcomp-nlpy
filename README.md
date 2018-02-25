@@ -1,25 +1,24 @@
-CogComp-NLPy
-====================
+# CogComp-NLPy
 ![http://morgoth.cs.illinois.edu:5800](http://morgoth.cs.illinois.edu:5800/app/rest/builds/buildType:(id:CogcompNlpy_Build)/statusIcon)
 ![https://semaphoreci.com/danyaljj/sioux-2](https://semaphoreci.com/api/v1/projects/dc68ab4d-d1b7-4405-adca-b0c6af2e1aa0/1223617/badge.svg)
 ![https://img.shields.io/badge/%3E%3E%3E-Api%20Docs-brightgreen.svg](http://cogcomp.cs.illinois.edu/software/doc/ccg_nlpy/)
 
 Run NLP tools such as Part-of-Speech tagging, Chunking, Named Entity Recognition, etc on your documents in Python with ease and breeze!
 
-Installation
-------------
+## Installation
+
 
 1. Make sure [you have "pip" on your system](https://pip.pypa.io/en/stable/installing/). 
 2. Make sure you have installed Cython:
 
 ```bash
-    pip install cython
+pip install cython
 ```
 
 3. Install:
 
 ```bash
-    pip install ccg_nlpy
+pip install ccg_nlpy
 ```    
 
 4. Enjoy!
@@ -34,26 +33,24 @@ If you want to upgrade upgrade it on a specific version replace `pip` in the com
 
 **Note:** Here is the project page at ![PyPI website](https://pypi.python.org/pypi/ccg-nlpy).
 
-Getting Started 
----------------
+## Getting Started 
 Here is a sample usage showing how easily you run our system:
 
 
 ```python
-   from ccg_nlpy import remote_pipeline
+from ccg_nlpy import remote_pipeline
 
-   pipeline = remote_pipeline.RemotePipeline()
-   doc = pipeline.doc("Hello, how are you. I am doing fine")
-   print(doc.get_lemma) # will produce (hello Hello) (, ,) (how how) (be are) (you you) (. .) (i I) (be am) (do doing) (fine fine)
-   print(doc.get_pos) # will produce (UH Hello) (, ,) (WRB how) (VBP are) (PRP you) (. .) (PRP I) (VBP am) (VBG doing) (JJ fine)
+pipeline = remote_pipeline.RemotePipeline()
+doc = pipeline.doc("Hello, how are you. I am doing fine")
+print(doc.get_lemma) # will produce (hello Hello) (, ,) (how how) (be are) (you you) (. .) (i I) (be am) (do doing) (fine fine)
+print(doc.get_pos) # will produce (UH Hello) (, ,) (WRB how) (VBP are) (PRP you) (. .) (PRP I) (VBP am) (VBG doing) (JJ fine)
 ```
 
 The default/easy usage has some restrictions as will deliniate in the next section. See the next section to 
 
 **Api Docs:** Here is the [API docs](http://cogcomp.cs.illinois.edu/software/doc/ccg_nlpy/pipeliner.m.html) of our `Pipeliner` module.
 
-Structure
------------------------------
+## Structure
 This tool enables you accesss [CogComp pipeline](https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline) in different forms. The figure below summarizes these approaches:
 
 ![](https://user-images.githubusercontent.com/2441454/27004781-963ae9e0-4ddd-11e7-9864-b96a52df062b.png)
@@ -61,8 +58,7 @@ This tool enables you accesss [CogComp pipeline](https://github.com/CogComp/cogc
 
 The figure above gives a summary of possible usages, as well as their pros and cons. Next we will go through each item and elaborate: 
 
-Remote Pipeline 
-~~~~~~~~~~~~~~~~~~~~~~
+### Remote Pipeline 
 In this setting, you can send annotation requests to a remote machine. Hence there is not much memory burden on your local machine. Instead all the heavy-lifting is on the remote server.
 
 **Default remote server:**  This is the default setting. The requests are sent to our remote server, hence requires a network connection. This option is here to demonstrate how things work, but it is not a viable solution for your big experiments since we limit the number of queries to our server (current limit is *100 queries a day*). If you are a busy nlp user, you should use any of the other options.
@@ -92,7 +88,7 @@ In this setting, the system will download the trained models and files required 
 
 To download the models, run the following command:
 ```bash
-  python -m ccg_nlpy download
+python -m ccg_nlpy download
 ```
 
 This will download model files into your home directly under `~/.ccg_nlpy/`.
@@ -123,8 +119,8 @@ The default keys and values are specified below. If you want to use custom confi
 
 
 ```bash
-    [remote_pipeline_setting]
-    api = ADDRESS_OF_THE_SERVER # example: http://fancyUrlName.com:8080
+[remote_pipeline_setting]
+api = ADDRESS_OF_THE_SERVER # example: http://fancyUrlName.com:8080
 ```    
 
 ### System failures
@@ -134,12 +130,12 @@ we return `None` in the output of call. When processing big documents it might m
 this explicitly:
 
 ```python
-    d = ... # docuemnt
-    p = ... # pipeline
-    doc = p.doc(d)
-    if doc is not None:
-        # do sth with it
-        ner_view = doc.get_ner_conll
+d = ... # docuemnt
+p = ... # pipeline
+doc = p.doc(d)
+if doc is not None:
+    # do sth with it
+    ner_view = doc.get_ner_conll
 ```
 
 ## Questions/Suggestions/Comments 
