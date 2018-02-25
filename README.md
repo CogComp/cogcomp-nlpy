@@ -1,18 +1,15 @@
 CogComp-NLPy
 ====================
-.. image:: http://morgoth.cs.illinois.edu:5800/app/rest/builds/buildType:(id:CogcompNlpy_Build)/statusIcon
-    :target: http://morgoth.cs.illinois.edu:5800
-.. image:: https://semaphoreci.com/api/v1/projects/dc68ab4d-d1b7-4405-adca-b0c6af2e1aa0/1223617/badge.svg
-    :target: https://semaphoreci.com/danyaljj/sioux-2
-.. image:: https://img.shields.io/badge/%3E%3E%3E-Api%20Docs-brightgreen.svg
-    :target: http://cogcomp.cs.illinois.edu/software/doc/ccg_nlpy/
+![http://morgoth.cs.illinois.edu:5800](http://morgoth.cs.illinois.edu:5800/app/rest/builds/buildType:(id:CogcompNlpy_Build)/statusIcon)
+![https://semaphoreci.com/danyaljj/sioux-2](https://semaphoreci.com/api/v1/projects/dc68ab4d-d1b7-4405-adca-b0c6af2e1aa0/1223617/badge.svg)
+![https://img.shields.io/badge/%3E%3E%3E-Api%20Docs-brightgreen.svg](http://cogcomp.cs.illinois.edu/software/doc/ccg_nlpy/)
 
 Run NLP tools such as Part-of-Speech tagging, Chunking, Named Entity Recognition, etc on your documents in Python with ease and breeze!
 
 Installation
 ------------
 
-1. Make sure `you have "pip" on your system <https://pip.pypa.io/en/stable/installing/>`_. 
+1. Make sure [you have "pip" on your system](https://pip.pypa.io/en/stable/installing/). 
 2. Make sure you have installed Cython:
 
     pip install cython
@@ -29,15 +26,15 @@ Installation
 
    pip install --upgrade ccg_nlpy
 
-If you want to upgrade upgrade it on a specific version replace :code:`pip` in the command above with :code:`pip2` or :code:`pip3`.
+If you want to upgrade upgrade it on a specific version replace `pip` in the command above with `pip2` or `pip3`.
 
-**Note:** Here is the project page at `PyPI website <https://pypi.python.org/pypi/ccg-nlpy>`_.
+**Note:** Here is the project page at ![PyPI website](https://pypi.python.org/pypi/ccg-nlpy).
 
 Getting Started 
 ---------------
 Here is a sample usage showing how easily you run our system:
 
-.. code-block:: python
+
 
    from ccg_nlpy import remote_pipeline
 
@@ -48,14 +45,14 @@ Here is a sample usage showing how easily you run our system:
 
 The default/easy usage has some restrictions as will deliniate in the next section. See the next section to 
 
-**Api Docs:** Here is the `API docs <http://cogcomp.cs.illinois.edu/software/doc/ccg_nlpy/pipeliner.m.html>`_ of our `Pipeliner` module.
+**Api Docs:** Here is the ![API docs](http://cogcomp.cs.illinois.edu/software/doc/ccg_nlpy/pipeliner.m.html) of our `Pipeliner` module.
 
 Structure
 -----------------------------
-This tool enables you accesss `CogComp pipeline <https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline>`_ in different forms. The figure below summarizes these approaches:
+This tool enables you accesss ![CogComp pipeline](https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline) in different forms. The figure below summarizes these approaches:
 
-.. figure:: https://user-images.githubusercontent.com/2441454/27004781-963ae9e0-4ddd-11e7-9864-b96a52df062b.png
-   :scale: 50 %
+![](https://user-images.githubusercontent.com/2441454/27004781-963ae9e0-4ddd-11e7-9864-b96a52df062b.png)
+
 
 The figure above gives a summary of possible usages, as well as their pros and cons. Next we will go through each item and elaborate: 
 
