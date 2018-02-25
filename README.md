@@ -1,7 +1,6 @@
 # CogComp-NLPy
-![http://morgoth.cs.illinois.edu:5800](http://morgoth.cs.illinois.edu:5800/app/rest/builds/buildType:(id:CogcompNlpy_Build)/statusIcon)
+![http://morgoth.cs.illinois.edu:5800](http://morgoth.cs.illinois.edu:5800/app/rest/builds/buildType:(id:CogcompNlpy_Build)/statusIcon) 
 ![https://semaphoreci.com/danyaljj/sioux-2](https://semaphoreci.com/api/v1/projects/dc68ab4d-d1b7-4405-adca-b0c6af2e1aa0/1223617/badge.svg)
-![https://img.shields.io/badge/%3E%3E%3E-Api%20Docs-brightgreen.svg](http://cogcomp.cs.illinois.edu/software/doc/ccg_nlpy/)
 
 Run NLP tools such as Part-of-Speech tagging, Chunking, Named Entity Recognition, etc on your documents in Python with ease and breeze!
 
@@ -31,7 +30,7 @@ pip install ccg_nlpy
 
 If you want to upgrade upgrade it on a specific version replace `pip` in the command above with `pip2` or `pip3`.
 
-**Note:** Here is the project page at ![PyPI website](https://pypi.python.org/pypi/ccg-nlpy).
+**Note:** Here is the project page at [PyPI website](https://pypi.python.org/pypi/ccg-nlpy).
 
 ## Getting Started 
 Here is a sample usage showing how easily you run our system:
