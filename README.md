@@ -77,17 +77,17 @@ You'll have to read the instructions on how to install the pipeline server in th
 After making sure that the server is running, we can make python call to it: 
 
 ```python
-   from ccg_nlpy import remote_pipeline
-   pipeline = remote_pipeline.RemotePipeline(server_api='http://www.fancyUrlName.com:8080') 
-   # constructor declaration: RemotePipeline(server_api = None, file_name = None)
-   # "server_api" is the address of the server as string. An example: http://www.fancyUrlName.com:8080
-   # "file_name" is the config file used to set up pipeline (optional), please refer the latter section for more details
+from ccg_nlpy import remote_pipeline
+pipeline = remote_pipeline.RemotePipeline(server_api='http://www.fancyUrlName.com:8080') 
+# constructor declaration: RemotePipeline(server_api = None, file_name = None)
+# "server_api" is the address of the server as string. An example: http://www.fancyUrlName.com:8080
+# "file_name" is the config file used to set up pipeline (optional), please refer the latter section for more details
 ```
 
 **Note:** This tool is based on CogComp's [pipeline project](https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline>). Essentially annotator included in the pipeline should be accessible here. 
  
-Local Pipeline 
-~~~~~~~~~~~~~~~~~~~~~~
+### Local Pipeline 
+
 In this setting, the system will download the trained models and files required to run the pipeline locally. Since everything is run on your machine, it will probably require a lot of memory (the amount depends on which annotations you use). If you have a single big machine (i.e. memory > 15GB) for your expeirments, this is probably a good option for you.
 
 To download the models, run the following command:
@@ -104,20 +104,19 @@ This will download model files into your home directly under `~/.ccg_nlpy/`.
 In the local pipeline the views are disabled by default. If you want to change specific behaviors, such as activating or deactivating specific components, you can specify the parameters while initializing local/remote pipeline module.
 
 ```python 
-   from ccg_nlpy import local_pipeline
-   pipeline = local_pipeline.LocalPipeline() 
-   # constructor declaration: LocalPipeline()
+from ccg_nlpy import local_pipeline
+pipeline = local_pipeline.LocalPipeline() 
+# constructor declaration: LocalPipeline()
 ```
    
-   
-Setting from Configuration file 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Setting from Configuration file 
+
 You can set settings on how to run CogComp-NLPy via a local option too, rather than setting it programmatically.
 Here is how to: 
 
 ```python 
-   from ccg_nlpy import remote_pipeline
-   pipeline = remote_pipeline.RemotePipeline(file_name = 'path_to_custom_config_file')
+from ccg_nlpy import remote_pipeline
+pipeline = remote_pipeline.RemotePipeline(file_name = 'path_to_custom_config_file')
 ```
    
 The default keys and values are specified below. If you want to use custom config file, please provide a file in similar format.
@@ -128,8 +127,8 @@ The default keys and values are specified below. If you want to use custom confi
     api = ADDRESS_OF_THE_SERVER # example: http://fancyUrlName.com:8080
 ```    
 
-System failures
-~~~~~~~~~~~~~~~
+### System failures
+
 System failures are part of any software system. Upon some certain outputs (e.g. receiving error 500 from remote pipeline),
 we return `None` in the output of call. When processing big documents it might make sense to check take care of
 this explicitly:
@@ -143,7 +142,7 @@ this explicitly:
         ner_view = doc.get_ner_conll
 ```
 
-Questions/Suggestions/Comments 
-------------------------------
+## Questions/Suggestions/Comments 
+
 Use comments or pull requests. 
 
