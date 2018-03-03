@@ -25,7 +25,7 @@ setup(
     name='ccg_nlpy',
     version=VERSION,
     description=("Light-weight NLP annotators"),
-    long_description=read('README.rst'),
+    long_description=read('README.md'),
     url='https://github.com/IllinoisCogComp/ccg_nlpy',
     author='Cognitive Computation Group',
     author_email='mssammon@illinois.edu',
