@@ -42,6 +42,7 @@ class View(object):
 
         # get view_type: TreeView, PredicateArgument, TokenLabelView, ...
         full_type = view["viewData"][0]["viewType"]
+        self.generator = view["viewData"][0]["generator"]
         split_by_period = full_type.split(".")
         self.view_type = split_by_period[len(split_by_period) - 1]
 
@@ -201,3 +202,19 @@ class View(object):
                     (cons['start'] <= start_token_index and cons['end'] >= end_token_index)):
                 view_overlapping_span.append(cons)
         return view_overlapping_span
+
+    @property
+    def as_json(self):
+        output = {
+            "viewName": self.view_name,
+            "viewData": [
+                {
+                    "viewType": self.view_type,
+                    "viewName": self.view_name,
+                    "generator": self.generator,
+                    "score": 1,
+                    "constituents": self.cons_list
+                }
+            ]
+        }
+        return output

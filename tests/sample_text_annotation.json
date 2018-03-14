@@ -1,0 +1,224 @@
+{
+  "corpusId": "",
+  "id": "",
+  "text": "\"This is a sample sentence. I\u0027m happy.\"",
+  "tokens": [
+    "\"",
+    "This",
+    "is",
+    "a",
+    "sample",
+    "sentence",
+    ".",
+    "I",
+    "\u0027m",
+    "happy",
+    ".",
+    "\""
+  ],
+  "sentences": {
+    "generator": "TokenizerTextAnnotationBuilder",
+    "score": 1.0,
+    "sentenceEndPositions": [
+      7,
+      12
+    ]
+  },
+  "views": [
+    {
+      "viewName": "MENTION",
+      "viewData": [
+        {
+          "viewType": "edu.illinois.cs.cogcomp.core.datastructures.textannotation.SpanLabelView",
+          "viewName": "MENTION",
+          "generator": "org.cogcomp.md.MentionAnnotator",
+          "score": 1.0,
+          "constituents": [
+            {
+              "label": "PRO-PER",
+              "score": 1.0,
+              "start": 7,
+              "end": 8,
+              "properties": {
+                "EntityHeadEndSpan": "1",
+                "EntityHeadStartSpan": "0",
+                "EntityMentionType": "PRO",
+                "EntityType": "PER"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "viewName": "POS",
+      "viewData": [
+        {
+          "viewType": "edu.illinois.cs.cogcomp.core.datastructures.textannotation.TokenLabelView",
+          "viewName": "POS",
+          "generator": "edu.illinois.cs.cogcomp.pos.POSAnnotator",
+          "score": 1.0,
+          "constituents": [
+            {
+              "label": "``",
+              "score": 1.0,
+              "start": 0,
+              "end": 1
+            },
+            {
+              "label": "DT",
+              "score": 1.0,
+              "start": 1,
+              "end": 2
+            },
+            {
+              "label": "VBZ",
+              "score": 1.0,
+              "start": 2,
+              "end": 3
+            },
+            {
+              "label": "DT",
+              "score": 1.0,
+              "start": 3,
+              "end": 4
+            },
+            {
+              "label": "NN",
+              "score": 1.0,
+              "start": 4,
+              "end": 5
+            },
+            {
+              "label": "NN",
+              "score": 1.0,
+              "start": 5,
+              "end": 6
+            },
+            {
+              "label": ".",
+              "score": 1.0,
+              "start": 6,
+              "end": 7
+            },
+            {
+              "label": "PRP",
+              "score": 1.0,
+              "start": 7,
+              "end": 8
+            },
+            {
+              "label": "VBP",
+              "score": 1.0,
+              "start": 8,
+              "end": 9
+            },
+            {
+              "label": "JJ",
+              "score": 1.0,
+              "start": 9,
+              "end": 10
+            },
+            {
+              "label": ".",
+              "score": 1.0,
+              "start": 10,
+              "end": 11
+            },
+            {
+              "label": "``",
+              "score": 1.0,
+              "start": 11,
+              "end": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "viewName": "TOKENS",
+      "viewData": [
+        {
+          "viewType": "edu.illinois.cs.cogcomp.core.datastructures.textannotation.TokenLabelView",
+          "viewName": "TOKENS",
+          "generator": "UserSpecified",
+          "score": 1.0,
+          "constituents": [
+            {
+              "label": "",
+              "score": 1.0,
+              "start": 0,
+              "end": 1
+            },
+            {
+              "label": "",
+              "score": 1.0,
+              "start": 1,
+              "end": 2
+            },
+            {
+              "label": "",
+              "score": 1.0,
+              "start": 2,
+              "end": 3
+            },
+            {
+              "label": "",
+              "score": 1.0,
+              "start": 3,
+              "end": 4
+            },
+            {
+              "label": "",
+              "score": 1.0,
+              "start": 4,
+              "end": 5
+            },
+            {
+              "label": "",
+              "score": 1.0,
+              "start": 5,
+              "end": 6
+            },
+            {
+              "label": "",
+              "score": 1.0,
+              "start": 6,
+              "end": 7
+            },
+            {
+              "label": "",
+              "score": 1.0,
+              "start": 7,
+              "end": 8
+            },
+            {
+              "label": "",
+              "score": 1.0,
+              "start": 8,
+              "end": 9
+            },
+            {
+              "label": "",
+              "score": 1.0,
+              "start": 9,
+              "end": 10
+            },
+            {
+              "label": "",
+              "score": 1.0,
+              "start": 10,
+              "end": 11
+            },
+            {
+              "label": "",
+              "score": 1.0,
+              "start": 11,
+              "end": 12
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
