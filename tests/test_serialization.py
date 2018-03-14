@@ -6,7 +6,7 @@ from ccg_nlpy import TextAnnotation
 
 class TestView(unittest.TestCase):
     def setUp(self):
-        with open('sample_text_annotation.json', 'r') as myfile:
+        with open('tests/sample_text_annotation.json', 'r') as myfile:
             data = myfile.read()
         self.ta = TextAnnotation(json_str=data)
 
