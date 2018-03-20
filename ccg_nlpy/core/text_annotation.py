@@ -291,4 +291,4 @@ class TextAnnotation(object):
             "sentences": self.sentences,
             "views": [v.as_json for v in self.view_dictionary.values()]
         }
-        return json.dumps(output)
+        return output
