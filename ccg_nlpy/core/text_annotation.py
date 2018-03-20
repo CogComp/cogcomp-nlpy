@@ -19,7 +19,8 @@ class TextAnnotation(object):
         result_json = json.loads(json_str)
 
         self.pipeline = pipeline_instance
-
+        self.corpusId = result_json["corpusId"].strip()
+        self.id = result_json["id"].strip()
         self.text = result_json["text"].strip()
         if len(self.text) <= 0:
             logger.warn("Creating empty TextAnnotation.")
@@ -28,8 +29,8 @@ class TextAnnotation(object):
             self.empty = False
         self.tokens = result_json["tokens"]
         self.score = result_json["sentences"]["score"]
-        self.sentence_end_position = result_json["sentences"][
-            "sentenceEndPositions"]
+        self.sentences = result_json["sentences"]
+        self.sentence_end_position = self.sentences["sentenceEndPositions"]
 
         self.char_offsets = self._extract_char_offset(self.text, self.tokens)
         self.view_dictionary = {}
@@ -279,3 +280,15 @@ class TextAnnotation(object):
     @property
     def get_sentence_end_token_indices(self):
         return self.sentence_end_position
+
+    @property
+    def as_json(self):
+        output = {
+            "corpusId": self.corpusId,
+            "id": self.id,
+            "text": self.text,
+            "tokens": self.tokens,
+            "sentences": self.sentences,
+            "views": [v.as_json for v in self.view_dictionary.values()]
+        }
+        return json.dumps(output)
