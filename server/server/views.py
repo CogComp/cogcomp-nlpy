@@ -20,4 +20,8 @@ def annotate(request):
 
     doc = pipeline.doc(text)
 
+    if 'NITISH_VIEW' in views:
+        pass # if the view is requested add it to the document.  
+
+
     return JsonResponse(doc.as_json)
