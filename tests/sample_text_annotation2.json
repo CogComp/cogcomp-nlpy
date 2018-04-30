@@ -1,12 +1,12 @@
 {
   "corpusId": "",
   "id": "",
-  "text": "She gave the flowed to him and kissed him on the cheeck. Then Obama landed in JFK. This is a sample sentence. I\u0027m happy.",
+  "text": "She gave the flower to him and kissed him on the cheeck. Then Obama landed in JFK. This is a sample sentence. I\u0027m happy..",
   "tokens": [
     "She",
     "gave",
     "the",
-    "flowed",
+    "flower",
     "to",
     "him",
     "and",
@@ -31,7 +31,7 @@
     "I",
     "\u0027m",
     "happy",
-    "."
+    ".."
   ],
   "sentences": {
     "generator": "TokenizerTextAnnotationBuilder",
@@ -73,14 +73,14 @@
             {
               "label": "OBJ",
               "score": 1.0,
-              "start": 2,
-              "end": 3
-            },
-            {
-              "label": "COORD",
-              "score": 1.0,
               "start": 3,
               "end": 4
+            },
+            {
+              "label": "NMOD",
+              "score": 1.0,
+              "start": 2,
+              "end": 3
             },
             {
               "label": "DTV",
@@ -212,13 +212,13 @@
               "end": 26
             },
             {
-              "label": "P",
+              "label": "PRD",
               "score": 1.0,
               "start": 28,
               "end": 29
             },
             {
-              "label": "PRD",
+              "label": "NMOD",
               "score": 1.0,
               "start": 27,
               "end": 28
@@ -244,9 +244,9 @@
               "targetConstituent": 3
             },
             {
-              "relationName": "COORD",
+              "relationName": "NMOD",
               "score": 1.0,
-              "srcConstituent": 0,
+              "srcConstituent": 3,
               "targetConstituent": 4
             },
             {
@@ -364,15 +364,15 @@
               "targetConstituent": 26
             },
             {
-              "relationName": "P",
-              "score": 1.0,
-              "srcConstituent": 26,
-              "targetConstituent": 27
-            },
-            {
               "relationName": "PRD",
               "score": 1.0,
               "srcConstituent": 25,
+              "targetConstituent": 27
+            },
+            {
+              "relationName": "NMOD",
+              "score": 1.0,
+              "srcConstituent": 27,
               "targetConstituent": 28
             }
           ]
@@ -407,7 +407,7 @@
               "end": 3
             },
             {
-              "label": "flow",
+              "label": "flower",
               "score": 1.0,
               "start": 3,
               "end": 4
@@ -557,7 +557,7 @@
               "end": 28
             },
             {
-              "label": ".",
+              "label": "..",
               "score": 1.0,
               "start": 28,
               "end": 29
@@ -731,13 +731,7 @@
               "label": "NP",
               "score": 1.0,
               "start": 2,
-              "end": 6
-            },
-            {
-              "label": "NP",
-              "score": 1.0,
-              "start": 2,
-              "end": 3
+              "end": 4
             },
             {
               "label": "DT",
@@ -752,19 +746,13 @@
               "end": 3
             },
             {
-              "label": "VP",
-              "score": 1.0,
-              "start": 3,
-              "end": 6
-            },
-            {
-              "label": "VBN",
+              "label": "NN",
               "score": 1.0,
               "start": 3,
               "end": 4
             },
             {
-              "label": "flowed",
+              "label": "flower",
               "score": 1.0,
               "start": 3,
               "end": 4
@@ -1157,7 +1145,7 @@
               "label": "VP",
               "score": 1.0,
               "start": 26,
-              "end": 28
+              "end": 29
             },
             {
               "label": "VBP",
@@ -1172,10 +1160,10 @@
               "end": 27
             },
             {
-              "label": "ADJP",
+              "label": "NP",
               "score": 1.0,
               "start": 27,
-              "end": 28
+              "end": 29
             },
             {
               "label": "JJ",
@@ -1190,13 +1178,13 @@
               "end": 28
             },
             {
-              "label": ".",
+              "label": "NN",
               "score": 1.0,
               "start": 28,
               "end": 29
             },
             {
-              "label": ".",
+              "label": "..",
               "score": 1.0,
               "start": 28,
               "end": 29
@@ -1272,19 +1260,19 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 11,
+              "srcConstituent": 9,
               "targetConstituent": 12
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 9,
+              "srcConstituent": 12,
               "targetConstituent": 13
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 13,
+              "srcConstituent": 6,
               "targetConstituent": 14
             },
             {
@@ -1296,13 +1284,13 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 13,
+              "srcConstituent": 15,
               "targetConstituent": 16
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 16,
+              "srcConstituent": 14,
               "targetConstituent": 17
             },
             {
@@ -1314,13 +1302,13 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 16,
+              "srcConstituent": 18,
               "targetConstituent": 19
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 19,
+              "srcConstituent": 5,
               "targetConstituent": 20
             },
             {
@@ -1344,13 +1332,13 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 5,
+              "srcConstituent": 23,
               "targetConstituent": 24
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 24,
+              "srcConstituent": 22,
               "targetConstituent": 25
             },
             {
@@ -1362,13 +1350,13 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 24,
+              "srcConstituent": 26,
               "targetConstituent": 27
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 27,
+              "srcConstituent": 22,
               "targetConstituent": 28
             },
             {
@@ -1380,13 +1368,13 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 24,
+              "srcConstituent": 29,
               "targetConstituent": 30
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 30,
+              "srcConstituent": 28,
               "targetConstituent": 31
             },
             {
@@ -1398,13 +1386,13 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 30,
+              "srcConstituent": 32,
               "targetConstituent": 33
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 33,
+              "srcConstituent": 31,
               "targetConstituent": 34
             },
             {
@@ -1416,7 +1404,7 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 33,
+              "srcConstituent": 1,
               "targetConstituent": 36
             },
             {
@@ -1428,14 +1416,14 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 1,
-              "targetConstituent": 38
+              "srcConstituent": 38,
+              "targetConstituent": 39
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 38,
-              "targetConstituent": 39
+              "srcConstituent": 39,
+              "targetConstituent": 40
             },
             {
               "relationName": "ParentOf",
@@ -1446,7 +1434,7 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 41,
+              "srcConstituent": 39,
               "targetConstituent": 42
             },
             {
@@ -1458,13 +1446,13 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 41,
+              "srcConstituent": 43,
               "targetConstituent": 44
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 44,
+              "srcConstituent": 39,
               "targetConstituent": 45
             },
             {
@@ -1476,13 +1464,13 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 41,
+              "srcConstituent": 46,
               "targetConstituent": 47
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 47,
+              "srcConstituent": 45,
               "targetConstituent": 48
             },
             {
@@ -1494,13 +1482,13 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 47,
+              "srcConstituent": 49,
               "targetConstituent": 50
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 50,
+              "srcConstituent": 48,
               "targetConstituent": 51
             },
             {
@@ -1512,13 +1500,13 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 50,
+              "srcConstituent": 52,
               "targetConstituent": 53
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 53,
+              "srcConstituent": 39,
               "targetConstituent": 54
             },
             {
@@ -1530,14 +1518,14 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 41,
-              "targetConstituent": 56
+              "srcConstituent": 56,
+              "targetConstituent": 57
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 56,
-              "targetConstituent": 57
+              "srcConstituent": 57,
+              "targetConstituent": 58
             },
             {
               "relationName": "ParentOf",
@@ -1554,7 +1542,7 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 60,
+              "srcConstituent": 57,
               "targetConstituent": 61
             },
             {
@@ -1566,13 +1554,13 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 59,
+              "srcConstituent": 62,
               "targetConstituent": 63
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 63,
+              "srcConstituent": 61,
               "targetConstituent": 64
             },
             {
@@ -1584,13 +1572,13 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 63,
+              "srcConstituent": 65,
               "targetConstituent": 66
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 66,
+              "srcConstituent": 64,
               "targetConstituent": 67
             },
             {
@@ -1602,7 +1590,7 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 66,
+              "srcConstituent": 64,
               "targetConstituent": 69
             },
             {
@@ -1614,7 +1602,7 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 66,
+              "srcConstituent": 57,
               "targetConstituent": 71
             },
             {
@@ -1626,14 +1614,14 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 59,
-              "targetConstituent": 73
+              "srcConstituent": 73,
+              "targetConstituent": 74
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 73,
-              "targetConstituent": 74
+              "srcConstituent": 74,
+              "targetConstituent": 75
             },
             {
               "relationName": "ParentOf",
@@ -1650,7 +1638,7 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 77,
+              "srcConstituent": 74,
               "targetConstituent": 78
             },
             {
@@ -1662,13 +1650,13 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 76,
+              "srcConstituent": 79,
               "targetConstituent": 80
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 80,
+              "srcConstituent": 78,
               "targetConstituent": 81
             },
             {
@@ -1680,13 +1668,13 @@
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 80,
+              "srcConstituent": 82,
               "targetConstituent": 83
             },
             {
               "relationName": "ParentOf",
               "score": 1.0,
-              "srcConstituent": 83,
+              "srcConstituent": 81,
               "targetConstituent": 84
             },
             {
@@ -1694,18 +1682,6 @@
               "score": 1.0,
               "srcConstituent": 84,
               "targetConstituent": 85
-            },
-            {
-              "relationName": "ParentOf",
-              "score": 1.0,
-              "srcConstituent": 76,
-              "targetConstituent": 86
-            },
-            {
-              "relationName": "ParentOf",
-              "score": 1.0,
-              "srcConstituent": 86,
-              "targetConstituent": 87
             }
           ]
         }
@@ -1739,7 +1715,7 @@
               "end": 3
             },
             {
-              "label": "VBD",
+              "label": "NN",
               "score": 1.0,
               "start": 3,
               "end": 4
@@ -1889,7 +1865,7 @@
               "end": 28
             },
             {
-              "label": ".",
+              "label": "NN",
               "score": 1.0,
               "start": 28,
               "end": 29
@@ -2033,10 +2009,10 @@
               "end": 27
             },
             {
-              "label": "ADJP",
+              "label": "NP",
               "score": 1.0,
               "start": 27,
-              "end": 28
+              "end": 29
             }
           ]
         }
@@ -2062,44 +2038,22 @@
               }
             },
             {
+              "label": "A2",
+              "score": 1.0,
+              "start": 4,
+              "end": 6
+            },
+            {
               "label": "A1",
               "score": 1.0,
               "start": 2,
-              "end": 6
+              "end": 4
             },
             {
               "label": "A0",
               "score": 1.0,
               "start": 0,
               "end": 1
-            },
-            {
-              "label": "Predicate",
-              "score": 1.0,
-              "start": 3,
-              "end": 4,
-              "properties": {
-                "SenseNumber": "01",
-                "predicate": "flow"
-              }
-            },
-            {
-              "label": "A1",
-              "score": 1.0,
-              "start": 0,
-              "end": 1
-            },
-            {
-              "label": "AM-MNR",
-              "score": 1.0,
-              "start": 2,
-              "end": 3
-            },
-            {
-              "label": "AM-MNR",
-              "score": 1.0,
-              "start": 4,
-              "end": 6
             },
             {
               "label": "Predicate",
@@ -2192,91 +2146,81 @@
             {
               "label": "A1",
               "score": 1.0,
-              "start": 25,
-              "end": 26
+              "start": 27,
+              "end": 29
             },
             {
               "label": "AM-MNR",
               "score": 1.0,
-              "start": 27,
-              "end": 28
+              "start": 25,
+              "end": 26
             }
           ],
           "relations": [
             {
-              "relationName": "A1",
+              "relationName": "A2",
               "srcConstituent": 0,
               "targetConstituent": 1
             },
             {
-              "relationName": "A0",
+              "relationName": "A1",
               "srcConstituent": 0,
               "targetConstituent": 2
             },
             {
-              "relationName": "A1",
-              "srcConstituent": 3,
-              "targetConstituent": 4
+              "relationName": "A0",
+              "srcConstituent": 0,
+              "targetConstituent": 3
             },
             {
-              "relationName": "AM-MNR",
-              "srcConstituent": 3,
+              "relationName": "A1",
+              "srcConstituent": 4,
               "targetConstituent": 5
             },
             {
-              "relationName": "AM-MNR",
-              "srcConstituent": 3,
+              "relationName": "A0",
+              "srcConstituent": 4,
               "targetConstituent": 6
             },
             {
-              "relationName": "A1",
-              "srcConstituent": 7,
-              "targetConstituent": 8
+              "relationName": "A2",
+              "srcConstituent": 4,
+              "targetConstituent": 7
             },
             {
-              "relationName": "A0",
-              "srcConstituent": 7,
+              "relationName": "A1",
+              "srcConstituent": 8,
               "targetConstituent": 9
             },
             {
-              "relationName": "A2",
-              "srcConstituent": 7,
+              "relationName": "AM-LOC",
+              "srcConstituent": 8,
               "targetConstituent": 10
             },
             {
-              "relationName": "A1",
-              "srcConstituent": 11,
-              "targetConstituent": 12
-            },
-            {
-              "relationName": "AM-LOC",
-              "srcConstituent": 11,
-              "targetConstituent": 13
-            },
-            {
               "relationName": "AM-DIS",
-              "srcConstituent": 11,
-              "targetConstituent": 14
+              "srcConstituent": 8,
+              "targetConstituent": 11
             },
             {
               "relationName": "AM-MNR",
+              "srcConstituent": 12,
+              "targetConstituent": 13
+            },
+            {
+              "relationName": "A1",
+              "srcConstituent": 12,
+              "targetConstituent": 14
+            },
+            {
+              "relationName": "A1",
               "srcConstituent": 15,
               "targetConstituent": 16
             },
             {
-              "relationName": "A1",
+              "relationName": "AM-MNR",
               "srcConstituent": 15,
               "targetConstituent": 17
-            },
-            {
-              "relationName": "A1",
-              "srcConstituent": 18,
-              "targetConstituent": 19
-            },
-            {
-              "relationName": "AM-MNR",
-              "srcConstituent": 18,
-              "targetConstituent": 20
             }
           ]
         }
