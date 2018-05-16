@@ -2,9 +2,11 @@ import unittest
 import sys
 import os
 from ccg_nlpy import local_pipeline
+
 if os.path.exists('annotation-cache'):
     os.remove('annotation-cache')
-lp = local_pipeline.LocalPipeline() 
+lp = local_pipeline.LocalPipeline()
+
 
 class TestLocalPipeline(unittest.TestCase):
     def setUp(self):
@@ -23,3 +25,13 @@ class TestLocalPipeline(unittest.TestCase):
         self.assertEqual(ta.get_score, 1.0)
 
         self.assertEqual(ta.get_text, "Hello,  how are you.\n\n\n I am doing fine")
+
+    def test_doc_illigal_characters(self):
+        ta = self.lp.doc("Hillary Clinton�s Candidacy Reveals Generational Schism Among Women https://t.co/6u3lmN7nIL")
+
+        tokens = ['Hillary', 'Clintons', 'Candidacy', 'Reveals', 'Generational', 'Schism', 'Among', 'Women',
+                  'https://t.co/6u3lmN7nIL']
+        self.assertEqual(ta.get_tokens, tokens)
+
+        self.assertEqual(ta.get_text,
+                         "Hillary Clintons Candidacy Reveals Generational Schism Among Women https://t.co/6u3lmN7nIL")
