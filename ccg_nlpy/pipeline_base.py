@@ -53,5 +53,5 @@ class PipelineBase:
         return None
 
 
-    def clean_text(self, text: str) -> str:
+    def clean_text(self, text):
         return text.encode("ascii", errors="ignore").decode()
