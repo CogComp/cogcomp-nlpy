@@ -1,5 +1,6 @@
+# -*- coding: utf8 -*-
+
 import unittest
-import sys
 import os
 from ccg_nlpy import local_pipeline
 
