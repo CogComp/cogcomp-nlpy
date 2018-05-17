@@ -44,7 +44,7 @@ class LocalPipeline(PipelineBase):
             from jnius import autoclass
             self.PipelineFactory = autoclass('edu.illinois.cs.cogcomp.pipeline.main.PipelineFactory')
             self.SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
-            self.ProtobufSerializer = autoclass('edu.illinois.cs.cogcomp.core.utilities.protobuf.ProtobufSerializer')
+            # self.ProtobufSerializer = autoclass('edu.illinois.cs.cogcomp.core.utilities.protobuf.ProtobufSerializer')
             self.Boolean = autoclass('java.lang.Boolean')
             self.JString = autoclass('java.lang.String')
         except Exception as e:
@@ -74,17 +74,17 @@ class LocalPipeline(PipelineBase):
                     logger.error('Failed to add view ' + view.strip())
                     logger.error(str(e))
 
-        # json = SerializationHelper.serializeToJson(text_annotation)
+        json = self.SerializationHelper.serializeToJson(text_annotation)
 
-        path = os.path.expanduser('~') + "{0}.ccg_nlpy{0}".format(os.path.sep) + 'temp.temp'
+        # path = os.path.expanduser('~') + "{0}.ccg_nlpy{0}".format(os.path.sep) + 'temp.temp'
+        #
+        # self.ProtobufSerializer.writeToFile(text_annotation, self.JString(path))
+        # proto_data = None
+        # with open(path, 'rb') as f:
+        #     proto_data = f.read()
+        #
+        # message = TextAnnotation_pb2.TextAnnotationProto()
+        # message.ParseFromString(proto_data)
+        # proto_to_json = json_format.MessageToJson(message)
 
-        self.ProtobufSerializer.writeToFile(text_annotation, self.JString(path))
-        proto_data = None
-        with open(path, 'rb') as f:
-            proto_data = f.read()
-
-        message = TextAnnotation_pb2.TextAnnotationProto()
-        message.ParseFromString(proto_data)
-        proto_to_json = json_format.MessageToJson(message)
-
-        return proto_to_json
+        return json

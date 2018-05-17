@@ -27,7 +27,7 @@ class TestLocalPipeline(unittest.TestCase):
         self.assertEqual(ta.get_text, "Hello,  how are you.\n\n\n I am doing fine")
 
     def test_doc_illigal_characters(self):
-        ta = self.lp.doc("Hillary Clinton�s Candidacy Reveals Generational Schism Among Women https://t.co/6u3lmN7nIL")
+        ta = self.lp.doc(u"Hillary Clinton�s Candidacy Reveals Generational Schism Among Women https://t.co/6u3lmN7nIL")
 
         tokens = ['Hillary', 'Clintons', 'Candidacy', 'Reveals', 'Generational', 'Schism', 'Among', 'Women',
                   'https://t.co/6u3lmN7nIL']
