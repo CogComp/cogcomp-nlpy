@@ -33,7 +33,7 @@ class PipelineBase:
         @param: text, the text to be processed
         @return: TextAnnotation instance of the text, None if text is empty
         """
-        response = self.call_server(text, "TOKENS")
+        response = self.call_server(self.clean_text(text), "TOKENS")
         if response is not None:
             return TextAnnotation(response, self)
         else:
@@ -51,3 +51,7 @@ class PipelineBase:
         logger.error("This function should be overrided.")
         #raise NotImplementedError()
         return None
+
+
+    def clean_text(self, text):
+        return text.encode("ascii", errors="ignore").decode()
