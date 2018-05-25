@@ -177,7 +177,7 @@ class View(object):
                     self.labels_to_scores_array):
                 return [self.labels_to_scores_array[position]]
             else:
-                return self.relation_array
+                return self.labels_to_scores_array
            
     def get_con_position(self, position=None):
         """
