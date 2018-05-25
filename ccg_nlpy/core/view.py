@@ -48,8 +48,9 @@ class View(object):
 
         self.cons_list = None
         self.relation_array = None
+        self.labels_to_scores_array = None
 
-        if "constituents" in view["viewData"][0]:
+        if "constituents" in view["viewData"][0] and view["viewData"][0]["constituents"] != None:
             self.cons_list = []
             for constituent in view["viewData"][0]["constituents"]:
                 # Labels of TOKENS view will not be recorded when serializing text annotation in JSON format in pipeline
@@ -68,6 +69,11 @@ class View(object):
             for relation in view["viewData"][0]["relations"]:
                 self.relation_array.append(relation)
             self._link_constituents()
+
+        if "labelsToScores" in view["viewData"][0] and view["viewData"][0]["labelsToScores"] != None:
+            self.labels_to_scores_array = []
+            for l2s_map in view["viewData"][0]["labelsToScores"]:
+                self.labels_to_scores_array.append(l2s_map)
 
     def _link_constituents(self):
         """
@@ -155,6 +161,24 @@ class View(object):
         """
         return self.get_cons(position, "label")
 
+    def get_labels_to_scores(self, position=None):
+        """
+        Function to get the labelsToScores list of maps if the view supports it.
+
+        @param: position, index of specific labelsToScores map the users wants
+        @return: a list of all labelsToScores maps for all constituents if position is not specified
+                 otherwise returns a singletion list with the specific map
+        """
+        if self.labels_to_scores_array is None:
+            logger.warn("This view does not support labelsToScores.")
+            return None
+        else:
+            if position is not None and 0 <= position < len(
+                    self.labels_to_scores_array):
+                return [self.labels_to_scores_array[position]]
+            else:
+                return self.labels_to_scores_array
+           
     def get_con_position(self, position=None):
         """
         Wrapper function to get a list of positions of constituents in the view in respect to tokens of the text
@@ -213,8 +237,14 @@ class View(object):
                     "viewName": self.view_name,
                     "generator": self.generator,
                     "score": 1,
-                    "constituents": self.cons_list
                 }
             ]
         }
+
+        if self.cons_list is not None:
+            output["viewData"][0]["constituents"] = self.cons_list
+        if self.labels_to_scores_array is not None:
+            output["viewData"][0]["labelsToScores"] = self.labels_to_scores_array
+        print(output)
+
         return output
