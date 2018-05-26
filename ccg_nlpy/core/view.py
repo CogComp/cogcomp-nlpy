@@ -245,6 +245,5 @@ class View(object):
             output["viewData"][0]["constituents"] = self.cons_list
         if self.labels_to_scores_array is not None:
             output["viewData"][0]["labelsToScores"] = self.labels_to_scores_array
-        print(output)
 
         return output
