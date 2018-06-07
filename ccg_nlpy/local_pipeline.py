@@ -101,6 +101,7 @@ class LocalPipeline(PipelineBase):
         """
         view_list = views.split(',')
         tokens = [token for sent in sentences for token in sent]
+        text = ' '.join(tokens)
         char_offsets = []
         count = 0
         char_offsets_ints = []
