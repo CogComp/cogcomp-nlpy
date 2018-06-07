@@ -44,7 +44,6 @@ class LocalPipeline(PipelineBase):
             from jnius import autoclass
             self.PipelineFactory = autoclass('edu.illinois.cs.cogcomp.pipeline.main.PipelineFactory')
             self.SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
-            self.Tokenization = autoclass('edu.illinois.cs.cogcomp.nlp.tokenizer.Tokenizer$Tokenization')
             self.IntPair = autoclass('edu.illinois.cs.cogcomp.core.datastructures.IntPair')
             self.TextAnnotation = autoclass('edu.illinois.cs.cogcomp.core.datastructures.textannotation.TextAnnotation')
             # self.ProtobufSerializer = autoclass('edu.illinois.cs.cogcomp.core.utilities.protobuf.ProtobufSerializer')
