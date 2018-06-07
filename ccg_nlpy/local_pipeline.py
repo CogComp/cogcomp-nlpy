@@ -77,7 +77,6 @@ class LocalPipeline(PipelineBase):
                     logger.error(str(e))
 
         json = self.SerializationHelper.serializeToJson(text_annotation)
-        print(json)
 
         # path = os.path.expanduser('~') + "{0}.ccg_nlpy{0}".format(os.path.sep) + 'temp.temp'
         #
