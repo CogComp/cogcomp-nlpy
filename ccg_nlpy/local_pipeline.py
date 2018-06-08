@@ -96,7 +96,9 @@ class LocalPipeline(PipelineBase):
         Funtion to get preprocess text annotation from local pipeline
 
         @param: sentences, the sentences to generate text annotation
-                on views, the views to generate
+                on views, the views to generate. sentences should be
+                a list of lists of strings. Each string represents a token
+                or word, each constituent list represents a sentence.
         @return: raw text of the response from local pipeline
         """
         view_list = views.split(',')
