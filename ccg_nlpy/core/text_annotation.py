@@ -31,8 +31,10 @@ class TextAnnotation(object):
         self.score = result_json["sentences"]["score"]
         self.sentences = result_json["sentences"]
         self.sentence_end_position = self.sentences["sentenceEndPositions"]
-
-        self.char_offsets = self._extract_char_offset(self.text, self.tokens)
+        if "tokenOffsets" in result_json:
+            self.char_offsets = result_json["tokenOffsets"]
+        else:
+            self.char_offsets = self._extract_char_offset(self.text, self.tokens)
         self.view_dictionary = {}
         for view in result_json["views"]:
             self.view_dictionary[view["viewName"]] = self._view_builder(view)
@@ -288,6 +290,7 @@ class TextAnnotation(object):
             "id": self.id,
             "text": self.text,
             "tokens": self.tokens,
+            "tokenOffsets": self.char_offsets,
             "sentences": self.sentences,
             "views": [v.as_json for v in self.view_dictionary.values()]
         }
