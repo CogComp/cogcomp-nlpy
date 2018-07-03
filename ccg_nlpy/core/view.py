@@ -44,7 +44,8 @@ class View(object):
         full_type = view["viewData"][0]["viewType"]
         self.generator = view["viewData"][0]["generator"]
         split_by_period = full_type.split(".")
-        self.view_type = split_by_period[len(split_by_period) - 1]
+        # self.view_type = split_by_period[len(split_by_period) - 1]
+        self.view_type = full_type
 
         self.cons_list = None
         self.relation_array = None
