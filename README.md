@@ -93,16 +93,21 @@ This will download model files into your home directly under `~/.ccg_nlpy/`.
 
 **Note:** Note that downloading the models require you to have Maven installed on your machine. If you don't, [here are some guidelines on how to install it](https://maven.apache.org/install.html). 
 
-**Note:** To use the pipelne locally (A) you have to make sure you have set `JAVA_HOME` variable. In MacOS, you can verify it with `echo "$JAVA_HOME"`. If it is not set, you can `export JAVA_HOME=$(/usr/libexec/java_home)`. 
-
-In the local pipeline the views are disabled by default. If you want to change specific behaviors, such as activating or deactivating specific components, you can specify the parameters while initializing local/remote pipeline module.
+In the local pipeline annotators are loaded lazily; i.e. they are not loaded until you call them for the first time. 
 
 ```python 
 from ccg_nlpy import local_pipeline
 pipeline = local_pipeline.LocalPipeline() 
 # constructor declaration: LocalPipeline()
 ```
-   
+
+#### Frequent Issues: 
+ - To use the pipelne locally you have to make sure you have set `JAVA_HOME` variable. In MacOS, you can verify it with `echo "$JAVA_HOME"`. If it is not set, you can `export JAVA_HOME=$(/usr/libexec/java_home)`. 
+ - If you are using Java version > 8, you are likely to receive an error that looks like the following:  ```
+ ERROR:ccg_nlpy.local_pipeline:Error calling dlopen(b'/Library/Java/JavaVirtualMachines/jdk-10.0.1.jdk/Contents/Home/jre/lib/server/libjvm.dylib': b'dlopen(/Library/Java/JavaVirtualMachines/jdk-10.0.1.jdk/Contents/Home/jre/lib/server/libjvm.dylib, 10): image not found' ```
+To solve this, you have to [install Java-8 on your machine](https://gist.github.com/JeOam/a926dbb5145c4d0789c1) and direct your commandline to it: ```export JAVA_HOME=`/user/libexec/java_home -v 1.8` ```. 
+ 
+
 ### Setting from Configuration file 
 
 You can set settings on how to run CogComp-NLPy via a local option too, rather than setting it programmatically.
