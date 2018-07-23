@@ -35,7 +35,7 @@ class TestRemotePipeline(unittest.TestCase):
         class ResponseMock(object):
             def __init__(self, code):
                 self.status_code = code
-            
+
 
         limit = ResponseMock(429)
         undefined_status_code = ResponseMock(233)
@@ -51,3 +51,21 @@ class TestRemotePipeline(unittest.TestCase):
         except:
             abc = None
 
+    def test_unicode(self):
+        ta = self.lp.doc("Édgar Ramírez")
+
+        tokens = ['Édgar', 'Ramírez']
+        self.assertEqual(ta.get_tokens, tokens)
+
+        self.assertEqual(ta.get_text, "Édgar Ramírez")
+
+    def test_doc_illigal_characters(self):
+        ta = self.lp.doc("Hillary Clinton\'s Candidacy Reveals Generational Schism Among Women https://t.co/6u3lmN7nIL")
+
+        tokens = ['Hillary', 'Clinton' '\'s', 'Candidacy', 'Reveals', 'Generational', 'Schism', 'Among', 'Women',
+                  'https://t.co/6u3lmN7nIL']
+
+        self.assertEqual(ta.get_tokens, tokens)
+
+        self.assertEqual(ta.get_text,
+                         "Hillary Clinton\'s Candidacy Reveals Generational Schism Among Women https://t.co/6u3lmN7nIL")
