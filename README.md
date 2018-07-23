@@ -83,6 +83,7 @@ pipeline = remote_pipeline.RemotePipeline(server_api='http://www.fancyUrlName.co
 ### Local Pipeline 
 
 In this setting, the system will download the trained models and files required to run the pipeline locally. Since everything is run on your machine, it will probably require a lot of memory (the amount depends on which annotations you use). If you have a single big machine (i.e. memory > 15GB) for your expeirments, this is probably a good option for you.
+Local pipeline also gives you the functionality to work with pre-tokenized text.
 
 To download the models, run the following command:
 ```bash
@@ -99,6 +100,15 @@ In the local pipeline annotators are loaded lazily; i.e. they are not loaded unt
 from ccg_nlpy import local_pipeline
 pipeline = local_pipeline.LocalPipeline() 
 # constructor declaration: LocalPipeline()
+```
+
+To run on pre-tokenized text, the document is represented as a list of (sentences) list of tokens. The argument ```pretokenized=True``` needs to be passed to the ```pipeline.doc``` function.
+```
+from ccg_nlpy import local_pipeline
+pipeline = local_pipeline.LocalPipeline()
+
+document = [ ["Hi", "!"], ["How", "are", "you", "?"] ]
+doc = pipeline.doc(document, pretokenized=True)
 ```
 
 #### Frequent Issues: 
