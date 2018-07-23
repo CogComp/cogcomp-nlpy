@@ -26,18 +26,24 @@ class PipelineBase:
             self.config, self.models_downloaded = pipeline_config.get_current_config()
 
 
-    def doc(self, text="Hello World"):
+    def doc(self, text="Hello World", pretokenized=False):
         """
         Initialize text annotation of given text
 
         @param: text, the text to be processed
         @return: TextAnnotation instance of the text, None if text is empty
         """
-        response = self.call_server(self.clean_text(text), "TOKENS")
+        if not pretokenized:
+            response = self.call_server(self.clean_text(text), "TOKENS")
+
+        else:
+            response = self.call_server_pretokenized(text, "TOKENS")
+
         if response is not None:
             return TextAnnotation(response, self)
         else:
             return None
+
 
     @abstractmethod
     def call_server(text, views):
@@ -46,6 +52,19 @@ class PipelineBase:
 
         @param: text, the text to generate text annotation on
                 views, the views to generate
+        @return: raw text of the response from server
+        """
+        logger.error("This function should be overrided.")
+        #raise NotImplementedError()
+        return None
+
+
+    @abstractmethod
+    def call_server_pretokenized(pretokenized_text, views):
+        """
+        Funtion to get preprocess text annotation from server
+
+        @param: pretokenized_text, list of list of tokens of pre-tokenized text
         @return: raw text of the response from server
         """
         logger.error("This function should be overrided.")

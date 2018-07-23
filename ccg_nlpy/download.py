@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 MODEL_FOLDER = "model_{}"
 CONFIG_FILENAME = "config.cfg"
 DEFAULT_CONFIG_ROOT_DIRECTORY = "~{0}.ccg_nlpy{0}".format(os.path.sep)
-DEFAULT_CONFIG_VERSION = "4.0.3"
+DEFAULT_CONFIG_VERSION = "4.0.9"
 MAVEN_COMMAND = "mvn dependency:copy-dependencies -DoutputDirectory={} -Dsilent=True"
 POM_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"

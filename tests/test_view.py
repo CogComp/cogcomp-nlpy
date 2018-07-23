@@ -46,8 +46,10 @@ class TestView(unittest.TestCase):
         ta = self.rp.doc("Hello,  how are you.\n\n\n I am doing fine")
         pos_view = ta.get_view("POS")
         stanford = ta.get_view("PARSE_STANFORD")
-        self.assertEqual(pos_view.get_view_type(), "TokenLabelView")
-        self.assertEqual(stanford.get_view_type(), "TreeView")
+        self.assertEqual(pos_view.get_view_type(),
+            "edu.illinois.cs.cogcomp.core.datastructures.textannotation.TokenLabelView")
+        self.assertEqual(stanford.get_view_type(),
+            "edu.illinois.cs.cogcomp.core.datastructures.textannotation.TreeView")
 
     def test_relations(self):
         ta = self.rp.doc("Hello,  how are you.\n\n\n I am doing fine")
@@ -68,4 +70,3 @@ class TestView(unittest.TestCase):
         # valid token index
         self.assertEqual([],ner.get_overlapping_constituents(1,1))
         self.assertEqual([ner[0]], ner.get_overlapping_constituents(7,9))
-

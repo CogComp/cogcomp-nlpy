@@ -60,3 +60,12 @@ class RemotePipeline(PipelineBase):
                 return None
         except:
             raise
+
+
+    def call_server_pretokenized(self, pretokenized_text, views):
+        """
+            Text Annotation for pre-tokenized text is not implemented for
+            remote pipeline. Use local pipeline instead.
+        """
+
+        raise NotImplemented
