@@ -3,7 +3,6 @@ import sys
 import os
 import six
 import codecs
-import os
 
 if six.PY2:
     import mock
