@@ -43,6 +43,7 @@ class RemotePipeline(PipelineBase):
         """
         response = None
         try:
+            text = text.encode('utf-8')
             data = {'text': text, 'views': views}
             response = requests.post(self.url+WEB_SERVER_SUFFIX, data)
         except:

@@ -34,7 +34,7 @@ class PipelineBase:
         @return: TextAnnotation instance of the text, None if text is empty
         """
         if not pretokenized:
-            response = self.call_server(self.clean_text(text), "TOKENS")
+            response = self.call_server(text, "TOKENS")
 
         else:
             response = self.call_server_pretokenized(text, "TOKENS")
@@ -70,7 +70,3 @@ class PipelineBase:
         logger.error("This function should be overrided.")
         #raise NotImplementedError()
         return None
-
-
-    def clean_text(self, text):
-        return text.encode("ascii", errors="ignore").decode()

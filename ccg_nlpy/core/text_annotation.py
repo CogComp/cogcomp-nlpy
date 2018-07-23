@@ -19,8 +19,8 @@ class TextAnnotation(object):
         result_json = json.loads(json_str)
 
         self.pipeline = pipeline_instance
-        self.corpusId = result_json["corpusId"].strip()
-        self.id = result_json["id"].strip()
+        self.corpusId = result_json["corpusId"]
+        self.id = result_json["id"]
         # self.text = result_json["text"].strip()
         self.text = result_json["text"] # always take text verbatim!
         if len(self.text) <= 0:
@@ -46,7 +46,7 @@ class TextAnnotation(object):
         view_type = split_by_period[len(split_by_period) - 1]
         if view_type == 'PredicateArgumentView':
             return PredicateArgumentView(view, self.tokens)
-        else: 
+        else:
             return View(view, self.tokens)
 
     def _extract_char_offset(self, sentence, tokens):
@@ -92,7 +92,7 @@ class TextAnnotation(object):
 
     # Functions to manipulate the views on text annotation
 
-    @property 
+    @property
     def get_pos(self):
         """
         Wrapper on getting part-of-speech tagger from given text annotation
@@ -128,7 +128,7 @@ class TextAnnotation(object):
         """
         return self.get_view("NER_CONLL")
 
-    @property 
+    @property
     def get_ner_ontonotes(self):
         """
         Wrapper on getting the NER_ONTONOTES view from given text annotation
@@ -137,7 +137,7 @@ class TextAnnotation(object):
         """
         return self.get_view("NER_ONTONOTES")
 
-    @property 
+    @property
     def get_stanford_parse(self):
         """
         Wrapper on getting the PARSE_STANFORD view from given text annotation
@@ -146,7 +146,7 @@ class TextAnnotation(object):
         """
         return self.get_view("PARSE_STANFORD")
 
-    @property 
+    @property
     def get_srl_verb(self):
         """
         Wrapper on getting the SRL_VERB view from given text annotation
@@ -155,7 +155,7 @@ class TextAnnotation(object):
         """
         return self.get_view("SRL_VERB")
 
-    @property 
+    @property
     def get_srl_nom(self):
         """
         Wrapper on getting the SRL_NOM view from given text annotation
@@ -182,7 +182,7 @@ class TextAnnotation(object):
         """
         return self.get_view("SRL_COMMA")
 
-    @property 
+    @property
     def get_quantities(self):
         """
         Wrapper on getting the QUANTITIES view from given text annotation
@@ -191,7 +191,7 @@ class TextAnnotation(object):
         """
         return self.get_view("QUANTITIES")
 
-    @property 
+    @property
     def get_shallow_parse(self):
         """
         Wrapper on getting the SHALLOW_PARSE view from given text annotation
@@ -200,7 +200,7 @@ class TextAnnotation(object):
         """
         return self.get_view("SHALLOW_PARSE")
 
-    @property 
+    @property
     def get_lemma(self):
         """
         Wrapper on getting the LEMMA view from given text annotation
@@ -225,7 +225,7 @@ class TextAnnotation(object):
 
             if name == view_name:
                 requested_view = self.view_dictionary[name]
-        
+
         if requested_view is None:
             # "token" view will always be included
             if len(view_constituents) <= 1:
@@ -294,5 +294,6 @@ class TextAnnotation(object):
             "tokenOffsets": self.char_offsets,
             "sentences": self.sentences,
             "views": [v.as_json for v in self.view_dictionary.values()]
+
         }
         return output

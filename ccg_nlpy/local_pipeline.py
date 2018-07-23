@@ -68,9 +68,10 @@ class LocalPipeline(PipelineBase):
                 views, the views to generate
         @return: raw text of the response from local pipeline
         """
+        text = text.encode('utf-8')
         view_list = views.split(',')
-        text_annotation = self.pipeline.createBasicTextAnnotation(self.JString(""), self.JString(""),
-                                                                  self.JString(text))
+        text_annotation = self.pipeline.createBasicTextAnnotation(
+            self.JString(""), self.JString(""), self.JString(text))
         for view in view_list:
             if (len(view.strip()) > 0):
                 try:
@@ -97,7 +98,7 @@ class LocalPipeline(PipelineBase):
         for sent in pretokenized_text:
             sentAL = self.JArrayList()
             for w in sent:
-                sentAL.add(self.JString(w))
+                sentAL.add(self.JString(w.encode('utf-8')))
 
             docAl.add(sentAL)
 
@@ -146,6 +147,7 @@ class LocalPipeline(PipelineBase):
         for sent in sentences:
             sentence_end_indices.append(count+len(sent)-1+1)
             count += len(sent)
+        text = text.encode('utf-8')
         text_annotation = self.TextAnnotation("", "", text, char_offsets, tokens, sentence_end_indices)
         for view in view_list:
             if (len(view.strip()) > 0):
