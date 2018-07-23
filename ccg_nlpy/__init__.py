@@ -3,6 +3,7 @@ from google.protobuf import json_format
 
 from .core.text_annotation import TextAnnotation
 from .protobuf import TextAnnotation_pb2
+from . import utils
 
 logging.basicConfig(level=logging.INFO)
 

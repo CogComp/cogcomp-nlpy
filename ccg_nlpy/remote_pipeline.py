@@ -12,6 +12,7 @@ from .protobuf import TextAnnotation_pb2
 from .core.text_annotation import *
 from .download import get_model_path
 from . import pipeline_config
+from . import utils
 
 WEB_SERVER_SUFFIX = '/annotate'
 
@@ -43,7 +44,6 @@ class RemotePipeline(PipelineBase):
         """
         response = None
         try:
-            text = text.encode('utf-8')
             data = {'text': text, 'views': views}
             response = requests.post(self.url+WEB_SERVER_SUFFIX, data)
         except:

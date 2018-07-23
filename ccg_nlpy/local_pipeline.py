@@ -4,6 +4,7 @@ import sys
 import os
 import logging
 
+
 from backports.configparser import RawConfigParser
 
 from .pipeline_base import *
@@ -12,6 +13,8 @@ from .protobuf import TextAnnotation_pb2
 from .core.text_annotation import *
 from .download import get_model_path
 from . import pipeline_config
+from . import utils
+
 
 logger = logging.getLogger(__name__)
 
@@ -68,7 +71,7 @@ class LocalPipeline(PipelineBase):
                 views, the views to generate
         @return: raw text of the response from local pipeline
         """
-        text = text.encode('utf-8')
+        text = utils.strToBytes(text)
         view_list = views.split(',')
         text_annotation = self.pipeline.createBasicTextAnnotation(
             self.JString(""), self.JString(""), self.JString(text))
@@ -80,9 +83,9 @@ class LocalPipeline(PipelineBase):
                     logger.error('Failed to add view ' + view.strip())
                     logger.error(str(e))
 
-        json = self.SerializationHelper.serializeToJson(text_annotation)
+        jsonStr = self.SerializationHelper.serializeToJson(text_annotation)
 
-        return json
+        return jsonStr
 
 
     def call_server_pretokenized(self, pretokenized_text, views):
@@ -98,16 +101,13 @@ class LocalPipeline(PipelineBase):
         for sent in pretokenized_text:
             sentAL = self.JArrayList()
             for w in sent:
-                sentAL.add(self.JString(w.encode('utf-8')))
+                w = utils.strToBytes(w)
+                sentAL.add(self.JString(w))
 
             docAl.add(sentAL)
 
         text_annotation = self.BasicTextAnnotationBuilder.\
             createTextAnnotationFromListofListofTokens(docAl)
-
-        # jsonStr = self.lp.SerializationHelper.serializeToJson(javaTA)
-        #
-        # ta = TextAnnotation(json_str=jsonStr, pipeline_instance=self.lp)
 
         for view in view_list:
             if (len(view.strip()) > 0):
@@ -147,7 +147,7 @@ class LocalPipeline(PipelineBase):
         for sent in sentences:
             sentence_end_indices.append(count+len(sent)-1+1)
             count += len(sent)
-        text = text.encode('utf-8')
+        text = utils.strToBytes(text)
         text_annotation = self.TextAnnotation("", "", text, char_offsets, tokens, sentence_end_indices)
         for view in view_list:
             if (len(view.strip()) > 0):

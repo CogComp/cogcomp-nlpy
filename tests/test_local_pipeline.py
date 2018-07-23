@@ -2,11 +2,14 @@
 
 import unittest
 import os
+import sys
 from ccg_nlpy import local_pipeline
 
 if os.path.exists('annotation-cache'):
     os.remove('annotation-cache')
 lp = local_pipeline.LocalPipeline()
+
+PYTHONMAJORVERSION = sys.version_info[0]
 
 
 class TestLocalPipeline(unittest.TestCase):
@@ -50,20 +53,34 @@ class TestLocalPipeline(unittest.TestCase):
     def test_unicode(self):
         ta = self.lp.doc("Édgar Ramírez")
 
-        tokens = ['Édgar', 'Ramírez']
-        self.assertEqual(ta.get_tokens, tokens)
+        tokens_py3 = ['Édgar', 'Ramírez']
+        tokens_py2 = [u'\xc9dgar', u'Ram\xedrez']
+        if PYTHONMAJORVERSION <= 2:
+            self.assertEqual(ta.get_tokens, tokens_py2)
+        else:
+            self.assertEqual(ta.get_tokens, tokens_py3)
 
-        self.assertEqual(ta.get_text, "Édgar Ramírez")
+        # self.assertEqual(ta.get_text, "Édgar Ramírez")
 
 
 
     def test_doc_illigal_characters(self):
-        ta = self.lp.doc("Hillary Clinton\'s Candidacy Reveals Generational Schism Among Women https://t.co/6u3lmN7nIL")
+        ta = self.lp.doc("Hillary Clinton\'s Candidacy Reveals Generational Schism Among Women https://t.co/6u3lmN7nIL Édgar Ramírez")
 
-        tokens = ['Hillary', 'Clinton' '\'s', 'Candidacy', 'Reveals', 'Generational', 'Schism', 'Among', 'Women',
-                  'https://t.co/6u3lmN7nIL']
+        tokens_py3 = ['Hillary', 'Clinton', "'s", 'Candidacy', 'Reveals',
+                      'Generational', 'Schism', 'Among', 'Women',
+                      'https://t.co/6u3lmN7nIL', 'Édgar', 'Ramírez']
 
-        self.assertEqual(ta.get_tokens, tokens)
+        tokens_py2 = [u'Hillary', u'Clinton', u"'s", u'Candidacy', u'Reveals',
+                      u'Generational', u'Schism', u'Among', u'Women',
+                      u'https://t.co/6u3lmN7nIL', u'\xc9dgar', u'Ram\xedrez']
 
-        self.assertEqual(ta.get_text,
-                         "Hillary Clinton\'s Candidacy Reveals Generational Schism Among Women https://t.co/6u3lmN7nIL")
+        text_py2 = u"Hillary Clinton\'s Candidacy Reveals Generational Schism Among Women https://t.co/6u3lmN7nIL \xc9dgar Ram\xedrez"
+        text_py3 = "Hillary Clinton\'s Candidacy Reveals Generational Schism Among Women https://t.co/6u3lmN7nIL Édgar Ramírez"
+
+        if PYTHONMAJORVERSION <= 2:
+            self.assertEqual(ta.get_tokens, tokens_py2)
+            self.assertEqual(ta.get_text, text_py2)
+        else:
+            self.assertEqual(ta.get_tokens, tokens_py3)
+            self.assertEqual(ta.get_text, text_py3)
