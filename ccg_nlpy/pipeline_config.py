@@ -29,9 +29,10 @@ def get_current_config():
 
     # if model folder does not exist, then user hasn't download jars yet, use config file in the package
     # the config file in the package will use pipeline server instead of local pipeline
-    default_config_file = os.path.join(download.get_root_directory(), CONFIG_FILENAME)
+    download_dir = download.get_root_directory()
+    default_config_file = os.path.join(download_dir, CONFIG_FILENAME)
     if models_downloaded:
-        default_config_file = os.path.join(download.get_root_directory(), CONFIG_FILENAME)
+        default_config_file = os.path.join(download_dir, CONFIG_FILENAME)
         if os.path.exists(default_config_file) is False:
             download.recover_model_config()
         config_file = default_config_file
@@ -92,7 +93,7 @@ def set_current_config(config):
         with codecs.open(user_config_file, mode='w', encoding='utf-8') as file:
             config.write(file)
         logger.info('Config file has been updated.')
-    
+
 
 def log_current_config(config, use_server):
     """
