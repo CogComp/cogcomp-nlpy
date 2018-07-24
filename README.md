@@ -1,5 +1,5 @@
 # CogComp-NLPy
-[![Build Status](https://semaphoreci.com/api/v1/projects/dc68ab4d-d1b7-4405-adca-b0c6af2e1aa0/1972034/badge.svg)](https://semaphoreci.com/danyaljj/sioux-2)
+[![Build Status](https://semaphoreci.com/api/v1/projects/dc68ab4d-d1b7-4405-adca-b0c6af2e1aa0/1223617/badge.svg)](https://semaphoreci.com/danyaljj/sioux-2)
 
 Run NLP tools such as Part-of-Speech tagging, Chunking, Named Entity Recognition, etc on your documents in Python with ease and breeze!
 
