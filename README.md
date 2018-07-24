@@ -21,19 +21,19 @@ pip install ccg_nlpy
 
 4. Enjoy!
 
-**Note:** The package should be compatible with Python 2.6+ and Python 3.3+
+Here is the project page at [PyPI website](https://pypi.python.org/pypi/ccg-nlpy).
 
-**Upgrading:** If you want to update your package: 
+## Support
 
-   pip install --upgrade ccg_nlpy
+The package is compatible with Python 2.6+ and Python 3.3+. We highly recommend using Python 3.3+
 
-If you want to upgrade upgrade it on a specific version replace `pip` in the command above with `pip2` or `pip3`.
+This package uses ```utf-8``` encoding.
+In Python 2.6+, all strings are stored as ```unicode``` objects.
+In Python 3.3+, all strings are stored as ```str``` objects.
 
-**Note:** Here is the project page at [PyPI website](https://pypi.python.org/pypi/ccg-nlpy).
 
 ## Getting Started 
 Here is a sample usage showing how easily you run our system:
-
 
 ```python
 from ccg_nlpy import remote_pipeline
