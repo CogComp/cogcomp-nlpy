@@ -33,7 +33,11 @@ class TextAnnotation(object):
         self.sentences = result_json["sentences"]
         self.sentence_end_position = self.sentences["sentenceEndPositions"]
         if "tokenOffsets" in result_json:
-            self.char_offsets = result_json["tokenOffsets"]
+            # Converting from list of dict to list of tuples
+            # See function description for details
+            tokenOffsets = self._convertTokenOffsetsDictToTupledList(
+                result_json["tokenOffsets"])
+            self.char_offsets = tokenOffsets
         else:
             self.char_offsets = self._extract_char_offset(self.text, self.tokens)
         self.view_dictionary = {}
@@ -240,7 +244,8 @@ class TextAnnotation(object):
             logger.error("No valid views on empty TextAnnotation.")
             return None
         if view_name not in self.view_dictionary:
-            additional_response = self.pipeline.call_server(self.text, view_name)
+            additional_response = \
+                self.pipeline.add_additional_views_toTA(self, view_name)
             self.add_view(view_name, additional_response)
 
         if type(self.view_dictionary[view_name]) != type([]):
@@ -286,14 +291,44 @@ class TextAnnotation(object):
 
     @property
     def as_json(self):
+        tokenOffsetsDicts = self._convertTokenOffsetsToDict()
         output = {
             "corpusId": self.corpusId,
             "id": self.id,
             "text": self.text,
             "tokens": self.tokens,
-            "tokenOffsets": self.char_offsets,
+            "tokenOffsets": tokenOffsetsDicts,
             "sentences": self.sentences,
             "views": [v.as_json for v in self.view_dictionary.values()]
 
         }
         return output
+
+    def _convertTokenOffsetsDictToTupledList(self, tokenOffsetsDicts):
+        if not isinstance(tokenOffsetsDicts[0], dict):
+            # Looks like the elements are lists, hence no conversion
+            return tokenOffsetsDicts
+
+        '''
+            tokenOffsetsDicts: list of dicts with
+            "form", "startCharOffset", and  "endCharOffset" keys
+            We only need "startCharOffset", and  "endCharOffset" in a tuple
+        '''
+        tokenOffsets = []
+        for offsetDict in tokenOffsetsDicts:
+            tokenOffsets.append((offsetDict["startCharOffset"],
+                                 offsetDict["endCharOffset"]))
+
+        return tokenOffsets
+
+    def _convertTokenOffsetsToDict(self):
+        tokenOffsetsDicts = []
+        for offsetPair, token in zip(self.char_offsets, self.tokens):
+            tokenOffsetsDicts.append(
+                {
+                    "form": token,
+                    "startCharOffset": offsetPair[0],
+                    "endCharOffset": offsetPair[1]
+                }
+            )
+        return tokenOffsetsDicts

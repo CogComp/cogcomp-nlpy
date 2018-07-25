@@ -70,3 +70,18 @@ class PipelineBase:
         logger.error("This function should be overrided.")
         #raise NotImplementedError()
         return None
+
+
+
+    @abstractmethod
+    def add_additional_views_toTA(self, textannotation, views):
+        """
+        Funtion to add additional views to an existing TextAnnotation
+
+        @param: textannotation, the python TA object
+                views, the views to generate
+        @return: raw text of the response from server -- jsonStr
+        """
+        logger.error("This function should be overrided.")
+        #raise NotImplementedError()
+        return None

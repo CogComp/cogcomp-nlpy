@@ -88,6 +88,26 @@ class LocalPipeline(PipelineBase):
         return jsonStr
 
 
+    def add_additional_views_toTA(self, textannotation, views):
+        jsonstr = utils.strToBytes(json.dumps(textannotation.as_json))
+        jsonStrJava = self.JString(jsonstr)
+        javaTA = self.SerializationHelper.deserializeFromJson(jsonStrJava)
+
+        view_list = views.split(',')
+        for view in view_list:
+            view = view.strip()
+            if (len(view) > 0):
+                try:
+                    self.pipeline.addView(javaTA, self.JString(view))
+                except Exception as e:
+                    logger.error('Failed to add view ' + view.strip())
+                    logger.error(str(e))
+
+        jsonStr = self.SerializationHelper.serializeToJson(javaTA)
+
+        return jsonStr
+
+
     def call_server_pretokenized(self, pretokenized_text, views):
         """
         Funtion to get preprocess text annotation from local pipeline
