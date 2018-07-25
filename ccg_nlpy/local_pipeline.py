@@ -4,7 +4,6 @@ import sys
 import os
 import logging
 
-
 from backports.configparser import RawConfigParser
 
 from .pipeline_base import *
@@ -15,8 +14,21 @@ from .download import get_model_path
 from . import pipeline_config
 from . import utils
 
-
 logger = logging.getLogger(__name__)
+
+# set up JVM and
+import jnius_config
+try:
+    jnius_config.add_options('-Xmx16G')
+    jnius_config.add_classpath(get_model_path() + '/*')
+except Exception as e:
+    logger.warning(
+        "Couldn't set JVM config; this might be because you're setting up the multiple instances of the local pipeline.")
+    logger.warning(str(e))
+
+# Don't import jnius before setting jnius_config
+# Sec 4.5 : https://media.readthedocs.org/pdf/pyjnius/latest/pyjnius.pdf
+from jnius import autoclass
 
 
 class LocalPipeline(PipelineBase):
@@ -34,17 +46,8 @@ class LocalPipeline(PipelineBase):
 
         pipeline_config.log_current_config(self.config, False)
 
-        # set up JVM and load classes needed
+        # load java classes
         try:
-            import jnius_config
-            jnius_config.add_options('-Xmx16G')
-            jnius_config.add_classpath(get_model_path() + '/*')
-        except Exception as e:
-            logger.warning(
-                "Couldn't set JVM config; this might be because you're setting up the multiple instances of the local pipeline.")
-            logger.warning(str(e))
-        try:
-            from jnius import autoclass
             self.PipelineFactory = autoclass('edu.illinois.cs.cogcomp.pipeline.main.PipelineFactory')
             self.SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
             self.IntPair = autoclass('edu.illinois.cs.cogcomp.core.datastructures.IntPair')
@@ -78,12 +81,35 @@ class LocalPipeline(PipelineBase):
         for view in view_list:
             if (len(view.strip()) > 0):
                 try:
-                    self.pipeline.addView(text_annotation, self.JString(view.strip()))
+                    self.pipeline.addView(text_annotation,
+                                          self.JString(view.strip()))
                 except Exception as e:
                     logger.error('Failed to add view ' + view.strip())
                     logger.error(str(e))
 
         jsonStr = self.SerializationHelper.serializeToJson(text_annotation)
+
+        return jsonStr
+
+
+    def add_additional_views_to_TA(self, textannotation, views):
+        # Convert python textannotation to JsonStr -> Bytes
+        jsonstrBytes = utils.strToBytes(json.dumps(textannotation.as_json))
+        jsonStrJava = self.JString(jsonstrBytes)
+        javaTA = self.SerializationHelper.deserializeFromJson(jsonStrJava)
+
+        view_list = views.split(',')
+        for view in view_list:
+            view = view.strip()
+            if (len(view) > 0):
+                try:
+                    self.pipeline.addView(javaTA, self.JString(view))
+                except Exception as e:
+                    logger.error('Failed to add view ' + view.strip())
+                    logger.error(str(e))
+
+        # Deserialize javaTA (woth additional views) to JsonStr
+        jsonStr = self.SerializationHelper.serializeToJson(javaTA)
 
         return jsonStr
 

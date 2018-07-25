@@ -70,3 +70,7 @@ class RemotePipeline(PipelineBase):
         """
 
         raise NotImplemented
+
+
+    def add_additional_views_to_TA(self, textannotation, views):
+        return self.call_server(textannotation.text, views)
