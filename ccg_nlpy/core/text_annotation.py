@@ -245,7 +245,7 @@ class TextAnnotation(object):
             return None
         if view_name not in self.view_dictionary:
             additional_response = \
-                self.pipeline.add_additional_views_toTA(self, view_name)
+                self.pipeline.add_additional_views_to_TA(self, view_name)
             self.add_view(view_name, additional_response)
 
         if type(self.view_dictionary[view_name]) != type([]):

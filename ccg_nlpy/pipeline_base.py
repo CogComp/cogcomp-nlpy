@@ -74,7 +74,7 @@ class PipelineBase:
 
 
     @abstractmethod
-    def add_additional_views_toTA(self, textannotation, views):
+    def add_additional_views_to_TA(self, textannotation, views):
         """
         Funtion to add additional views to an existing TextAnnotation
 
