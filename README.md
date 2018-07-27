@@ -46,7 +46,7 @@ print(doc.get_pos) # will produce (UH Hello) (, ,) (WRB how) (VBP are) (PRP you)
 
 The default/easy usage has some restrictions as will deliniate in the next section. See the next section to 
 
-**Api Docs:** Here is the [API docs](http://cogcomp.cs.illinois.edu/software/doc/ccg_nlpy/pipeliner.m.html) of our `Pipeliner` module.
+**Api Docs:** Here is the [API docs](http://cogcomp.org/software/doc/ccg_nlpy/) of our `Pipeliner` module.
 
 ## Structure
 This tool enables you accesss [CogComp pipeline](https://github.com/CogComp/cogcomp-nlp/tree/master/pipeline) in different forms. The figure below summarizes these approaches:
