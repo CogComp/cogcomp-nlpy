@@ -54,6 +54,8 @@ class LocalPipeline(PipelineBase):
             self.TextAnnotation = autoclass('edu.illinois.cs.cogcomp.core.datastructures.textannotation.TextAnnotation')
             self.BasicTextAnnotationBuilder = autoclass('edu.illinois.cs.cogcomp.annotation.BasicTextAnnotationBuilder')
             self.BasicAnnotatorService = autoclass('edu.illinois.cs.cogcomp.annotation.BasicAnnotatorService')
+            self.Tokenizer = autoclass('edu.illinois.cs.cogcomp.nlp.tokenizer.StatefulTokenizer')
+            self.TextAnnotationBuilder = autoclass('edu.illinois.cs.cogcomp.nlp.utility.TokenizerTextAnnotationBuilder')
             # self.ProtobufSerializer = autoclass('edu.illinois.cs.cogcomp.core.utilities.protobuf.ProtobufSerializer')
             self.Boolean = autoclass('java.lang.Boolean')
             self.JString = autoclass('java.lang.String')
@@ -146,6 +148,25 @@ class LocalPipeline(PipelineBase):
         jsonStr = self.SerializationHelper.serializeToJson(text_annotation)
 
         return jsonStr
+
+
+    def doc_splitOnHyphens(self, text):
+        tokenizer = self.Tokenizer()
+        tab = self.TextAnnotationBuilder(tokenizer)
+
+        text = utils.strToBytes(text)
+        text_annotation = tab.createTextAnnotation(self.JString(""),
+                                                   self.JString(""),
+                                                   self.JString(text))
+
+
+
+        jsonStr = self.SerializationHelper.serializeToJson(text_annotation)
+        ta_python = TextAnnotation(json_str=jsonStr, pipeline_instance=self)
+
+        return ta_python
+
+
 
 
     def call_server_with_sentences(self, sentences, views):

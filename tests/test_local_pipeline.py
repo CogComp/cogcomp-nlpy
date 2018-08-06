@@ -63,6 +63,17 @@ class TestLocalPipeline(unittest.TestCase):
         # self.assertEqual(ta.get_text, "Édgar Ramírez")
 
 
+    def test_split_on_hyphens(self):
+        ta = self.lp.doc_splitOnHyphens("Édgar-Ramírez")
+        tokens_py3 = ['Édgar', '-', "Ramírez"]
+        tokens_py2 = [u'Édgar', u'-', u"Ramírez"]
+
+        if PYTHONMAJORVERSION <= 2:
+            self.assertEqual(ta.get_tokens, tokens_py2)
+        else:
+            self.assertEqual(ta.get_tokens, tokens_py3)
+
+
 
     def test_doc_illigal_characters(self):
         ta = self.lp.doc("Hillary Clinton\'s Candidacy Reveals Generational Schism Among Women https://t.co/6u3lmN7nIL Édgar Ramírez")
