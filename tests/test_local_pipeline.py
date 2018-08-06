@@ -64,7 +64,7 @@ class TestLocalPipeline(unittest.TestCase):
 
 
     def test_split_on_hyphens(self):
-        ta = self.lp.doc_splitOnHyphens("Édgar-Ramírez")
+        ta = self.lp.doc_split_on_hyphens("Édgar-Ramírez")
         tokens_py3 = ['Édgar', '-', "Ramírez"]
         tokens_py2 = [u'Édgar', u'-', u"Ramírez"]
 

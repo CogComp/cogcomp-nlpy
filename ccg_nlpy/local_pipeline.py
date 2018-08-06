@@ -150,7 +150,7 @@ class LocalPipeline(PipelineBase):
         return jsonStr
 
 
-    def doc_splitOnHyphens(self, text):
+    def doc_split_on_hyphens(self, text):
         tokenizer = self.Tokenizer()
         tab = self.TextAnnotationBuilder(tokenizer)
 
