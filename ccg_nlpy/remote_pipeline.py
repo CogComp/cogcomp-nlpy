@@ -12,8 +12,12 @@ from .protobuf import TextAnnotation_pb2
 from .core.text_annotation import *
 from .download import get_model_path
 from . import pipeline_config
+from . import utils
 
 WEB_SERVER_SUFFIX = '/annotate'
+
+WEB_SERVER_SUFFIX_ADDVIEWS = '/addviews'
+
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +49,38 @@ class RemotePipeline(PipelineBase):
         try:
             data = {'text': text, 'views': views}
             response = requests.post(self.url+WEB_SERVER_SUFFIX, data)
+        except:
+            logger.error("Fail to connect to server.")
+            raise
+
+        try:
+            if response.status_code == 200:
+                return response.text
+            elif response.status_code == 429:
+                logger.error("You reached maximum query limit with default remote server (100 queries/day)")
+                raise Exception("You reached maximum query limit with default remote server (100 queries/day)")
+            else:
+                logger.warn("Unexpected status code {}, please open an issue on GitHub for further investigation.".format(response.status_code))
+                return None
+        except:
+            raise
+
+
+    def call_server_pretokenized(self, pretokenized_text, views):
+        """
+            Text Annotation for pre-tokenized text is not implemented for
+            remote pipeline. Use local pipeline instead.
+        """
+
+        raise NotImplemented
+
+
+    def add_additional_views_to_TA(self, textannotation, views):
+        response = None
+        try:
+            jsonStrTA = json.dumps(textannotation.as_json)
+            data = {'jsonstr': jsonStrTA, 'views': views}
+            response = requests.post(self.url+WEB_SERVER_SUFFIX_ADDVIEWS, data)
         except:
             logger.error("Fail to connect to server.")
             raise

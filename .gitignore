@@ -1,6 +1,7 @@
 .eggs/
 .idea/
 build/
+html/
 
 # Compiled python modules.
 *.pyc

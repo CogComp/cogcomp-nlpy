@@ -12,8 +12,23 @@ from .protobuf import TextAnnotation_pb2
 from .core.text_annotation import *
 from .download import get_model_path
 from . import pipeline_config
+from . import utils
 
 logger = logging.getLogger(__name__)
+
+# set up JVM and
+import jnius_config
+try:
+    jnius_config.add_options('-Xmx16G')
+    jnius_config.add_classpath(get_model_path() + '/*')
+except Exception as e:
+    logger.warning(
+        "Couldn't set JVM config; this might be because you're setting up the multiple instances of the local pipeline.")
+    logger.warning(str(e))
+
+# Don't import jnius before setting jnius_config
+# Sec 4.5 : https://media.readthedocs.org/pdf/pyjnius/latest/pyjnius.pdf
+from jnius import autoclass
 
 
 class LocalPipeline(PipelineBase):
@@ -31,24 +46,20 @@ class LocalPipeline(PipelineBase):
 
         pipeline_config.log_current_config(self.config, False)
 
-        # set up JVM and load classes needed
+        # load java classes
         try:
-            import jnius_config
-            jnius_config.add_options('-Xmx16G')
-            jnius_config.add_classpath(get_model_path() + '/*')
-        except Exception as e:
-            logger.warning(
-                "Couldn't set JVM config; this might be because you're setting up the multiple instances of the local pipeline.")
-            logger.warning(str(e))
-        try:
-            from jnius import autoclass
             self.PipelineFactory = autoclass('edu.illinois.cs.cogcomp.pipeline.main.PipelineFactory')
             self.SerializationHelper = autoclass('edu.illinois.cs.cogcomp.core.utilities.SerializationHelper')
             self.IntPair = autoclass('edu.illinois.cs.cogcomp.core.datastructures.IntPair')
             self.TextAnnotation = autoclass('edu.illinois.cs.cogcomp.core.datastructures.textannotation.TextAnnotation')
+            self.BasicTextAnnotationBuilder = autoclass('edu.illinois.cs.cogcomp.annotation.BasicTextAnnotationBuilder')
+            self.BasicAnnotatorService = autoclass('edu.illinois.cs.cogcomp.annotation.BasicAnnotatorService')
+            self.Tokenizer = autoclass('edu.illinois.cs.cogcomp.nlp.tokenizer.StatefulTokenizer')
+            self.TextAnnotationBuilder = autoclass('edu.illinois.cs.cogcomp.nlp.utility.TokenizerTextAnnotationBuilder')
             # self.ProtobufSerializer = autoclass('edu.illinois.cs.cogcomp.core.utilities.protobuf.ProtobufSerializer')
             self.Boolean = autoclass('java.lang.Boolean')
             self.JString = autoclass('java.lang.String')
+            self.JArrayList = autoclass('java.util.ArrayList')
         except Exception as e:
             logger.error('Fail to load models, please check if your Java version is up to date.')
             logger.error(str(e))
@@ -65,9 +76,67 @@ class LocalPipeline(PipelineBase):
                 views, the views to generate
         @return: raw text of the response from local pipeline
         """
+        text = utils.strToBytes(text)
         view_list = views.split(',')
-        text_annotation = self.pipeline.createBasicTextAnnotation(self.JString(""), self.JString(""),
-                                                                  self.JString(text))
+        text_annotation = self.pipeline.createBasicTextAnnotation(
+            self.JString(""), self.JString(""), self.JString(text))
+        for view in view_list:
+            if (len(view.strip()) > 0):
+                try:
+                    self.pipeline.addView(text_annotation,
+                                          self.JString(view.strip()))
+                except Exception as e:
+                    logger.error('Failed to add view ' + view.strip())
+                    logger.error(str(e))
+
+        jsonStr = self.SerializationHelper.serializeToJson(text_annotation)
+
+        return jsonStr
+
+
+    def add_additional_views_to_TA(self, textannotation, views):
+        # Convert python textannotation to JsonStr -> Bytes
+        jsonstrBytes = utils.strToBytes(json.dumps(textannotation.as_json))
+        jsonStrJava = self.JString(jsonstrBytes)
+        javaTA = self.SerializationHelper.deserializeFromJson(jsonStrJava)
+
+        view_list = views.split(',')
+        for view in view_list:
+            view = view.strip()
+            if (len(view) > 0):
+                try:
+                    self.pipeline.addView(javaTA, self.JString(view))
+                except Exception as e:
+                    logger.error('Failed to add view ' + view.strip())
+                    logger.error(str(e))
+
+        # Deserialize javaTA (woth additional views) to JsonStr
+        jsonStr = self.SerializationHelper.serializeToJson(javaTA)
+
+        return jsonStr
+
+
+    def call_server_pretokenized(self, pretokenized_text, views):
+        """
+        Funtion to get preprocess text annotation from local pipeline
+
+        @param: pretokenized_text, list of list of tokens of pre-tokenized text
+        @return: raw text of the response from local pipeline
+        """
+        view_list = views.split(',')
+
+        docAl = self.JArrayList()
+        for sent in pretokenized_text:
+            sentAL = self.JArrayList()
+            for w in sent:
+                w = utils.strToBytes(w)
+                sentAL.add(self.JString(w))
+
+            docAl.add(sentAL)
+
+        text_annotation = self.BasicTextAnnotationBuilder.\
+            createTextAnnotationFromListofListofTokens(docAl)
+
         for view in view_list:
             if (len(view.strip()) > 0):
                 try:
@@ -76,20 +145,29 @@ class LocalPipeline(PipelineBase):
                     logger.error('Failed to add view ' + view.strip())
                     logger.error(str(e))
 
-        json = self.SerializationHelper.serializeToJson(text_annotation)
+        jsonStr = self.SerializationHelper.serializeToJson(text_annotation)
 
-        # path = os.path.expanduser('~') + "{0}.ccg_nlpy{0}".format(os.path.sep) + 'temp.temp'
-        #
-        # self.ProtobufSerializer.writeToFile(text_annotation, self.JString(path))
-        # proto_data = None
-        # with open(path, 'rb') as f:
-        #     proto_data = f.read()
-        #
-        # message = TextAnnotation_pb2.TextAnnotationProto()
-        # message.ParseFromString(proto_data)
-        # proto_to_json = json_format.MessageToJson(message)
+        return jsonStr
 
-        return json
+
+    def doc_split_on_hyphens(self, text):
+        tokenizer = self.Tokenizer()
+        tab = self.TextAnnotationBuilder(tokenizer)
+
+        text = utils.strToBytes(text)
+        text_annotation = tab.createTextAnnotation(self.JString(""),
+                                                   self.JString(""),
+                                                   self.JString(text))
+
+
+
+        jsonStr = self.SerializationHelper.serializeToJson(text_annotation)
+        ta_python = TextAnnotation(json_str=jsonStr, pipeline_instance=self)
+
+        return ta_python
+
+
+
 
     def call_server_with_sentences(self, sentences, views):
         """
@@ -116,6 +194,7 @@ class LocalPipeline(PipelineBase):
         for sent in sentences:
             sentence_end_indices.append(count+len(sent)-1+1)
             count += len(sent)
+        text = utils.strToBytes(text)
         text_annotation = self.TextAnnotation("", "", text, char_offsets, tokens, sentence_end_indices)
         for view in view_list:
             if (len(view.strip()) > 0):

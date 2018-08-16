@@ -1,5 +1,5 @@
 # CogComp-NLPy
-[![Build Status](https://semaphoreci.com/api/v1/projects/dc68ab4d-d1b7-4405-adca-b0c6af2e1aa0/1972034/badge.svg)](https://semaphoreci.com/danyaljj/sioux-2)
+[![Build Status](https://semaphoreci.com/api/v1/projects/dc68ab4d-d1b7-4405-adca-b0c6af2e1aa0/1223617/badge.svg)](https://semaphoreci.com/danyaljj/sioux-2)
 
 Run NLP tools such as Part-of-Speech tagging, Chunking, Named Entity Recognition, etc on your documents in Python with ease and breeze!
 
@@ -21,19 +21,19 @@ pip install ccg_nlpy
 
 4. Enjoy!
 
-**Note:** The package should be compatible with Python 2.6+ and Python 3.3+
+Here is the project page at [PyPI website](https://pypi.python.org/pypi/ccg-nlpy).
 
-**Upgrading:** If you want to update your package: 
+## Support
 
-   pip install --upgrade ccg_nlpy
+The package is compatible with Python 2.6+ and Python 3.3+. We highly recommend using Python 3.3+
 
-If you want to upgrade upgrade it on a specific version replace `pip` in the command above with `pip2` or `pip3`.
+This package uses ```utf-8``` encoding.
+In Python 2.6+, all strings are stored as ```unicode``` objects.
+In Python 3.3+, all strings are stored as ```str``` objects.
 
-**Note:** Here is the project page at [PyPI website](https://pypi.python.org/pypi/ccg-nlpy).
 
 ## Getting Started 
 Here is a sample usage showing how easily you run our system:
-
 
 ```python
 from ccg_nlpy import remote_pipeline
@@ -83,6 +83,7 @@ pipeline = remote_pipeline.RemotePipeline(server_api='http://www.fancyUrlName.co
 ### Local Pipeline 
 
 In this setting, the system will download the trained models and files required to run the pipeline locally. Since everything is run on your machine, it will probably require a lot of memory (the amount depends on which annotations you use). If you have a single big machine (i.e. memory > 15GB) for your expeirments, this is probably a good option for you.
+Local pipeline also gives you the functionality to work with pre-tokenized text.
 
 To download the models, run the following command:
 ```bash
@@ -99,6 +100,15 @@ In the local pipeline annotators are loaded lazily; i.e. they are not loaded unt
 from ccg_nlpy import local_pipeline
 pipeline = local_pipeline.LocalPipeline() 
 # constructor declaration: LocalPipeline()
+```
+
+To run on pre-tokenized text, the document is represented as a list of (sentences) list of tokens. The argument ```pretokenized=True``` needs to be passed to the ```pipeline.doc``` function.
+```
+from ccg_nlpy import local_pipeline
+pipeline = local_pipeline.LocalPipeline()
+
+document = [ ["Hi", "!"], ["How", "are", "you", "?"] ]
+doc = pipeline.doc(document, pretokenized=True)
 ```
 
 #### Frequent Issues: 
