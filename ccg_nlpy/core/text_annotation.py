@@ -6,6 +6,7 @@ from .predicate_argument_view import *
 
 logger = logging.getLogger(__name__)
 
+
 class TextAnnotation(object):
     '''
         This class is was designed to be a python version of the TextAnnotation class.
@@ -21,10 +22,9 @@ class TextAnnotation(object):
         self.pipeline = pipeline_instance
         self.corpusId = result_json["corpusId"].strip()
         self.id = result_json["id"].strip()
-        # self.text = result_json["text"].strip()
-        self.text = result_json["text"] # always take text verbatim!
+        self.text = result_json["text"]  # always take text verbatim!
         if len(self.text) <= 0:
-            logger.warn("Creating empty TextAnnotation.")
+            logger.warning("Creating empty TextAnnotation.")
             self.empty = True
         else:
             self.empty = False
@@ -46,7 +46,7 @@ class TextAnnotation(object):
         view_type = split_by_period[len(split_by_period) - 1]
         if view_type == 'PredicateArgumentView':
             return PredicateArgumentView(view, self.tokens)
-        else: 
+        else:
             return View(view, self.tokens)
 
     def _extract_char_offset(self, sentence, tokens):
@@ -64,14 +64,14 @@ class TextAnnotation(object):
         tokenLength = 0
 
         while (characterId < len(sentence)
-                 and sentence[characterId].isspace()):
+               and sentence[characterId].isspace()):
             characterId = characterId + 1
 
-        while (characterId < len(sentence)):
-            if (tokenLength == len(tokens[tokenId])):
+        while characterId < len(sentence):
+            if tokenLength == len(tokens[tokenId]):
                 offsets.append((tokenCharacterStart, characterId))
 
-                while (characterId < len(sentence) and sentence[characterId].isspace()):
+                while characterId < len(sentence) and sentence[characterId].isspace():
                     characterId = characterId + 1
 
                 tokenCharacterStart = characterId
@@ -79,11 +79,16 @@ class TextAnnotation(object):
                 tokenId = tokenId + 1
 
             else:
-                assert sentence[characterId] == tokens[tokenId][tokenLength], sentence[characterId] + " expected, found " + tokens[tokenId][tokenLength] + " instead in sentence: " + sentence;
+                assert sentence[characterId] == tokens[tokenId][tokenLength], sentence[
+                                                                                  characterId] + " expected, found " + \
+                                                                              tokens[tokenId][
+                                                                                  tokenLength] + "instead in " \
+                                                                                                 "sentence: " + \
+                                                                              sentence;
                 tokenLength = tokenLength + 1
                 characterId = characterId + 1
 
-        if (characterId == len(sentence) and len(offsets) == len(tokens) - 1):
+        if characterId == len(sentence) and len(offsets) == len(tokens) - 1:
             offsets.append((tokenCharacterStart, len(sentence)))
 
         assert len(offsets) == len(tokens), offsets
@@ -92,7 +97,7 @@ class TextAnnotation(object):
 
     # Functions to manipulate the views on text annotation
 
-    @property 
+    @property
     def get_pos(self):
         """
         Wrapper on getting part-of-speech tagger from given text annotation
@@ -128,7 +133,7 @@ class TextAnnotation(object):
         """
         return self.get_view("NER_CONLL")
 
-    @property 
+    @property
     def get_ner_ontonotes(self):
         """
         Wrapper on getting the NER_ONTONOTES view from given text annotation
@@ -137,7 +142,7 @@ class TextAnnotation(object):
         """
         return self.get_view("NER_ONTONOTES")
 
-    @property 
+    @property
     def get_stanford_parse(self):
         """
         Wrapper on getting the PARSE_STANFORD view from given text annotation
@@ -146,7 +151,7 @@ class TextAnnotation(object):
         """
         return self.get_view("PARSE_STANFORD")
 
-    @property 
+    @property
     def get_srl_verb(self):
         """
         Wrapper on getting the SRL_VERB view from given text annotation
@@ -155,7 +160,7 @@ class TextAnnotation(object):
         """
         return self.get_view("SRL_VERB")
 
-    @property 
+    @property
     def get_srl_nom(self):
         """
         Wrapper on getting the SRL_NOM view from given text annotation
@@ -182,7 +187,7 @@ class TextAnnotation(object):
         """
         return self.get_view("SRL_COMMA")
 
-    @property 
+    @property
     def get_quantities(self):
         """
         Wrapper on getting the QUANTITIES view from given text annotation
@@ -191,7 +196,7 @@ class TextAnnotation(object):
         """
         return self.get_view("QUANTITIES")
 
-    @property 
+    @property
     def get_shallow_parse(self):
         """
         Wrapper on getting the SHALLOW_PARSE view from given text annotation
@@ -200,7 +205,7 @@ class TextAnnotation(object):
         """
         return self.get_view("SHALLOW_PARSE")
 
-    @property 
+    @property
     def get_lemma(self):
         """
         Wrapper on getting the LEMMA view from given text annotation
@@ -208,6 +213,14 @@ class TextAnnotation(object):
         @return: View Instance of the LEMMA view.
         """
         return self.get_view("LEMMA")
+
+    def get_sentences(self):
+        """
+        Wrapper on getting the SENTENCE view from given text annotation
+        @param: text_annotation TextAnnotation instance to get SENTENCE view from.
+        @return: View Instance of the SENTENCE view.
+        """
+        return self.get_view("SENTENCE")
 
     def add_view(self, view_name, response):
         result_json = json.loads(response)
@@ -225,7 +238,7 @@ class TextAnnotation(object):
 
             if name == view_name:
                 requested_view = self.view_dictionary[name]
-        
+
         if requested_view is None:
             # "token" view will always be included
             if len(view_constituents) <= 1:
@@ -243,10 +256,11 @@ class TextAnnotation(object):
             additional_response = self.pipeline.call_server(self.text, view_name)
             self.add_view(view_name, additional_response)
 
-        if type(self.view_dictionary[view_name]) != type([]):
+        if not isinstance(self.view_dictionary[view_name], list):
             return self.view_dictionary[view_name]
         else:
-            logger.info("The view is the collection of the following views: {0}".format(self.view_dictionary[view_name]))
+            logger.info(
+                "The view is the collection of the following views: {0}".format(self.view_dictionary[view_name]))
             return None
 
     @property
@@ -283,6 +297,17 @@ class TextAnnotation(object):
     @property
     def get_sentence_end_token_indices(self):
         return self.sentence_end_position
+
+    @property
+    def get_sentence_boundaries(self):
+        """
+        returns sentence boundaries for the sentences in the SENTENCE view. The boundaries consist of start token
+        index and end token index (start inclusive, and end exclusive, a la python range)
+        :return: list containing (start,end) tuples, sorted on "start"
+        """
+        sent_view = self.get_sentences()
+        # the sort here might be redundant, but I do not know if the json text ann stores the list in sorted order.
+        return sorted([(sent["start"], sent["end"]) for sent in sent_view])
 
     @property
     def as_json(self):
