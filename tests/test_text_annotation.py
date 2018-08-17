@@ -38,6 +38,8 @@ class TestTextAnnotation(unittest.TestCase):
 
     def test_get_views(self):
         ta = self.rp.doc("Hello,  how are you.\n\n\n I am doing fine")
+        ta.get_pos
+        ta.get_ner_conll
         views = ["NER_CONLL", "POS", "SENTENCE", "TOKENS"]
         self.assertEqual(sorted(ta.get_views), views)
 
