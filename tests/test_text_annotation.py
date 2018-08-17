@@ -2,9 +2,10 @@ import unittest
 import sys
 import os
 
-#sys.path.insert(0,'/path/to/mod_directory')
-#from ccg_nlpy import pipeliner as p
+# sys.path.insert(0,'/path/to/mod_directory')
+# from ccg_nlpy import pipeliner as p
 from ccg_nlpy import remote_pipeline
+
 
 class TestTextAnnotation(unittest.TestCase):
     def setUp(self):
@@ -37,7 +38,14 @@ class TestTextAnnotation(unittest.TestCase):
 
     def test_get_views(self):
         ta = self.rp.doc("Hello,  how are you.\n\n\n I am doing fine")
-        ta.get_pos
-        ta.get_ner_conll
         views = ["NER_CONLL", "POS", "SENTENCE", "TOKENS"]
         self.assertEqual(sorted(ta.get_views), views)
+
+    def test_sent_boundaries(self):
+        text = "Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and " \
+               "so dedicated, can long endure. We are met on a great battle-field of that war. We have come to " \
+               "dedicate a portion of that field, as a final resting place for those who here gave their lives that " \
+               "that nation might live. It is altogether fitting and proper that we should do this. "
+        ta = self.rp.doc(text)
+        boundaries = ta.get_sentence_boundaries
+        self.assertEqual(boundaries, [(0, 28), (28, 39), (39, 68), (68, 80)])
