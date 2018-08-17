@@ -150,6 +150,14 @@ if doc is not None:
     # do sth with it
     ner_view = doc.get_ner_conll
 ```
+## Running Tests (For Contributors)
+
+1. Make sure you have downloaded the models using `python -m ccg_nlpy download` so that local_pipeline tests can run smoothly.
+2. Create a pristine python2 environment (say, using `conda create -n py27 python=2.7 anaconda`). 
+3. You may need to install cython for pyjnius in the new python2 environment (`pip2 install cython`).
+4. Run `python setup.py test` in the new environment.
+
+All tests should run smoothly before you submit a pull request.  
 
 ## Questions/Suggestions/Comments 
 
