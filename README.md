@@ -115,7 +115,7 @@ doc = pipeline.doc(document, pretokenized=True)
  - To use the pipelne locally you have to make sure you have set `JAVA_HOME` variable. In MacOS, you can verify it with `echo "$JAVA_HOME"`. If it is not set, you can `export JAVA_HOME=$(/usr/libexec/java_home)`. 
  - If you are using Java version > 8, you are likely to receive an error that looks like the following:  ```
  ERROR:ccg_nlpy.local_pipeline:Error calling dlopen(b'/Library/Java/JavaVirtualMachines/jdk-10.0.1.jdk/Contents/Home/jre/lib/server/libjvm.dylib': b'dlopen(/Library/Java/JavaVirtualMachines/jdk-10.0.1.jdk/Contents/Home/jre/lib/server/libjvm.dylib, 10): image not found' ```
-To solve this, you have to [install Java-8 on your machine](https://gist.github.com/JeOam/a926dbb5145c4d0789c1) and direct your commandline to it: ```export JAVA_HOME=`/user/libexec/java_home -v 1.8` ```. 
+To solve this, you have to [install Java-8 on your machine](https://gist.github.com/JeOam/a926dbb5145c4d0789c1) and direct your commandline to it: ```export JAVA_HOME=`/usr/libexec/java_home -v 1.8` ```. 
  
 
 ### Setting from Configuration file 
