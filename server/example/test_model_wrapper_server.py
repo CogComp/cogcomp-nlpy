@@ -1,7 +1,8 @@
 from flask import Flask
 from flask_cors import CORS
-from tests.dummy_model import DummyModel
+from server.example.dummy_model import DummyModel
 from server.model_wrapper_server import ModelWrapperServer
+
 app = Flask(__name__)
 # necessary for testing on localhost
 CORS(app)
@@ -19,6 +20,7 @@ def main():
     app.run(host='localhost', port=5000)
     # On running this main(), you should be able to visit the following URL and see a json text annotation returned
     # http://127.0.0.1:5000/annotate?text="Stephen Mayhew is a person's name"&views=DUMMYVIEW
+
 
 if __name__ == "__main__":
     main()
