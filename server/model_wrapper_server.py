@@ -1,49 +1,17 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-import os
-import sys
-import logging
 
+import logging
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
-import argparse
-from flask import Flask, flash, redirect, render_template, request, session, abort
-from ccg_nlpy import local_pipeline
+
 from ccg_nlpy import remote_pipeline
 from ccg_nlpy.core.text_annotation import TextAnnotation
-import copy
-from flask_cors import CORS, cross_origin
 import json
-
-app = Flask(__name__)
-# necessary for testing on localhost
-CORS(app)
+from flask import request
 
 
-class DummyModel:
-    def __init__(self):
-        pass
-
-    def load_params(self):
-        logging.info("loading model params ...")
-
-    def inference_on_ta(self, docta, new_view_name):
-        # This upcases each token. Test for TokenLabelView
-        # new_view = copy.deepcopy(docta.get_view("TOKENS"))
-        # tokens = docta.get_tokens
-        # for token, cons in zip(tokens, new_view.cons_list):
-        #     cons["label"] = token.upper()
-
-        # This replaces each NER with its upcased tokens. Test for SpanLabelView
-        new_view = copy.deepcopy(docta.get_view("NER_CONLL"))
-        for nercons in new_view.cons_list:
-            nercons["label"] = nercons["tokens"].upper()
-        new_view.view_name = new_view_name
-        docta.view_dictionary[new_view_name] = new_view
-        return docta
-
-
-class ServerWrapper:
+class ModelWrapperServer:
     def __init__(self, model):
         self.model = model
         self.provided_view = "DUMMYVIEW"
@@ -89,12 +57,3 @@ class ServerWrapper:
         return ta_json
 
 
-def main():
-    model = DummyModel()  # create your model object here
-    wrapper = ServerWrapper(model=model)
-    app.add_url_rule(rule='/annotate', endpoint='annotate', view_func=wrapper.annotate, methods=['GET'])
-    app.run(host='localhost', port=5000)
-
-
-if __name__ == "__main__":
-    main()
