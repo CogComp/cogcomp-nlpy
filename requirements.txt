@@ -9,3 +9,5 @@ yapf
 Cython
 pyjnius
 bumpversion
+flask
+flask-cors
