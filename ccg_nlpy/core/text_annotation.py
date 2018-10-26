@@ -6,6 +6,7 @@ from .predicate_argument_view import *
 
 logger = logging.getLogger(__name__)
 
+
 class TextAnnotation(object):
     '''
         This class is was designed to be a python version of the TextAnnotation class.
@@ -21,10 +22,9 @@ class TextAnnotation(object):
         self.pipeline = pipeline_instance
         self.corpusId = result_json["corpusId"]
         self.id = result_json["id"]
-        # self.text = result_json["text"].strip()
         self.text = result_json["text"] # always take text verbatim!
         if len(self.text) <= 0:
-            logger.warn("Creating empty TextAnnotation.")
+            logger.warning("Creating empty TextAnnotation.")
             self.empty = True
         else:
             self.empty = False
@@ -68,14 +68,14 @@ class TextAnnotation(object):
         tokenLength = 0
 
         while (characterId < len(sentence)
-                 and sentence[characterId].isspace()):
+               and sentence[characterId].isspace()):
             characterId = characterId + 1
 
-        while (characterId < len(sentence)):
-            if (tokenLength == len(tokens[tokenId])):
+        while characterId < len(sentence):
+            if tokenLength == len(tokens[tokenId]):
                 offsets.append((tokenCharacterStart, characterId))
 
-                while (characterId < len(sentence) and sentence[characterId].isspace()):
+                while characterId < len(sentence) and sentence[characterId].isspace():
                     characterId = characterId + 1
 
                 tokenCharacterStart = characterId
@@ -83,11 +83,16 @@ class TextAnnotation(object):
                 tokenId = tokenId + 1
 
             else:
-                assert sentence[characterId] == tokens[tokenId][tokenLength], sentence[characterId] + " expected, found " + tokens[tokenId][tokenLength] + " instead in sentence: " + sentence;
+                assert sentence[characterId] == tokens[tokenId][tokenLength], sentence[
+                                                                                  characterId] + " expected, found " + \
+                                                                              tokens[tokenId][
+                                                                                  tokenLength] + "instead in " \
+                                                                                                 "sentence: " + \
+                                                                              sentence;
                 tokenLength = tokenLength + 1
                 characterId = characterId + 1
 
-        if (characterId == len(sentence) and len(offsets) == len(tokens) - 1):
+        if characterId == len(sentence) and len(offsets) == len(tokens) - 1:
             offsets.append((tokenCharacterStart, len(sentence)))
 
         assert len(offsets) == len(tokens), offsets
@@ -213,6 +218,14 @@ class TextAnnotation(object):
         """
         return self.get_view("LEMMA")
 
+    def get_sentences(self):
+        """
+        Wrapper on getting the SENTENCE view from given text annotation
+        @param: text_annotation TextAnnotation instance to get SENTENCE view from.
+        @return: View Instance of the SENTENCE view.
+        """
+        return self.get_view("SENTENCE")
+
     def add_view(self, view_name, response):
         result_json = json.loads(response)
 
@@ -248,10 +261,11 @@ class TextAnnotation(object):
                 self.pipeline.add_additional_views_to_TA(self, view_name)
             self.add_view(view_name, additional_response)
 
-        if type(self.view_dictionary[view_name]) != type([]):
+        if not isinstance(self.view_dictionary[view_name], list):
             return self.view_dictionary[view_name]
         else:
-            logger.info("The view is the collection of the following views: {0}".format(self.view_dictionary[view_name]))
+            logger.info(
+                "The view is the collection of the following views: {0}".format(self.view_dictionary[view_name]))
             return None
 
     @property
@@ -288,6 +302,17 @@ class TextAnnotation(object):
     @property
     def get_sentence_end_token_indices(self):
         return self.sentence_end_position
+
+    @property
+    def get_sentence_boundaries(self):
+        """
+        returns sentence boundaries for the sentences in the SENTENCE view. The boundaries consist of start token
+        index and end token index (start inclusive, and end exclusive, a la python range)
+        :return: list containing (start,end) tuples, sorted on "start"
+        """
+        sent_view = self.get_sentences()
+        # the sort here might be redundant, but I do not know if the json text ann stores the list in sorted order.
+        return sorted([(sent["start"], sent["end"]) for sent in sent_view])
 
     @property
     def as_json(self):
