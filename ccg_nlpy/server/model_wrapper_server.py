@@ -3,25 +3,27 @@ from __future__ import division
 from __future__ import print_function
 
 import logging
+
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
-from ccg_nlpy import remote_pipeline
 from ccg_nlpy.core.text_annotation import TextAnnotation
 import json
 from flask import request
 
 
 class ModelWrapperServer:
-    def __init__(self, model):
+    def __init__(self, model, provided_view, required_views):
         self.model = model
-        self.provided_view = "DUMMYVIEW"
-        self.required_views = ["TOKENS", "NER_CONLL"]
+        # self.provided_view = "DUMMYVIEW"
+        # self.required_views = ["TOKENS", "NER_CONLL"]  # specify
+        self.provided_view = provided_view
+        self.required_views = required_views
         # right now, we let call the model load inside the init of server
         # this could have been done outside. Cannot say which is a better choice.
         # THIS NEEDS TO BE DEFINED IN THE MODEL
         self.model.load_params()
         # We need a pipeline to create views that are required by our model (e.g. NER is needed for WIKIFIER etc.)
-        self.pipeline = remote_pipeline.RemotePipeline()
+        self.pipeline = self.get_pipeline_instance()
         logging.info("required views: %s", self.get_required_views())
         logging.info("provides view: %s", self.get_view_name())
         logging.info("ready!")
@@ -47,7 +49,7 @@ class ModelWrapperServer:
             return "VIEW NOT PROVIDED"
         # create a text ann with the required views for the model
         required_views = ",".join(self.get_required_views())
-        ta_json = self.pipeline.call_server(text=text, views=required_views)
+        ta_json = self.get_text_annotation_for_model(text=text, required_views=required_views)
         docta = TextAnnotation(json_str=ta_json)
         # send it to your model for inference
         docta = self.model.inference_on_ta(docta=docta, new_view_name=self.provided_view)
@@ -55,5 +57,11 @@ class ModelWrapperServer:
         ta_json = json.dumps(docta.as_json)
         # print("returning", ta_json)
         return ta_json
+
+    def get_pipeline_instance(self):
+        raise NotImplementedError
+
+    def get_text_annotation_for_model(self, text, required_views):
+        raise NotImplementedError
 
 
