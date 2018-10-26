@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from server import views
+from ccg_nlpy.server import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
