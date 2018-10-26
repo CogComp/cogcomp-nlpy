@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
-from server.example.dummy_model import DummyModel
-from server.model_wrapper_server import ModelWrapperServer
+from ccg_nlpy.server.example.dummy_model import DummyModel
+from ccg_nlpy.server.model_wrapper_server import ModelWrapperServer
 
 app = Flask(__name__)
 # necessary for testing on localhost
