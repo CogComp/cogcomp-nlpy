@@ -3,6 +3,7 @@ import requests
 import sys
 import os
 import logging
+import urllib.parse
 
 from backports.configparser import RawConfigParser
 
@@ -48,7 +49,7 @@ class RemotePipeline(PipelineBase):
         response = None
         try:
             data = {'text': text, 'views': views}
-            response = requests.post(self.url+WEB_SERVER_SUFFIX, data)
+            response = requests.post(urllib.parse.urljoin(self.url, WEB_SERVER_SUFFIX), data)
         except:
             logger.error("Fail to connect to server.")
             raise
@@ -80,7 +81,7 @@ class RemotePipeline(PipelineBase):
         try:
             jsonStrTA = json.dumps(textannotation.as_json)
             data = {'jsonstr': jsonStrTA, 'views': views}
-            response = requests.post(self.url+WEB_SERVER_SUFFIX_ADDVIEWS, data)
+            response = requests.post(urllib.parse.urljoin(self.url, WEB_SERVER_SUFFIX_ADDVIEWS), data)
         except:
             logger.error("Fail to connect to server.")
             raise
