@@ -59,9 +59,20 @@ class ModelWrapperServer:
         return ta_json
 
     def get_pipeline_instance(self):
+        """
+        Right now, the demo server can either maintain its own local pipeline, or call the remote pipeline to
+        get text annotations with required views. Define that behavior here.
+        :return: PipelineBase object (LocalPipeline or RemotePipeline)
+        """
         raise NotImplementedError
 
     def get_text_annotation_for_model(self, text, required_views):
+        """
+        This takes text from the annotate api call and creates a text annotation with the views required by the model
+        :param text: text from the demo interface, coming through the annotate request call
+        :param required_views: views required by the model
+        :return: text annotation, to be sent to the model's inference on ta method
+        """
         raise NotImplementedError
 
 
