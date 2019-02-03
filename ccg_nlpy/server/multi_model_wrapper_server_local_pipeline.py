@@ -22,6 +22,7 @@ class MultiModelWrapperServerLocal(MultiModelWrapperServer):
     def get_text_annotation_for_model(self, text, required_views):
         pretokenized_text = [text.split(" ")]
         required_views = ",".join(required_views)
+        logging.info(f"required_views:{required_views}")
         ta_json = self.pipeline.call_server_pretokenized(pretokenized_text=pretokenized_text, views=required_views)
         ta = TextAnnotation(json_str=ta_json)
         return ta

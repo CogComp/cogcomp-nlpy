@@ -59,8 +59,7 @@ class MultiModelWrapperServer:
         for view in views:
             if view in self.provided_views:
                 # create a text ann with the required views for the model
-                required_views = ",".join(self.get_required_views())
-                docta = self.get_text_annotation_for_model(text=text, required_views=required_views)
+                docta = self.get_text_annotation_for_model(text=text, required_views=self.required_views)
                 # select the correct model
                 relevant_model = self.view2model_dict[view]
                 # send it to your model for inference
