@@ -7,7 +7,7 @@ from typing import List
 
 from ccg_nlpy.pipeline_base import PipelineBase
 
-from ccg_nlpy.server.abstract_model import AbstractModel
+from ccg_nlpy.server.annotator import Annotator
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
@@ -23,10 +23,10 @@ class ModelWrapperServer:
     server.
     """
 
-    def __init__(self, model: AbstractModel):
+    def __init__(self, model: Annotator):
         self.model = model
         # the viewname provided by the model
-        self.provided_view = model.get_provided_view()
+        self.provided_view = model.get_view_name()
         # the views required by the model (e.g. NER_CONLL for Wikifier)
         self.required_views = model.get_required_views()
         # right now, we call the model load inside the init of server
@@ -75,7 +75,7 @@ class ModelWrapperServer:
         docta = self.get_text_annotation_for_model(text=text, required_views=self.get_required_views())
 
         # send it to your model for inference
-        docta = self.model.inference_on_ta(docta=docta)
+        docta = self.model.add_view(docta=docta)
 
         # make the returned text ann to a json
         ta_json = json.dumps(docta.as_json)

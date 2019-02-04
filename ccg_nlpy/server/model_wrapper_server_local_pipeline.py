@@ -5,7 +5,7 @@ from __future__ import print_function
 import logging
 from typing import List
 
-from ccg_nlpy.server.abstract_model import AbstractModel
+from ccg_nlpy.server.annotator import Annotator
 from ccg_nlpy.server.model_wrapper_server import ModelWrapperServer
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
@@ -15,7 +15,7 @@ from ccg_nlpy.core.text_annotation import TextAnnotation
 
 
 class ModelWrapperServerLocal(ModelWrapperServer):
-    def __init__(self, model: AbstractModel):
+    def __init__(self, model: Annotator):
         super().__init__(model)
 
     def get_pipeline_instance(self):

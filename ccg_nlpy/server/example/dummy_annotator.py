@@ -1,7 +1,7 @@
 import logging
 from typing import List
 
-from ccg_nlpy.server.abstract_model import AbstractModel
+from ccg_nlpy.server.annotator import Annotator
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 import copy
@@ -9,7 +9,7 @@ import copy
 
 # A dummy model that is used with the model wrapper server You need to define two methods load_params and
 # inference_on_ta when writing your own model, for it to be compatible with the model wrapper server.
-class DummyModel(AbstractModel):
+class DummyAnnotator(Annotator):
     def __init__(self):
         self.provided_view = "DUMMYVIEW"
         # self.required_views = ["TOKENS", "NER_CONLL"]
@@ -18,14 +18,13 @@ class DummyModel(AbstractModel):
     def get_required_views(self) -> List[str]:
         return self.required_views
 
-    def get_provided_view(self) -> str:
+    def get_view_name(self) -> str:
         return self.provided_view
-
 
     def load_params(self):
         logging.info("loading model params ...")
 
-    def inference_on_ta(self, docta):
+    def add_view(self, docta):
         # This upcases each token. Test for TokenLabelView
         new_view = copy.deepcopy(docta.get_view("TOKENS"))
         tokens = docta.get_tokens

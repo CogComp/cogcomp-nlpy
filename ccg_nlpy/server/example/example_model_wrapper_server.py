@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 
-from ccg_nlpy.server.example.dummy_model import DummyModel
+from ccg_nlpy.server.example.dummy_annotator import DummyAnnotator
 from ccg_nlpy.server.model_wrapper_server_local_pipeline import ModelWrapperServerLocal
 from ccg_nlpy.server.model_wrapper_server_remote_pipeline import ModelWrapperServerRemote
 
@@ -11,7 +11,7 @@ CORS(app)
 
 
 def main():
-    model = DummyModel()  # create your model object here, see the DummyModel class for a minimal example.
+    model = DummyAnnotator()  # create your model object here, see the DummyModel class for a minimal example.
 
     # here the local pipeline is used to create the initial text annotation, best for pretokenized cases, like non-English
     wrapper = ModelWrapperServerLocal(model=model)

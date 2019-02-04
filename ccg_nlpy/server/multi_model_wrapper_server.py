@@ -6,7 +6,7 @@ import logging
 from typing import List
 from ccg_nlpy.pipeline_base import PipelineBase
 
-from ccg_nlpy.server.abstract_model import AbstractModel
+from ccg_nlpy.server.annotator import Annotator
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
@@ -21,18 +21,18 @@ class MultiModelWrapperServer:
     For example, you can serve a POS tagger in languages A,B,C... simultaneously using this wrapper.
     """
 
-    def __init__(self, models: List[AbstractModel]):
+    def __init__(self, models: List[Annotator]):
         self.models = models
         # all models should have the same set of required views
         self.required_views = models[0].get_required_views()
-        self.provided_views = [m.get_provided_view() for m in models]
+        self.provided_views = [m.get_view_name() for m in models]
         print("provided views", self.provided_views)
 
         # for each viewname (e.g. POS_Arabic) know which model to call (Arabic_POS_Tagger)
         self.view2model_dict = {}
         for m in self.models:
             m.load_params()
-            self.view2model_dict[m.get_provided_view()] = m
+            self.view2model_dict[m.get_view_name()] = m
 
         # We need a pipeline to create views that are required by our model (e.g. NER is needed for WIKIFIER etc.)
         self.pipeline = self.get_pipeline_instance()
@@ -63,7 +63,7 @@ class MultiModelWrapperServer:
                 # select the correct model
                 relevant_model = self.view2model_dict[view]
                 # send it to your model for inference
-                docta = relevant_model.inference_on_ta(docta=docta)
+                docta = relevant_model.add_view(docta=docta)
                 # make the returned text ann to a json
                 ta_json = json.dumps(docta.as_json)
                 # print("returning", ta_json)
