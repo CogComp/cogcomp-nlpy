@@ -1,4 +1,6 @@
 import json
+from typing import Union, List
+
 import requests
 import sys
 import os
@@ -13,10 +15,11 @@ from . import pipeline_config
 
 logger = logging.getLogger(__name__)
 
+
 class PipelineBase:
     __metaclass__ = ABCMeta
 
-    def __init__(self, file_name = None):
+    def __init__(self, file_name=None):
         """
         Constructor to load configuration of the pipeline base
         """
@@ -25,8 +28,7 @@ class PipelineBase:
         else:
             self.config, self.models_downloaded = pipeline_config.get_current_config()
 
-
-    def doc(self, text="Hello World", pretokenized=False):
+    def doc(self, text: str = "Hello World", pretokenized: bool = False) -> Union[TextAnnotation, None]:
         """
         Initialize text annotation of given text
 
@@ -44,9 +46,8 @@ class PipelineBase:
         else:
             return None
 
-
     @abstractmethod
-    def call_server(text, views):
+    def call_server(text: str, views: str):
         """
         Funtion to get preprocess text annotation from server
 
@@ -55,12 +56,11 @@ class PipelineBase:
         @return: raw text of the response from server
         """
         logger.error("This function should be overrided.")
-        #raise NotImplementedError()
+        # raise NotImplementedError()
         return None
 
-
     @abstractmethod
-    def call_server_pretokenized(pretokenized_text, views):
+    def call_server_pretokenized(pretokenized_text: List[List[str]], views: str):
         """
         Funtion to get preprocess text annotation from server
 
@@ -68,13 +68,11 @@ class PipelineBase:
         @return: raw text of the response from server
         """
         logger.error("This function should be overrided.")
-        #raise NotImplementedError()
+        # raise NotImplementedError()
         return None
 
-
-
     @abstractmethod
-    def add_additional_views_to_TA(self, textannotation, views):
+    def add_additional_views_to_TA(self, textannotation: TextAnnotation, views: str):
         """
         Funtion to add additional views to an existing TextAnnotation
 
@@ -83,5 +81,5 @@ class PipelineBase:
         @return: raw text of the response from server -- jsonStr
         """
         logger.error("This function should be overrided.")
-        #raise NotImplementedError()
+        # raise NotImplementedError()
         return None
