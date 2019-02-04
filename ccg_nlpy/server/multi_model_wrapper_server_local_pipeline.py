@@ -20,6 +20,8 @@ class MultiModelWrapperServerLocal(MultiModelWrapperServer):
         return local_pipeline.LocalPipeline()
 
     def get_text_annotation_for_model(self, text, required_views):
+        # TODO This is a problem with ccg_nlpy text annotation, it does not like newlines (e.g., marking paragraphs)
+        text = text.replace("\n", "")
         pretokenized_text = [text.split(" ")]
         required_views = ",".join(required_views)
         logging.info(f"required_views:{required_views}")

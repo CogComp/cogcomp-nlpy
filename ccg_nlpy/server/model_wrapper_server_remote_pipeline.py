@@ -22,6 +22,8 @@ class ModelWrapperServerRemote(ModelWrapperServer):
         return remote_pipeline.RemotePipeline()
 
     def get_text_annotation_for_model(self, text: str, required_views: List[str]):
+        # TODO This is a problem with ccg_nlpy text annotation, it does not like newlines (e.g., marking paragraphs)
+        text = text.replace("\n", "")
         required_views = ",".join(required_views)
         ta_json = self.pipeline.call_server(text=text, views=required_views)
         ta = TextAnnotation(json_str=ta_json)
