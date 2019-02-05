@@ -158,7 +158,7 @@ def recover_model_config():
         logger.error("Error while recovering model config.", exc_info=True)
 
 
-def get_root_directory():
+def get_root_directory() -> str:
     """Get the root config/model directory"""
 
     root_directory = os.path.expanduser(DEFAULT_CONFIG_ROOT_DIRECTORY)
@@ -169,7 +169,7 @@ def get_root_directory():
     return root_directory
 
 
-def get_model_path():
+def get_model_path() -> str:
     """Returns the path of the JAR models."""
 
     root_directory = get_root_directory()

@@ -30,7 +30,7 @@ def get_current_config():
     # if model folder does not exist, then user hasn't download jars yet, use config file in the package
     # the config file in the package will use pipeline server instead of local pipeline
     download_dir = download.get_root_directory()
-    default_config_file = os.path.join(download_dir, CONFIG_FILENAME)
+    # default_config_file = os.path.join(download_dir, CONFIG_FILENAME)
     if models_downloaded:
         default_config_file = os.path.join(download_dir, CONFIG_FILENAME)
         if os.path.exists(default_config_file) is False:
