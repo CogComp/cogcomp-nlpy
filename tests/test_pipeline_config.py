@@ -9,21 +9,22 @@ if six.PY2:
 else:
     import unittest.mock as mock
 
-#sys.path.insert(0,'/path/to/mod_directory')
+# sys.path.insert(0,'/path/to/mod_directory')
 import ccg_nlpy
 
 test_config_folder = os.path.dirname(os.path.realpath(__file__))
+
 
 class TestPipelineConfig(unittest.TestCase):
 
     def setUp(self):
         filepath = os.path.join(test_config_folder, 'config.cfg')
-        with codecs.open(filepath, mode='w',encoding='utf-8') as f:
+        with codecs.open(filepath, mode='w', encoding='utf-8') as f:
             f.write(
-'''
-[remote_pipeline_setting]
-api = http://macniece.seas.upenn.edu:4001
-''')
+                '''
+                [remote_pipeline_setting]
+                api = http://macniece.seas.upenn.edu:4001
+                ''')
 
     @mock.patch('ccg_nlpy.pipeline_config.download')
     def test_get_current_config_without_models(self, mock_dl):
@@ -53,7 +54,7 @@ api = http://macniece.seas.upenn.edu:4001
         self.assertEqual(config['remote_pipeline_setting']['api'], 'http://macniece.seas.upenn.edu:4001')
 
     @mock.patch('ccg_nlpy.pipeline_config.download')
-    def test_change_temporary_config(self,mock_dl):
+    def test_change_temporary_config(self, mock_dl):
         mock_dl.get_root_directory.return_value = test_config_folder
         mock_dl.get_model_path.return_value = test_config_folder
 
@@ -67,4 +68,4 @@ api = http://macniece.seas.upenn.edu:4001
     def tearDown(self):
         filepath = os.path.join(test_config_folder, 'config.cfg')
         if os.path.exists(filepath):
-            os.remove(test_config_folder+'/config.cfg')
+            os.remove(test_config_folder + '/config.cfg')
